@@ -32,6 +32,23 @@ export class BingoGame {
     });
   }
 
+  drawLotteryNumber() {
+    if (this.dto.lotteryNumbers.length > 75) {
+      throw new Error("すべての抽選番号を抽選しました");
+    }
+
+    // 未抽選番号のリストを作成
+    const notDrawnLotteryNumber = [...new Array(75)]
+      .map((_, i) => i + 1)
+      .filter((i) => !this.dto.lotteryNumbers.includes(i));
+
+    // 未抽選番号の中からランダムに選択
+    const lotteryNumber = Math.floor(
+      Math.random() * notDrawnLotteryNumber.length
+    );
+    this.dto.lotteryNumbers.push(lotteryNumber);
+  }
+
   static fromDto(dto: BingoGameDto) {
     return new BingoGame({ ...dto });
   }
