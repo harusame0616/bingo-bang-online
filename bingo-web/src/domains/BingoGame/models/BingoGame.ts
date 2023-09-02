@@ -47,9 +47,10 @@ export class BingoGame {
       .filter((i) => !this.dto.lotteryNumbers.includes(i));
 
     // 未抽選番号の中からランダムに選択
-    const lotteryNumber = Math.floor(
-      Math.random() * notDrawnLotteryNumber.length
-    );
+    const lotteryNumber =
+      notDrawnLotteryNumber[
+        Math.floor(Math.random() * notDrawnLotteryNumber.length)
+      ];
     this.dto.lotteryNumbers.push(lotteryNumber);
   }
 
