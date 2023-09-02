@@ -18,6 +18,10 @@ type BingoGameDto = {
 class BingoGame {
   private constructor(private dto: BingoGameDto) {}
 
+  get id() {
+    return this.dto.id;
+  }
+
   static createGame() {
     return new BingoGame({
       id: crypto.randomUUID(),
