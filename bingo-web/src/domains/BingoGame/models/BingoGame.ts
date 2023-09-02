@@ -22,6 +22,10 @@ export class BingoGame {
     return this.dto.id;
   }
 
+  get lotteryNumbers() {
+    return [...this.dto.lotteryNumbers];
+  }
+
   static createGame() {
     return new BingoGame({
       id: crypto.randomUUID(),
