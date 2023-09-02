@@ -37,7 +37,7 @@ export class BingoGame {
   }
 
   drawLotteryNumber() {
-    if (this.dto.lotteryNumbers.length > 75) {
+    if (this.dto.lotteryNumbers.length >= 75) {
       throw new Error("すべての抽選番号を抽選しました");
     }
 
