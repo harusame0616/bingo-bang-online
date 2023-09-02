@@ -7,7 +7,7 @@ const BingoGameStateEnum = {
 type BingoGameStateName = keyof typeof BingoGameStateEnum;
 type BingoGameState = (typeof BingoGameStateEnum)[BingoGameStateName];
 
-type BingoGameDto = {
+export type BingoGameDto = {
   id: string;
   lotteryNumbers: number[];
   viewId: string;
@@ -15,7 +15,7 @@ type BingoGameDto = {
   hashedManagementPassword: string | null;
 };
 
-class BingoGame {
+export class BingoGame {
   private constructor(private dto: BingoGameDto) {}
 
   get id() {
