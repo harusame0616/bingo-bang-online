@@ -1,6 +1,8 @@
+import { BingoGame, BingoGameDto } from "../models/BingoGame";
+
 type BingoGameCreateDto = Omit<BingoGameDto, "hashedManagementPassword">;
 
-class BingoGameCreate {
+export class BingoGameCreateUsecase {
   constructor(private readonly bingoGameRepository: BingoGameRepository) {}
 
   async execute(): Promise<BingoGameCreateDto> {
