@@ -31,4 +31,8 @@ class BingoGame {
   static fromDto(dto: BingoGameDto) {
     return new BingoGame({ ...dto });
   }
+
+  toDto() {
+    return { ...this.dto };
+  }
 }
