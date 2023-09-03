@@ -4,10 +4,10 @@ import { BingoGameRepository } from "../usecases/BingoGameRepository";
 const store = new Map<string, BingoGameDto>();
 
 export class InMemoryGameRepository implements BingoGameRepository {
-  async findOneById(bingoGameId: string): Promise<BingoGame> {
+  async findOneById(bingoGameId: string): Promise<BingoGame | null> {
     const bingoGame = store.get(bingoGameId);
     if (!bingoGame) {
-      throw new Error("ビンゴゲームが見つかりません");
+      return null;
     }
 
     return BingoGame.fromDto(bingoGame);
