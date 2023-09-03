@@ -1,0 +1,45 @@
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { BingoGameCreateUsecase } from "./BingoGameCreate.usecase";
+import { BingoGameDrawLotteryNumberUsecase } from "./BingoGameDrawLotteryNumber.usecase";
+import { BingoGameRepository } from "./BingoGameRepository";
+import { InMemoryGameRepository } from "../infrastructures/IMBingoGameRepository";
+
+describe("BingoGameDrawLotteryNumber", () => {
+  describe("execute", () => {
+    it("抽選ができる", async () => {
+      const bingoGameRepository = new InMemoryGameRepository();
+
+      const bingoGameCreateUsecase = new BingoGameCreateUsecase(
+        bingoGameRepository
+      );
+      const { id } = await bingoGameCreateUsecase.execute();
+
+      const bingoGameDrawLotteryNumberUsecase =
+        new BingoGameDrawLotteryNumberUsecase(bingoGameRepository);
+
+      const bingoGameDto = await bingoGameDrawLotteryNumberUsecase.execute(id);
+
+      const PLAYING = 1;
+      expect(bingoGameDto).toEqual({
+        id: expect.any(String),
+        viewId: expect.any(String),
+        lotteryNumbers: expect.any(Array),
+        state: PLAYING,
+      });
+
+      // hashedMaganementPassword は返さない
+      expect(bingoGameDto).not.toHaveProperty("hashedManagementPassword");
+    });
+
+    it("存在しない ID を指定したときに例外が発生する", async () => {
+      const bingoGameRepository = new InMemoryGameRepository();
+
+      const bingoGameDrawLotteryNumberUsecase =
+        new BingoGameDrawLotteryNumberUsecase(bingoGameRepository);
+
+      await expect(
+        bingoGameDrawLotteryNumberUsecase.execute("ignore")
+      ).rejects.toThrow("ビンゴゲームが見つかりません");
+    });
+  });
+});
