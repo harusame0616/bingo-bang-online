@@ -32,7 +32,12 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
       <h1>Bingo Game</h1>
       <div>{bingoGameId}</div>
       <form action={drawLotteryNumber}>
-        <input type="text" name="bingoGameId" hidden value={bingoGameId} />
+        <input
+          type="text"
+          name="bingoGameId"
+          hidden
+          defaultValue={bingoGameId}
+        />
         <button>番号を抽選する</button>
       </form>
     </div>
