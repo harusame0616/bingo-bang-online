@@ -1,12 +1,10 @@
-import { InMemoryGameRepository } from "@/domains/BingoGame/infrastructures/IMBingoGameRepository";
 import { BingoGameCreateUsecase } from "@/domains/BingoGame/usecases/BingoGameCreate.usecase";
+import { getRepository } from "@/lib/getRepository";
 import { redirect } from "next/navigation";
 
 export default async function GameNewPage() {
-  const bingoGameCreateUsecase = new BingoGameCreateUsecase(
-    new InMemoryGameRepository()
-  );
+  const createUsecase = new BingoGameCreateUsecase(getRepository("bingoGame"));
 
-  const bingoGame = await bingoGameCreateUsecase.execute();
+  const bingoGame = await createUsecase.execute();
   redirect(`/games/${bingoGame.id}`);
 }
