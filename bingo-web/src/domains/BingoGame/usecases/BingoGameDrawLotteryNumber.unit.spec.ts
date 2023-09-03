@@ -1,8 +1,7 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
+import { InMemoryGameRepository } from "../infrastructures/IMBingoGameRepository";
 import { BingoGameCreateUsecase } from "./BingoGameCreate.usecase";
 import { BingoGameDrawLotteryNumberUsecase } from "./BingoGameDrawLotteryNumber.usecase";
-import { BingoGameRepository } from "./BingoGameRepository";
-import { InMemoryGameRepository } from "../infrastructures/IMBingoGameRepository";
 
 describe("BingoGameDrawLotteryNumber", () => {
   describe("execute", () => {
