@@ -6,8 +6,8 @@ const mockBingoGameRepository = {
   save: vi.fn(),
 };
 
-describe("BingoGame", () => {
-  describe("createGame", () => {
+describe("BingoGameCreateUsecas3", () => {
+  describe("execute", () => {
     beforeEach(() => {
       mockBingoGameRepository.save.mockReset();
     });
