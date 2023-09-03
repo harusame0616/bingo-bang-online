@@ -1,4 +1,4 @@
-const BingoGameStateEnum = {
+export const BingoGameStateEnum = {
   CREATED: "created",
   PLAYING: "playing",
   FINISHED: "finished",
