@@ -1,4 +1,4 @@
-import { BingoGame, BingoGameDto } from "../models/BingoGame";
+import { BingoGameDto } from "../models/BingoGame";
 import { BingoGameRepository } from "./BingoGameRepository";
 
 type BingoGameDrawLotteryNumberDto = Omit<
