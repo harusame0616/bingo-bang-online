@@ -25,6 +25,7 @@ describe("BingoGameCreateUsecase", () => {
         lotteryNumbers: [],
         viewId: expect.any(String),
         state: CREATED,
+        bingoCardIds: [],
       });
 
       // hashedMaganementPassword は返さない
