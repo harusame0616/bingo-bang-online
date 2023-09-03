@@ -52,6 +52,7 @@ export class BingoGame {
         Math.floor(Math.random() * notDrawnLotteryNumber.length)
       ];
     this.dto.lotteryNumbers.push(lotteryNumber);
+    this.dto.state = BingoGameStateEnum.PLAYING;
   }
 
   static fromDto(dto: BingoGameDto) {
