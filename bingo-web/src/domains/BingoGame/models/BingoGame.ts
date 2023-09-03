@@ -22,6 +22,10 @@ export class BingoGame {
     return this.dto.id;
   }
 
+  get lotteryNumbers() {
+    return [...this.dto.lotteryNumbers];
+  }
+
   static createGame() {
     return new BingoGame({
       id: crypto.randomUUID(),
@@ -30,6 +34,25 @@ export class BingoGame {
       hashedManagementPassword: null,
       state: BingoGameStateEnum.CREATED,
     });
+  }
+
+  drawLotteryNumber() {
+    if (this.dto.lotteryNumbers.length >= 75) {
+      throw new Error("すべての抽選番号を抽選しました");
+    }
+
+    // 未抽選番号のリストを作成
+    const notDrawnLotteryNumber = [...new Array(75)]
+      .map((_, i) => i + 1)
+      .filter((i) => !this.dto.lotteryNumbers.includes(i));
+
+    // 未抽選番号の中からランダムに選択
+    const lotteryNumber =
+      notDrawnLotteryNumber[
+        Math.floor(Math.random() * notDrawnLotteryNumber.length)
+      ];
+    this.dto.lotteryNumbers.push(lotteryNumber);
+    this.dto.state = BingoGameStateEnum.PLAYING;
   }
 
   static fromDto(dto: BingoGameDto) {

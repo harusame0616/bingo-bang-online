@@ -1,12 +1,13 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { BingoGameCreateUsecase } from "./BingoGameCreate.usecase";
+import { BingoGameRepository } from "./BingoGameRepository";
 
 const mockBingoGameRepository = {
   save: vi.fn(),
 };
 
-describe("BingoGame", () => {
-  describe("createGame", () => {
+describe("BingoGameCreateUsecas3", () => {
+  describe("execute", () => {
     beforeEach(() => {
       mockBingoGameRepository.save.mockReset();
     });
