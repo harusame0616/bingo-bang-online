@@ -19,7 +19,7 @@ describe("BingoGameCreateUsecas3", () => {
 
       const bingoGame = await bingoGameCreateUsecase.execute();
 
-      const CREATED = 0;
+      const CREATED = "created";
       expect(bingoGame).toEqual({
         id: expect.any(String),
         lotteryNumbers: [],

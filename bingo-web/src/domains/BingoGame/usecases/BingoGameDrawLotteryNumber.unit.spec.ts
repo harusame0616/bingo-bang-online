@@ -19,7 +19,7 @@ describe("BingoGameDrawLotteryNumber", () => {
 
       const bingoGameDto = await bingoGameDrawLotteryNumberUsecase.execute(id);
 
-      const PLAYING = 1;
+      const PLAYING = "playing";
       expect(bingoGameDto).toEqual({
         id: expect.any(String),
         viewId: expect.any(String),

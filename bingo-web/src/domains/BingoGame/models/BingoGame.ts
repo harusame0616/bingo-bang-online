@@ -1,7 +1,7 @@
 const BingoGameStateEnum = {
-  CREATED: 0,
-  PLAYING: 1,
-  FINISHED: 2,
+  CREATED: "created",
+  PLAYING: "playing",
+  FINISHED: "finished",
 } as const;
 
 type BingoGameStateName = keyof typeof BingoGameStateEnum;
