@@ -6,7 +6,7 @@ type BingoGameDrawLotteryNumberDto = Omit<
   "hashedManagementPassword"
 >;
 
-export class BingoGameDrawLotteryNumberUseCase {
+export class BingoGameDrawLotteryNumberUsecase {
   constructor(private readonly bingoGameRepository: BingoGameRepository) {}
 
   async execute(bingoGameId: string): Promise<BingoGameDrawLotteryNumberDto> {
