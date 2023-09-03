@@ -1,4 +1,4 @@
-const BingoGameStateEnum = {
+export const BingoGameStateEnum = {
   CREATED: "created",
   PLAYING: "playing",
   FINISHED: "finished",
@@ -52,7 +52,10 @@ export class BingoGame {
         Math.floor(Math.random() * notDrawnLotteryNumber.length)
       ];
     this.dto.lotteryNumbers.push(lotteryNumber);
-    this.dto.state = BingoGameStateEnum.PLAYING;
+    this.dto.state =
+      this.dto.lotteryNumbers.length === 75
+        ? BingoGameStateEnum.FINISHED
+        : BingoGameStateEnum.PLAYING;
   }
 
   static fromDto(dto: BingoGameDto) {
