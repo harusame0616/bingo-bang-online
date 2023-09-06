@@ -1,12 +1,16 @@
 const FREE = 0;
 
-type BingoCardDto = {
+export type BingoCardDto = {
   id: string;
   squares: number[][];
 };
 
 export class BingoCard {
   constructor(private readonly dto: BingoCardDto) {}
+
+  get id() {
+    return this.dto.id;
+  }
 
   static generateCard() {
     const sourceNumbers = [...new Array(75)].map((_, i) => i + 1);
