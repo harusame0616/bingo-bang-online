@@ -1,5 +1,5 @@
 import { BingoGameDto } from "../models/BingoGame";
-import { BingoGameRepository } from "./BingoGameRepository";
+import { BingoGameRepository } from "./BingoGame.repository";
 
 type BingoGameFindOneDto = Omit<BingoGameDto, "hashedManagementPassword">;
 

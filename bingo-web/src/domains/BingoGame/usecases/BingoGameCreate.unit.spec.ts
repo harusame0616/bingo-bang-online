@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { BingoGameCreateUsecase } from "./BingoGameCreate.usecase";
-import { BingoGameRepository } from "./BingoGameRepository";
+import { BingoGameRepository } from "./BingoGame.repository";
 
 const mockBingoGameRepository = {
   save: vi.fn(),

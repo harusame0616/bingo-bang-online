@@ -1,5 +1,5 @@
 import { BingoGame, BingoGameDto } from "../models/BingoGame";
-import { BingoGameRepository } from "../usecases/BingoGameRepository";
+import { BingoGameRepository } from "../usecases/BingoGame.repository";
 
 const store = new Map<string, BingoGameDto>();
 
