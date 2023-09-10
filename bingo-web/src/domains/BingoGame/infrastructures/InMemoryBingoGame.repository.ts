@@ -1,11 +1,10 @@
-import { BingoGame, BingoGameDto } from "../models/BingoGame";
+import { BingoGame } from "../models/BingoGame";
 import { BingoGameRepository } from "../usecases/BingoGame.repository";
-
-const store = new Map<string, BingoGameDto>();
+import { bingoGameStore } from "./InMemoryBIngoGame.store";
 
 export class InMemoryGameRepository implements BingoGameRepository {
   async findOneById(bingoGameId: string): Promise<BingoGame | null> {
-    const bingoGame = store.get(bingoGameId);
+    const bingoGame = bingoGameStore.get(bingoGameId);
     if (!bingoGame) {
       return null;
     }
@@ -14,6 +13,6 @@ export class InMemoryGameRepository implements BingoGameRepository {
   }
 
   async save(bingoGame: BingoGame): Promise<void> {
-    store.set(bingoGame.id, bingoGame.toDto());
+    bingoGameStore.set(bingoGame.id, bingoGame.toDto());
   }
 }

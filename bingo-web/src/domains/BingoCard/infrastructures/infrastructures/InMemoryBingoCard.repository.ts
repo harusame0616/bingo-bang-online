@@ -1,10 +1,9 @@
-import { BingoCard, BingoCardDto } from "../../models/BingoCard";
+import { BingoCard } from "../../models/BingoCard";
 import { BingoCardRepository } from "../../usecases/BingoCard.repository";
-
-const store = new Map<string, BingoCardDto>();
+import { bingoCardStore } from "./IMBingoCardStore";
 
 export class InMemoryBingoCardRepository implements BingoCardRepository {
   async save(bingoCard: BingoCard): Promise<void> {
-    store.set(bingoCard.id, bingoCard.toDto());
+    bingoCardStore.set(bingoCard.id, bingoCard.toDto());
   }
 }

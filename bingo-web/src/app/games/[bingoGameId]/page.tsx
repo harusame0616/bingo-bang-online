@@ -6,7 +6,9 @@ import {
 } from "@/domains/BingoGame/models/BingoGame";
 import { BingoGameDrawLotteryNumberUsecase } from "@/domains/BingoGame/usecases/BingoGameDrawLotteryNumber.usecase";
 import { BingoGameFindOneUsecase } from "@/domains/BingoGame/usecases/BingoGameFindOne.usecase";
+import { BingoGameFindOneWithCardsQueryUsecase } from "@/domains/BingoGame/usecases/BingoGameFindOneWithCards.query-usecase";
 import { getRepository } from "@/lib/getRepository";
+import { getQuery } from "@/lib/getQuery";
 import { revalidatePath } from "next/cache";
 import { notFound } from "next/navigation";
 
@@ -59,17 +61,17 @@ async function generateDomainCard(formData: FormData) {
 }
 
 export default async function GameNewPage({ params: { bingoGameId } }: Props) {
-  const bingoGameFindOneUsecase = new BingoGameFindOneUsecase(
-    getRepository("bingoGame")
+  const bingoGameQueryUsecase = new BingoGameFindOneWithCardsQueryUsecase(
+    getQuery("bingoGame")
   );
-  const bingoGame = await bingoGameFindOneUsecase.execute(bingoGameId);
+  const bingoGame = await bingoGameQueryUsecase.execute(bingoGameId);
 
   if (!bingoGame) {
     return notFound();
   }
 
   const canBingoCardGenerate = () => {
-    return bingoGame.bingoCardIds.length === BINGO_CARD_MAX_COUNT;
+    return bingoGame.bingoCards.length === BINGO_CARD_MAX_COUNT;
   };
 
   return (
@@ -108,8 +110,8 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
       </form>
 
       <hr />
-      {bingoGame.bingoCardIds.map((id) => (
-        <div key={id}>{id}</div>
+      {bingoGame.bingoCards.map((bingoCard) => (
+        <div key={bingoCard.id}>{JSON.stringify(bingoCard)}</div>
       ))}
     </div>
   );
