@@ -5,7 +5,7 @@ import {
   BingoGameQuery,
   BingoGameDtoWithCards,
 } from "../usecases/BingoGame.query";
-import { bingoGameStore } from "./IMBIngoGameStore";
+import { bingoGameStore } from "./InMemoryBIngoGame.store";
 
 export class InMemoryBingoGameQuery implements BingoGameQuery {
   async findOneByIdWithCards(
