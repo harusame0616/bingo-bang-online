@@ -11,6 +11,7 @@ import { getRepository } from "@/lib/getRepository";
 import { getQuery } from "@/lib/getQuery";
 import { revalidatePath } from "next/cache";
 import { notFound } from "next/navigation";
+import LotteryRoulette from "./_components/LotteryRoulette";
 
 type Props = {
   params: {
@@ -78,17 +79,23 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
     <div>
       <h1>Bingo Game</h1>
       <div>{bingoGameId}</div>
-      <form action={drawLotteryNumber}>
-        <input
-          type="text"
-          name="bingoGameId"
-          hidden
-          defaultValue={bingoGameId}
-        />
-        <button disabled={bingoGame.state === BingoGameStateEnum.FINISHED}>
-          番号を抽選する
-        </button>
-      </form>
+      <div className="flex justify-center w-full">
+        <LotteryRoulette number={bingoGame.lotteryNumbers.slice(-1)[0] ?? 0}>
+          <form action={drawLotteryNumber}>
+            <input
+              type="text"
+              name="bingoGameId"
+              hidden
+              defaultValue={bingoGameId}
+            />
+            <button disabled={bingoGame.state === BingoGameStateEnum.FINISHED}>
+              ストップ
+            </button>
+          </form>
+        </LotteryRoulette>
+        <div></div>
+      </div>
+
       {bingoGame.state === BingoGameStateEnum.FINISHED ? (
         <div>抽選終了</div>
       ) : (
