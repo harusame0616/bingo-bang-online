@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { BingoCardRepository } from "../usecases/BingoCard.repository";
 import { BingoCardGenerateDomainService } from "./BingCardGenerate.domain-service";
-import { InMemoryGameRepository } from "@/domains/BingoGame/infrastructures/IMBingoGameRepository";
+import { InMemoryGameRepository } from "@/domains/BingoGame/infrastructures/InMemoryBingoGame.repository";
 import { BingoGame } from "@/domains/BingoGame/models/BingoGame";
 
 describe("BingoCardGenerateDomainService", () => {
