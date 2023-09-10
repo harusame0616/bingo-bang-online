@@ -1,4 +1,9 @@
-import { BingoGameStateEnum } from "@/domains/BingoGame/models/BingoGame";
+import { BingoCardGenerateUsecase } from "@/domains/BingoCard/usecases/BingoCardGenerate.usecase";
+import {
+  BINGO_CARD_MAX_COUNT,
+  BingoGame,
+  BingoGameStateEnum,
+} from "@/domains/BingoGame/models/BingoGame";
 import { BingoGameDrawLotteryNumberUsecase } from "@/domains/BingoGame/usecases/BingoGameDrawLotteryNumber.usecase";
 import { BingoGameFindOneUsecase } from "@/domains/BingoGame/usecases/BingoGameFindOne.usecase";
 import { getRepository } from "@/lib/getRepository";
@@ -31,6 +36,28 @@ async function drawLotteryNumber(formData: FormData) {
   revalidatePath("/game/[bingoGameId]");
 }
 
+async function generateDomainCard(formData: FormData) {
+  "use server";
+
+  const bingoGameId = formData.get("bingoGameId");
+
+  if (!bingoGameId) {
+    throw new Error("bingoGameId is required");
+  }
+
+  if (typeof bingoGameId !== "string") {
+    throw new Error("bingoGameId is invalid type");
+  }
+
+  const bingoCardGenerateUsecase = new BingoCardGenerateUsecase({
+    bingoCardRepository: getRepository("bingoCard"),
+    bingoGameRepository: getRepository("bingoGame"),
+  });
+
+  await bingoCardGenerateUsecase.execute(bingoGameId);
+  revalidatePath("/game/[bingoGameId]");
+}
+
 export default async function GameNewPage({ params: { bingoGameId } }: Props) {
   const bingoGameFindOneUsecase = new BingoGameFindOneUsecase(
     getRepository("bingoGame")
@@ -40,6 +67,10 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
   if (!bingoGame) {
     return notFound();
   }
+
+  const canBingoCardGenerate = () => {
+    return bingoGame.bingoCardIds.length === BINGO_CARD_MAX_COUNT;
+  };
 
   return (
     <div>
@@ -66,6 +97,20 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
           <div key={lotteryNumber}>{lotteryNumber}</div>
         ))}
       </div>
+      <form action={generateDomainCard}>
+        <input
+          type="text"
+          name="bingoGameId"
+          hidden
+          defaultValue={bingoGameId}
+        />
+        <button disabled={canBingoCardGenerate()}>BingoCard 生成</button>
+      </form>
+
+      <hr />
+      {bingoGame.bingoCardIds.map((id) => (
+        <div key={id}>{id}</div>
+      ))}
     </div>
   );
 }

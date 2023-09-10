@@ -1,4 +1,4 @@
-const BINGO_CARD_MAX_COUNT = 15;
+export const BINGO_CARD_MAX_COUNT = 15;
 
 export const BingoGameStateEnum = {
   CREATED: "created",
