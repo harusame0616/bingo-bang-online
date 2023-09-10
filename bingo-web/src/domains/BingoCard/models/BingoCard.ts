@@ -17,6 +17,10 @@ export class BingoCard {
     return this.dto.id;
   }
 
+  get name() {
+    return this.dto.name;
+  }
+
   static generateCard({ name }: GenerateCardProps = {}) {
     const sourceNumbers = [...new Array(LOTTERY_NUMBER_MAX)].map(
       (_, i) => i + 1,
