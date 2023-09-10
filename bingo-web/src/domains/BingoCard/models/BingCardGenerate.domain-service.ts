@@ -1,15 +1,15 @@
 import { BingoGameRepository } from '@/domains/BingoGame/usecases/BingoGame.repository';
 
 import { BingoCardRepository } from '../usecases/BingoCard.repository';
-import { BingoCard } from './BingoCard';
+import { BingoCard, GenerateCardProps } from './BingoCard';
 
 type ConstructorProps = {
   bingoCardRepository: BingoCardRepository;
   bingoGameRepository: BingoGameRepository;
 };
 
-type ExecuteProps = {
-  bingoGameId: string;
+export type BingoCardGenerationProps = {
+  name?: string;
 };
 
 // BingoCard 生成時は BingoGame が存在していることの確認と
@@ -22,14 +22,17 @@ export class BingoCardGenerateDomainService {
     this.bingoGameRepository = bingoGameRepository;
   }
 
-  async execute({ bingoGameId }: ExecuteProps) {
+  async execute(
+    bingoGameId: string,
+    generateCardProps: GenerateCardProps = {},
+  ) {
     const bingoGame = await this.bingoGameRepository.findOneById(bingoGameId);
 
     if (!bingoGame) {
       throw new Error('BingoGame not found');
     }
 
-    const bingoCard = BingoCard.generateCard();
+    const bingoCard = BingoCard.generateCard(generateCardProps);
     bingoGame.registerBingoCard(bingoCard.id);
 
     await Promise.all([

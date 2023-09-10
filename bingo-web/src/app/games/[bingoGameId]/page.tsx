@@ -13,6 +13,7 @@ import { BingoGameFindOneWithCardsQueryUsecase } from '@/domains/BingoGame/useca
 import { getQuery } from '@/lib/getQuery';
 import { getRepository } from '@/lib/getRepository';
 
+import BingoCardGenerationForm from './_components/BingoCardGenerationForm';
 import LotteryRoulette from './_components/LotteryRoulette';
 
 type Props = {
@@ -45,6 +46,7 @@ async function generateDomainCard(formData: FormData) {
   'use server';
 
   const bingoGameId = formData.get('bingoGameId');
+  const cardName = formData.get('bingoCardName');
 
   if (!bingoGameId) {
     throw new Error('bingoGameId is required');
@@ -54,12 +56,19 @@ async function generateDomainCard(formData: FormData) {
     throw new Error('bingoGameId is invalid type');
   }
 
+  if (typeof cardName !== 'string') {
+    throw new Error('cardName is invalid type');
+  }
+
   const bingoCardGenerateUsecase = new BingoCardGenerateUsecase({
     bingoCardRepository: getRepository('bingoCard'),
     bingoGameRepository: getRepository('bingoGame'),
   });
 
-  await bingoCardGenerateUsecase.execute(bingoGameId);
+  await bingoCardGenerateUsecase.execute(bingoGameId, {
+    name: cardName,
+  });
+
   revalidatePath('/game/[bingoGameId]');
 }
 
@@ -106,20 +115,16 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
           <div key={lotteryNumber}>{lotteryNumber}</div>
         ))}
       </div>
-      <form action={generateDomainCard}>
-        <input
-          type="text"
-          name="bingoGameId"
-          hidden
-          defaultValue={bingoGameId}
-        />
-        <button disabled={canBingoCardGenerate()}>BingoCard 生成</button>
-      </form>
-
+      <BingoCardGenerationForm
+        action={generateDomainCard}
+        bingoGameId={bingoGameId}
+        canGenerate={canBingoCardGenerate()}
+      />
       <hr />
       <div className="flex flex-wrap gap-8">
         {bingoGame.bingoCards.map((bingoCard) => (
           <div key={bingoCard.id}>
+            {bingoCard.name || '名無しのカード'}
             {bingoCard.squares.map((rows, ri) => (
               <div key={ri} className="flex">
                 {rows.map((number, ci) => (

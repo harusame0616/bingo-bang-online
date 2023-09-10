@@ -3,6 +3,11 @@ export const LOTTERY_NUMBER_MAX = 75;
 export type BingoCardDto = {
   id: string;
   squares: number[][];
+  name: string;
+};
+
+export type GenerateCardProps = {
+  name?: string;
 };
 
 export class BingoCard {
@@ -12,7 +17,11 @@ export class BingoCard {
     return this.dto.id;
   }
 
-  static generateCard() {
+  get name() {
+    return this.dto.name;
+  }
+
+  static generateCard({ name }: GenerateCardProps = {}) {
     const sourceNumbers = [...new Array(LOTTERY_NUMBER_MAX)].map(
       (_, i) => i + 1,
     );
@@ -38,6 +47,7 @@ export class BingoCard {
     return new BingoCard({
       id: crypto.randomUUID(),
       squares: card,
+      name: name ?? '',
     });
   }
 

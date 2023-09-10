@@ -11,6 +11,7 @@ describe('BingoCard', () => {
       const cardDto = card.toDto();
       expect(cardDto).toEqual({
         id: expect.any(String),
+        name: '',
         squares: [
           [...new Array(5)].map(() => expect.any(Number)),
           [...new Array(5)].map(() => expect.any(Number)),
@@ -43,6 +44,13 @@ describe('BingoCard', () => {
       expect(
         cardNumbers.every((num) => (num >= MIN && num <= MAX) || num === FREE),
       ).toBe(true);
+    });
+
+    it('名前をつけて作成ができる', () => {
+      const name = 'bingo-card';
+      const card = BingoCard.generateCard({ name });
+
+      expect(card.name).toBe(name);
     });
   });
 });

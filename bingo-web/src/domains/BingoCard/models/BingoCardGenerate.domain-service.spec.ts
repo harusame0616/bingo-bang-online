@@ -24,9 +24,7 @@ describe('BingoCardGenerateDomainService', () => {
       );
 
       const { bingoCard, bingoGame } =
-        await bingoCardGenerateDomainService.execute({
-          bingoGameId: _bingoGame.id,
-        });
+        await bingoCardGenerateDomainService.execute(_bingoGame.id);
 
       expect(bingoGame.bingoCardIds.some((id) => id === bingoCard.id)).toBe(
         true,
@@ -42,10 +40,40 @@ describe('BingoCardGenerateDomainService', () => {
       );
 
       await expect(
-        bingoCardGenerateDomainService.execute({
-          bingoGameId: 'not_found',
-        }),
+        bingoCardGenerateDomainService.execute('not_found'),
       ).rejects.toThrow();
+    });
+
+    it('カードに名前をつけて作成できる', async () => {
+      const bingoCardGenerateDomainService = new BingoCardGenerateDomainService(
+        {
+          bingoCardRepository,
+          bingoGameRepository,
+        },
+      );
+
+      const name = 'bingo-card';
+      const { bingoCard } = await bingoCardGenerateDomainService.execute(
+        _bingoGame.id,
+        { name },
+      );
+
+      expect(bingoCard.name).toBe(name);
+    });
+
+    it('カードに名前をつけずに作成すると、名前が空白文字で作成できる', async () => {
+      const bingoCardGenerateDomainService = new BingoCardGenerateDomainService(
+        {
+          bingoCardRepository,
+          bingoGameRepository,
+        },
+      );
+
+      const { bingoCard } = await bingoCardGenerateDomainService.execute(
+        _bingoGame.id,
+      );
+
+      expect(bingoCard.name).toBe('');
     });
   });
 });
