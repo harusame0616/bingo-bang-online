@@ -1,6 +1,8 @@
 import { revalidatePath } from 'next/cache';
 import { notFound } from 'next/navigation';
 
+import { isCardBingo } from '@/domains/BingoCard/lib/isCardBingo';
+import { FREE } from '@/domains/BingoCard/models/BingoCard';
 import { BingoCardGenerateUsecase } from '@/domains/BingoCard/usecases/BingoCardGenerate.usecase';
 import {
   BINGO_CARD_MAX_COUNT,
@@ -115,9 +117,36 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
       </form>
 
       <hr />
-      {bingoGame.bingoCards.map((bingoCard) => (
-        <div key={bingoCard.id}>{JSON.stringify(bingoCard)}</div>
-      ))}
+      <div className="flex flex-wrap gap-8">
+        {bingoGame.bingoCards.map((bingoCard) => (
+          <div key={bingoCard.id}>
+            {bingoCard.squares.map((rows, ri) => (
+              <div key={ri} className="flex">
+                {rows.map((number, ci) => (
+                  <div
+                    key={`${ri}${ci}`}
+                    className={`w-8 h-8 border rounded-sm ${
+                      isCardBingo(bingoGame.lotteryNumbers, bingoCard.squares)
+                        ? 'border-red-600'
+                        : 'border-gray-500'
+                    }`}
+                  >
+                    <div
+                      className={`w-full h-full flex justify-center items-center ${
+                        [...bingoGame.lotteryNumbers, FREE].includes(number)
+                          ? 'bg-yellow-300 text-red-600'
+                          : ''
+                      }`}
+                    >
+                      {number}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
