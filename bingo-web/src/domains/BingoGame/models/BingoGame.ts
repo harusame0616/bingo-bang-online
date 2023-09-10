@@ -1,3 +1,5 @@
+export const BINGO_CARD_MAX_COUNT = 15;
+
 export const BingoGameStateEnum = {
   CREATED: "created",
   PLAYING: "playing",
@@ -13,6 +15,7 @@ export type BingoGameDto = {
   viewId: string;
   state: BingoGameState;
   hashedManagementPassword: string | null;
+  bingoCardIds: string[];
 };
 
 export class BingoGame {
@@ -26,6 +29,10 @@ export class BingoGame {
     return [...this.dto.lotteryNumbers];
   }
 
+  get bingoCardIds() {
+    return [...this.dto.bingoCardIds];
+  }
+
   static createGame() {
     return new BingoGame({
       id: crypto.randomUUID(),
@@ -33,6 +40,7 @@ export class BingoGame {
       viewId: crypto.randomUUID(),
       hashedManagementPassword: null,
       state: BingoGameStateEnum.CREATED,
+      bingoCardIds: [],
     });
   }
 
@@ -58,11 +66,28 @@ export class BingoGame {
         : BingoGameStateEnum.PLAYING;
   }
 
+  registerBingoCard(bingoCardId: string) {
+    const newBingoCardIds = Array.from(
+      new Set([...this.dto.bingoCardIds, bingoCardId])
+    );
+
+    if (newBingoCardIds.length > BINGO_CARD_MAX_COUNT) {
+      throw new Error(
+        `ビンゴカードは ${BINGO_CARD_MAX_COUNT} 枚までしか登録できません`
+      );
+    }
+
+    this.dto.bingoCardIds = newBingoCardIds;
+  }
+
   static fromDto(dto: BingoGameDto) {
     return new BingoGame({ ...dto });
   }
 
   toDto() {
-    return { ...this.dto };
+    return {
+      ...this.dto,
+      bingoCardIds: [...this.dto.bingoCardIds],
+    };
   }
 }

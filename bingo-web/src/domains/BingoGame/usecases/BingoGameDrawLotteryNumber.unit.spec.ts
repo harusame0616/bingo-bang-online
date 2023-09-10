@@ -24,6 +24,7 @@ describe("BingoGameDrawLotteryNumber", () => {
         viewId: expect.any(String),
         lotteryNumbers: expect.any(Array),
         state: PLAYING,
+        bingoCardIds: expect.any(Array),
       });
 
       // hashedMaganementPassword は返さない
