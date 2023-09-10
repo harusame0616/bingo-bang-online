@@ -1,9 +1,9 @@
 export const BINGO_CARD_MAX_COUNT = 15;
 
 export const BingoGameStateEnum = {
-  CREATED: "created",
-  PLAYING: "playing",
-  FINISHED: "finished",
+  CREATED: 'created',
+  PLAYING: 'playing',
+  FINISHED: 'finished',
 } as const;
 
 type BingoGameStateName = keyof typeof BingoGameStateEnum;
@@ -46,7 +46,7 @@ export class BingoGame {
 
   drawLotteryNumber() {
     if (this.dto.lotteryNumbers.length >= 75) {
-      throw new Error("すべての抽選番号を抽選しました");
+      throw new Error('すべての抽選番号を抽選しました');
     }
 
     // 未抽選番号のリストを作成
@@ -68,12 +68,12 @@ export class BingoGame {
 
   registerBingoCard(bingoCardId: string) {
     const newBingoCardIds = Array.from(
-      new Set([...this.dto.bingoCardIds, bingoCardId])
+      new Set([...this.dto.bingoCardIds, bingoCardId]),
     );
 
     if (newBingoCardIds.length > BINGO_CARD_MAX_COUNT) {
       throw new Error(
-        `ビンゴカードは ${BINGO_CARD_MAX_COUNT} 枚までしか登録できません`
+        `ビンゴカードは ${BINGO_CARD_MAX_COUNT} 枚までしか登録できません`,
       );
     }
 

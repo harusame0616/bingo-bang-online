@@ -1,7 +1,7 @@
-import { BingoGame, BingoGameDto } from "../models/BingoGame";
-import { BingoGameRepository } from "./BingoGame.repository";
+import { BingoGame, BingoGameDto } from '../models/BingoGame';
+import { BingoGameRepository } from './BingoGame.repository';
 
-type BingoGameCreateDto = Omit<BingoGameDto, "hashedManagementPassword">;
+type BingoGameCreateDto = Omit<BingoGameDto, 'hashedManagementPassword'>;
 
 export class BingoGameCreateUsecase {
   constructor(private readonly bingoGameRepository: BingoGameRepository) {}

@@ -14,15 +14,15 @@ export class BingoCard {
 
   static generateCard() {
     const sourceNumbers = [...new Array(LOTTERY_NUMBER_MAX)].map(
-      (_, i) => i + 1
+      (_, i) => i + 1,
     );
 
     const squares = [...new Array(5 * 5)].map(
       () =>
         sourceNumbers.splice(
           Math.floor(Math.random() * sourceNumbers.length),
-          1
-        )[0]
+          1,
+        )[0],
     );
 
     squares.splice(12, 1, FREE);

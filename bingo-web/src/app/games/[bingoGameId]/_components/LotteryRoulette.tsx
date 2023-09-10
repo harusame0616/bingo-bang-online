@@ -1,7 +1,8 @@
-"use client";
+'use client';
 
-import { LOTTERY_NUMBER_MAX } from "@/domains/BingoCard/models/BingoCard";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
+
+import { LOTTERY_NUMBER_MAX } from '@/domains/BingoCard/models/BingoCard';
 
 type Props = {
   number?: number;

@@ -1,15 +1,14 @@
-import { bingoCardStore } from "@/domains/BingoCard/infrastructures/infrastructures/IMBingoCardStore";
-import { BingoGame, BingoGameDto } from "../models/BingoGame";
-import { BingoGameRepository } from "../usecases/BingoGame.repository";
+import { bingoCardStore } from '@/domains/BingoCard/infrastructures/infrastructures/IMBingoCardStore';
+
 import {
-  BingoGameQuery,
   BingoGameDtoWithCards,
-} from "../usecases/BingoGame.query";
-import { bingoGameStore } from "./InMemoryBIngoGame.store";
+  BingoGameQuery,
+} from '../usecases/BingoGame.query';
+import { bingoGameStore } from './InMemoryBIngoGame.store';
 
 export class InMemoryBingoGameQuery implements BingoGameQuery {
   async findOneByIdWithCards(
-    bingoGameId: string
+    bingoGameId: string,
   ): Promise<BingoGameDtoWithCards | null> {
     const bingoGame = bingoGameStore.get(bingoGameId);
 
@@ -17,12 +16,12 @@ export class InMemoryBingoGameQuery implements BingoGameQuery {
       return null;
     }
 
-    const bingoCards = Array.from(bingoCardStore.values()).filter((bingoCard) =>
-      bingoGame?.bingoCardIds.includes(bingoCard.id)
+    const bingoCards = Array.from(bingoCardStore.values()).filter(
+      (bingoCard) => bingoGame?.bingoCardIds.includes(bingoCard.id),
     );
 
     const bingoCardIdMap = Object.fromEntries(
-      bingoCards.map((bingoCard) => [bingoCard.id, bingoCard])
+      bingoCards.map((bingoCard) => [bingoCard.id, bingoCard]),
     );
 
     const {
@@ -34,7 +33,7 @@ export class InMemoryBingoGameQuery implements BingoGameQuery {
     return {
       ...bingoGameDtoWithoutBingoCardIds,
       bingoCards: bingoGame.bingoCardIds.map(
-        (bingoCardId) => bingoCardIdMap[bingoCardId]
+        (bingoCardId) => bingoCardIdMap[bingoCardId],
       ),
     };
   }

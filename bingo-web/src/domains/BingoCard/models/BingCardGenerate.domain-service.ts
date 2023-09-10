@@ -1,6 +1,7 @@
-import { BingoGameRepository } from "@/domains/BingoGame/usecases/BingoGame.repository";
-import { BingoCardRepository } from "../usecases/BingoCard.repository";
-import { BingoCard } from "./BingoCard";
+import { BingoGameRepository } from '@/domains/BingoGame/usecases/BingoGame.repository';
+
+import { BingoCardRepository } from '../usecases/BingoCard.repository';
+import { BingoCard } from './BingoCard';
 
 type ConstructorProps = {
   bingoCardRepository: BingoCardRepository;
@@ -25,7 +26,7 @@ export class BingoCardGenerateDomainService {
     const bingoGame = await this.bingoGameRepository.findOneById(bingoGameId);
 
     if (!bingoGame) {
-      throw new Error("BingoGame not found");
+      throw new Error('BingoGame not found');
     }
 
     const bingoCard = BingoCard.generateCard();

@@ -1,15 +1,16 @@
-import { BingoCardDto } from "@/domains/BingoCard/models/BingoCard";
-import { BingoGame, BingoGameDto } from "../models/BingoGame";
+import { BingoCardDto } from '@/domains/BingoCard/models/BingoCard';
+
+import { BingoGameDto } from '../models/BingoGame';
 
 export type BingoGameDtoWithCards = Omit<
   BingoGameDto,
-  "hashedManagementPassword" | "bingoCardIds"
+  'hashedManagementPassword' | 'bingoCardIds'
 > & {
   bingoCards: Array<BingoCardDto>;
 };
 
 export type BingoGameQuery = {
   findOneByIdWithCards: (
-    bingoGameId: string
+    bingoGameId: string,
   ) => Promise<BingoGameDtoWithCards | null>;
 };

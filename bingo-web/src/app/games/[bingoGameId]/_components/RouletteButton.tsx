@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
 const RouletteButtonTypeEnum = {
-  START: "start",
-  STOP: "stop",
+  START: 'start',
+  STOP: 'stop',
 };
 
 type RouletteButtonType =
