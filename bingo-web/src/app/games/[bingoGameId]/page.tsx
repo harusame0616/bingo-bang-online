@@ -80,19 +80,17 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
       <h1>Bingo Game</h1>
       <div>{bingoGameId}</div>
       <div className="flex justify-center w-full">
-        <LotteryRoulette number={bingoGame.lotteryNumbers.slice(-1)[0] ?? 0}>
-          <form action={drawLotteryNumber}>
-            <input
-              type="text"
-              name="bingoGameId"
-              hidden
-              defaultValue={bingoGameId}
-            />
-            <button disabled={bingoGame.state === BingoGameStateEnum.FINISHED}>
-              ストップ
-            </button>
-          </form>
-        </LotteryRoulette>
+        <form action={drawLotteryNumber}>
+          <input
+            type="text"
+            name="bingoGameId"
+            hidden
+            defaultValue={bingoGameId}
+          />
+          <LotteryRoulette
+            number={bingoGame.lotteryNumbers.slice(-1)[0] ?? 0}
+          />
+        </form>
         <div></div>
       </div>
 
