@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint:check": "next lint",
+    "lint:write": "next lint --fix",
+    "format:check": "prettier -c ./**/*.{ts,tsx,json}",
+    "format:write": "prettier -w ./**/*.{ts,tsx,json}",
     "test:unit": "vitest"
   },
   "dependencies": {
