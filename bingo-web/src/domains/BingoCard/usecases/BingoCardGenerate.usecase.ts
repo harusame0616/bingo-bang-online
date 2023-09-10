@@ -1,7 +1,8 @@
-import { BingoGameRepository } from "@/domains/BingoGame/usecases/BingoGame.repository";
-import { BingoCardRepository } from "./BingoCard.repository";
-import { BingoCardGenerateDomainService } from "../models/BingCardGenerate.domain-service";
-import { BingoCardDto } from "../models/BingoCard";
+import { BingoGameRepository } from '@/domains/BingoGame/usecases/BingoGame.repository';
+
+import { BingoCardGenerateDomainService } from '../models/BingCardGenerate.domain-service';
+import { BingoCardDto } from '../models/BingoCard';
+import { BingoCardRepository } from './BingoCard.repository';
 
 type BingoCardGenerateUsecaseDto = {
   bingoCard: BingoCardDto;

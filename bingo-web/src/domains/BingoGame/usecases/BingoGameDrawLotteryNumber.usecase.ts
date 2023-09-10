@@ -1,9 +1,9 @@
-import { BingoGameDto } from "../models/BingoGame";
-import { BingoGameRepository } from "./BingoGame.repository";
+import { BingoGameDto } from '../models/BingoGame';
+import { BingoGameRepository } from './BingoGame.repository';
 
 type BingoGameDrawLotteryNumberDto = Omit<
   BingoGameDto,
-  "hashedManagementPassword"
+  'hashedManagementPassword'
 >;
 
 export class BingoGameDrawLotteryNumberUsecase {
@@ -12,7 +12,7 @@ export class BingoGameDrawLotteryNumberUsecase {
   async execute(bingoGameId: string): Promise<BingoGameDrawLotteryNumberDto> {
     const bingoGame = await this.bingoGameRepository.findOneById(bingoGameId);
     if (!bingoGame) {
-      throw new Error("ビンゴゲームが見つかりません");
+      throw new Error('ビンゴゲームが見つかりません');
     }
 
     bingoGame.drawLotteryNumber();

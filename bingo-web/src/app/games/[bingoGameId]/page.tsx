@@ -1,17 +1,17 @@
-import { BingoCardGenerateUsecase } from "@/domains/BingoCard/usecases/BingoCardGenerate.usecase";
+import { revalidatePath } from 'next/cache';
+import { notFound } from 'next/navigation';
+
+import { BingoCardGenerateUsecase } from '@/domains/BingoCard/usecases/BingoCardGenerate.usecase';
 import {
   BINGO_CARD_MAX_COUNT,
-  BingoGame,
   BingoGameStateEnum,
-} from "@/domains/BingoGame/models/BingoGame";
-import { BingoGameDrawLotteryNumberUsecase } from "@/domains/BingoGame/usecases/BingoGameDrawLotteryNumber.usecase";
-import { BingoGameFindOneUsecase } from "@/domains/BingoGame/usecases/BingoGameFindOne.usecase";
-import { BingoGameFindOneWithCardsQueryUsecase } from "@/domains/BingoGame/usecases/BingoGameFindOneWithCards.query-usecase";
-import { getRepository } from "@/lib/getRepository";
-import { getQuery } from "@/lib/getQuery";
-import { revalidatePath } from "next/cache";
-import { notFound } from "next/navigation";
-import LotteryRoulette from "./_components/LotteryRoulette";
+} from '@/domains/BingoGame/models/BingoGame';
+import { BingoGameDrawLotteryNumberUsecase } from '@/domains/BingoGame/usecases/BingoGameDrawLotteryNumber.usecase';
+import { BingoGameFindOneWithCardsQueryUsecase } from '@/domains/BingoGame/usecases/BingoGameFindOneWithCards.query-usecase';
+import { getQuery } from '@/lib/getQuery';
+import { getRepository } from '@/lib/getRepository';
+
+import LotteryRoulette from './_components/LotteryRoulette';
 
 type Props = {
   params: {
@@ -20,50 +20,50 @@ type Props = {
 };
 
 async function drawLotteryNumber(formData: FormData) {
-  "use server";
+  'use server';
 
-  const bingoGameId = formData.get("bingoGameId");
+  const bingoGameId = formData.get('bingoGameId');
 
   if (!bingoGameId) {
-    throw new Error("bingoGameId is required");
+    throw new Error('bingoGameId is required');
   }
 
-  if (typeof bingoGameId !== "string") {
-    throw new Error("bingoGameId is invalid type");
+  if (typeof bingoGameId !== 'string') {
+    throw new Error('bingoGameId is invalid type');
   }
 
   const drawLotteryNumberUsecase = new BingoGameDrawLotteryNumberUsecase(
-    getRepository("bingoGame")
+    getRepository('bingoGame'),
   );
   await drawLotteryNumberUsecase.execute(bingoGameId);
-  revalidatePath("/game/[bingoGameId]");
+  revalidatePath('/game/[bingoGameId]');
 }
 
 async function generateDomainCard(formData: FormData) {
-  "use server";
+  'use server';
 
-  const bingoGameId = formData.get("bingoGameId");
+  const bingoGameId = formData.get('bingoGameId');
 
   if (!bingoGameId) {
-    throw new Error("bingoGameId is required");
+    throw new Error('bingoGameId is required');
   }
 
-  if (typeof bingoGameId !== "string") {
-    throw new Error("bingoGameId is invalid type");
+  if (typeof bingoGameId !== 'string') {
+    throw new Error('bingoGameId is invalid type');
   }
 
   const bingoCardGenerateUsecase = new BingoCardGenerateUsecase({
-    bingoCardRepository: getRepository("bingoCard"),
-    bingoGameRepository: getRepository("bingoGame"),
+    bingoCardRepository: getRepository('bingoCard'),
+    bingoGameRepository: getRepository('bingoGame'),
   });
 
   await bingoCardGenerateUsecase.execute(bingoGameId);
-  revalidatePath("/game/[bingoGameId]");
+  revalidatePath('/game/[bingoGameId]');
 }
 
 export default async function GameNewPage({ params: { bingoGameId } }: Props) {
   const bingoGameQueryUsecase = new BingoGameFindOneWithCardsQueryUsecase(
-    getQuery("bingoGame")
+    getQuery('bingoGame'),
   );
   const bingoGame = await bingoGameQueryUsecase.execute(bingoGameId);
 

@@ -1,10 +1,11 @@
-import { BingoGame } from "./BingoGame";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from 'vitest';
 
-const CREATED = "created";
-describe("BingoGame", () => {
-  describe("createGame", () => {
-    it("ビンゴゲームを作成できる", () => {
+import { BingoGame } from './BingoGame';
+
+const CREATED = 'created';
+describe('BingoGame', () => {
+  describe('createGame', () => {
+    it('ビンゴゲームを作成できる', () => {
       const bingoGame = BingoGame.createGame();
 
       expect(bingoGame.toDto()).toEqual({
@@ -18,8 +19,8 @@ describe("BingoGame", () => {
     });
   });
 
-  describe("drawLotteryNumber", () => {
-    it("抽選番号が重複しない", () => {
+  describe('drawLotteryNumber', () => {
+    it('抽選番号が重複しない', () => {
       const bingoGame = BingoGame.createGame();
 
       [...new Array(75)].forEach(() => {
@@ -30,7 +31,7 @@ describe("BingoGame", () => {
       expect(set.size).toBe(75);
     });
 
-    it("抽選番号が 1-75 の間", () => {
+    it('抽選番号が 1-75 の間', () => {
       const bingoGame = BingoGame.createGame();
 
       [...new Array(75)].forEach(() => {
@@ -39,12 +40,12 @@ describe("BingoGame", () => {
 
       expect(
         bingoGame.lotteryNumbers.every(
-          (lotteryNumber) => lotteryNumber > 0 && lotteryNumber <= 75
-        )
+          (lotteryNumber) => lotteryNumber > 0 && lotteryNumber <= 75,
+        ),
       ).toBe(true);
     });
 
-    it("75回抽選ができる", () => {
+    it('75回抽選ができる', () => {
       const bingoGame = BingoGame.createGame();
 
       [...new Array(75)].forEach(() => {
@@ -54,7 +55,7 @@ describe("BingoGame", () => {
       expect(bingoGame.lotteryNumbers.length).toBe(75);
     });
 
-    it("76回抽選するとエラーが出る", () => {
+    it('76回抽選するとエラーが出る', () => {
       const bingoGame = BingoGame.createGame();
 
       [...new Array(75)].forEach(() => {
@@ -65,7 +66,7 @@ describe("BingoGame", () => {
     });
   });
 
-  describe("registerBingoCard", () => {
+  describe('registerBingoCard', () => {
     const CARD_MAX_COUNT = 15;
     it(`ビンゴカードを ${CARD_MAX_COUNT} 枚まで登録できる`, () => {
       const bingoGame = BingoGame.createGame();
@@ -88,11 +89,11 @@ describe("BingoGame", () => {
       });
 
       expect(() =>
-        bingoGame.registerBingoCard(`${CARD_MAX_COUNT + 1}`)
+        bingoGame.registerBingoCard(`${CARD_MAX_COUNT + 1}`),
       ).toThrow();
     });
 
-    it("同じ ID のビンゴカードは登録しない", () => {
+    it('同じ ID のビンゴカードは登録しない', () => {
       const bingoGame = BingoGame.createGame();
 
       const ids = [...new Array(CARD_MAX_COUNT)].map((_, i) => `${i}`);
@@ -100,7 +101,7 @@ describe("BingoGame", () => {
         bingoGame.registerBingoCard(id);
       });
 
-      bingoGame.registerBingoCard("0");
+      bingoGame.registerBingoCard('0');
 
       expect(bingoGame.bingoCardIds).toEqual(ids);
     });

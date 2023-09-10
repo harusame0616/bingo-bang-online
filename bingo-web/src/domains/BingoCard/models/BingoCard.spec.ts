@@ -1,11 +1,11 @@
-import { BingoCard } from "./BingoCard";
+import { describe, expect, it } from 'vitest';
 
-import { describe, it, expect } from "vitest";
+import { BingoCard } from './BingoCard';
 
 const FREE = 0;
-describe("BingoCard", () => {
-  describe("generateCard", () => {
-    it("ビンゴカードが作成できる", () => {
+describe('BingoCard', () => {
+  describe('generateCard', () => {
+    it('ビンゴカードが作成できる', () => {
       const card = BingoCard.generateCard();
 
       const cardDto = card.toDto();
@@ -27,21 +27,21 @@ describe("BingoCard", () => {
       });
     });
 
-    it("ビンゴカードの値に重複がない", () => {
+    it('ビンゴカードの値に重複がない', () => {
       const card = BingoCard.generateCard();
 
       const cardNumbers = Array.from(new Set(card.toDto().squares.flat()));
       expect(cardNumbers.length).toBe(25);
     });
 
-    it("ビンゴカードの値が範囲内に収まっている", () => {
+    it('ビンゴカードの値が範囲内に収まっている', () => {
       const MAX = 75;
       const MIN = 1;
       const card = BingoCard.generateCard();
 
       const cardNumbers = Array.from(new Set(card.toDto().squares.flat()));
       expect(
-        cardNumbers.every((num) => (num >= MIN && num <= MAX) || num === FREE)
+        cardNumbers.every((num) => (num >= MIN && num <= MAX) || num === FREE),
       ).toBe(true);
     });
   });

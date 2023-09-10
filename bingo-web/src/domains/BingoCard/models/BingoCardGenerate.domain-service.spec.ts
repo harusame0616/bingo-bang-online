@@ -1,11 +1,13 @@
-import { describe, expect, it, vi } from "vitest";
-import { BingoCardRepository } from "../usecases/BingoCard.repository";
-import { BingoCardGenerateDomainService } from "./BingCardGenerate.domain-service";
-import { BingoGame } from "@/domains/BingoGame/models/BingoGame";
-import { InMemoryGameRepository } from "@/domains/BingoGame/infrastructures/InMemoryBingoGame.repository";
+import { describe, expect, it, vi } from 'vitest';
 
-describe("BingoCardGenerateDomainService", () => {
-  describe("execute", async () => {
+import { InMemoryGameRepository } from '@/domains/BingoGame/infrastructures/InMemoryBingoGame.repository';
+import { BingoGame } from '@/domains/BingoGame/models/BingoGame';
+
+import { BingoCardRepository } from '../usecases/BingoCard.repository';
+import { BingoCardGenerateDomainService } from './BingCardGenerate.domain-service';
+
+describe('BingoCardGenerateDomainService', () => {
+  describe('execute', async () => {
     const bingoGameRepository = new InMemoryGameRepository();
     const bingoCardRepository = {
       save: vi.fn(),
@@ -13,12 +15,12 @@ describe("BingoCardGenerateDomainService", () => {
     const _bingoGame = BingoGame.createGame();
     await bingoGameRepository.save(_bingoGame);
 
-    it("生成した Bingo Card の ID が BingoGame に登録されている", async () => {
+    it('生成した Bingo Card の ID が BingoGame に登録されている', async () => {
       const bingoCardGenerateDomainService = new BingoCardGenerateDomainService(
         {
           bingoCardRepository,
           bingoGameRepository,
-        }
+        },
       );
 
       const { bingoCard, bingoGame } =
@@ -27,22 +29,22 @@ describe("BingoCardGenerateDomainService", () => {
         });
 
       expect(bingoGame.bingoCardIds.some((id) => id === bingoCard.id)).toBe(
-        true
+        true,
       );
     });
 
-    it("対象の BingoGame が存在しないときに例外を投げる", async () => {
+    it('対象の BingoGame が存在しないときに例外を投げる', async () => {
       const bingoCardGenerateDomainService = new BingoCardGenerateDomainService(
         {
           bingoCardRepository,
           bingoGameRepository,
-        }
+        },
       );
 
       await expect(
         bingoCardGenerateDomainService.execute({
-          bingoGameId: "not_found",
-        })
+          bingoGameId: 'not_found',
+        }),
       ).rejects.toThrow();
     });
   });

@@ -1,5 +1,5 @@
-import { InMemoryBingoGameQuery } from "@/domains/BingoGame/infrastructures/InMemoryBingoGame.query";
-import { BingoGameQuery } from "@/domains/BingoGame/usecases/BingoGame.query";
+import { InMemoryBingoGameQuery } from '@/domains/BingoGame/infrastructures/InMemoryBingoGame.query';
+import { BingoGameQuery } from '@/domains/BingoGame/usecases/BingoGame.query';
 
 type QueryMap = {
   bingoGame: BingoGameQuery;

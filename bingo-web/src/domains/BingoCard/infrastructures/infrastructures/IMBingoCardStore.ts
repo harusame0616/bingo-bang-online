@@ -1,3 +1,3 @@
-import { BingoCardDto } from "../../models/BingoCard";
+import { BingoCardDto } from '../../models/BingoCard';
 
 export const bingoCardStore = new Map<string, BingoCardDto>();
