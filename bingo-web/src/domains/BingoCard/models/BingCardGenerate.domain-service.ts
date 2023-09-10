@@ -1,4 +1,4 @@
-import { BingoGameRepository } from "@/domains/BingoGame/usecases/BingoGameRepository";
+import { BingoGameRepository } from "@/domains/BingoGame/usecases/BingoGame.repository";
 import { BingoCardRepository } from "../usecases/BingoCard.repository";
 import { BingoCard } from "./BingoCard";
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { InMemoryGameRepository } from "../infrastructures/IMBingoGameRepository";
+import { InMemoryGameRepository } from "../infrastructures/InMemoryBingoGame.repository";
 import { BingoGameCreateUsecase } from "./BingoGameCreate.usecase";
 import { BingoGameDrawLotteryNumberUsecase } from "./BingoGameDrawLotteryNumber.usecase";
 
