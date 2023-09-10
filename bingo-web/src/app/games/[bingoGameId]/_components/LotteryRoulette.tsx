@@ -1,6 +1,6 @@
 'use client';
 
-import { MouseEventHandler, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { LOTTERY_NUMBER_MAX } from '@/domains/BingoCard/models/BingoCard';
 

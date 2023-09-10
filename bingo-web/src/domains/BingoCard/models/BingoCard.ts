@@ -1,4 +1,4 @@
-const FREE = 0;
+export const FREE = 0;
 export const LOTTERY_NUMBER_MAX = 75;
 export type BingoCardDto = {
   id: string;
