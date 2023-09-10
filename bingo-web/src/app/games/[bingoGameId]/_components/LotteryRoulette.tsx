@@ -1,18 +1,23 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { MouseEventHandler, useEffect, useState } from 'react';
 
 import { LOTTERY_NUMBER_MAX } from '@/domains/BingoCard/models/BingoCard';
 
 type Props = {
   number?: number;
-  children: React.ReactNode;
 };
 
-export default function LotteryRoulette({ number = 0, children }: Props) {
+export default function LotteryRoulette({ number = 0 }: Props) {
   const [lotteryNumber, setLotteryNumber] = useState(1);
   const [timer, setTimer] = useState<number | undefined>(undefined);
   const [isRouletteStart, setIsRouletteStart] = useState(false);
+  const [spiningAudio] = useState(new Audio('/se/spinning.mp3'));
+  const [stopAudio] = useState(new Audio('/se/stop.mp3'));
+
+  useEffect(() => {
+    spiningAudio.loop = true;
+  }, []);
 
   useEffect(() => {
     if (!isRouletteStart) {
@@ -34,8 +39,16 @@ export default function LotteryRoulette({ number = 0, children }: Props) {
     setIsRouletteStart(false);
   }, [number]);
 
-  const startRoulette = () => {
+  const startRoulette = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    spiningAudio.play();
     setIsRouletteStart(true);
+  };
+
+  const stopRoulette = () => {
+    spiningAudio.pause();
+    stopAudio.play();
+    setIsRouletteStart(false);
   };
 
   return (
@@ -46,7 +59,7 @@ export default function LotteryRoulette({ number = 0, children }: Props) {
 
       <div className="flex justify-center">
         {isRouletteStart ? (
-          children
+          <button onClick={stopRoulette}>ストップ</button>
         ) : (
           <button onClick={startRoulette}>スタート</button>
         )}
