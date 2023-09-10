@@ -1,5 +1,5 @@
 const FREE = 0;
-
+export const LOTTERY_NUMBER_MAX = 75;
 export type BingoCardDto = {
   id: string;
   squares: number[][];
@@ -13,7 +13,9 @@ export class BingoCard {
   }
 
   static generateCard() {
-    const sourceNumbers = [...new Array(75)].map((_, i) => i + 1);
+    const sourceNumbers = [...new Array(LOTTERY_NUMBER_MAX)].map(
+      (_, i) => i + 1
+    );
 
     const squares = [...new Array(5 * 5)].map(
       () =>
