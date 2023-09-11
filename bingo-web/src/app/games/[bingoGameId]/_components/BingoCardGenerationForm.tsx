@@ -2,6 +2,8 @@
 
 import { DetailedHTMLProps, FormHTMLAttributes, useRef } from 'react';
 
+import { ButtonOutline } from '@/components/Button';
+
 type Props = DetailedHTMLProps<
   FormHTMLAttributes<HTMLFormElement>,
   HTMLFormElement
@@ -30,16 +32,31 @@ export default function BingoCardGenerationForm({
   };
 
   return (
-    <form action={handleSubmit} {...formProps}>
-      <input type="text" name="bingoGameId" hidden defaultValue={bingoGameId} />
-      ビンゴカードの名前：
+    <form
+      action={handleSubmit}
+      {...formProps}
+      className="flex flex-col items-center"
+    >
+      <label>
+        <input
+          type="text"
+          name="bingoGameId"
+          hidden
+          defaultValue={bingoGameId}
+        />
+        ビンゴカードの名前
+      </label>
       <input
         type="text"
         name="bingoCardName"
-        className="bg-black"
+        className="  border border-slate-800 p-2 rounded-md mb-1 max-w-lg w-full"
         ref={bingoCardNameInput}
       />
-      <button disabled={canGenerate}>BingoCard 生成</button>
+      <div>
+        <ButtonOutline disabled={canGenerate}>
+          ビンゴカードを生成する
+        </ButtonOutline>
+      </div>
     </form>
   );
 }

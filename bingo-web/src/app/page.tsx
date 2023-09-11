@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 
+import { Button } from '@/components/Button';
 import { BingoGameCreateUsecase } from '@/domains/BingoGame/usecases/BingoGameCreate.usecase';
 import { getRepository } from '@/lib/getRepository';
 
@@ -13,9 +14,9 @@ async function startBingoGame() {
 
 export default function Home() {
   return (
-    <main>
+    <main className="w-full h-full flex justify-center">
       <form action={startBingoGame}>
-        <button type="submit">ビンゴゲームを開始する</button>
+        <Button>新しいビンゴゲームを開始する</Button>
       </form>
     </main>
   );

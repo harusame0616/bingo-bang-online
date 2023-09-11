@@ -5,10 +5,7 @@ import { isCardBingo } from '@/domains/BingoCard/lib/isCardBingo';
 import { FREE } from '@/domains/BingoCard/models/BingoCard';
 import { BingoCardDeleteUsecase } from '@/domains/BingoCard/usecases/BingoCardDelete.usecase';
 import { BingoCardGenerateUsecase } from '@/domains/BingoCard/usecases/BingoCardGenerate.usecase';
-import {
-  BINGO_CARD_MAX_COUNT,
-  BingoGameStateEnum,
-} from '@/domains/BingoGame/models/BingoGame';
+import { BINGO_CARD_MAX_COUNT } from '@/domains/BingoGame/models/BingoGame';
 import { BingoGameDrawLotteryNumberUsecase } from '@/domains/BingoGame/usecases/BingoGameDrawLotteryNumber.usecase';
 import { BingoGameFindOneWithCardsQueryUsecase } from '@/domains/BingoGame/usecases/BingoGameFindOneWithCards.query-usecase';
 import { getQuery } from '@/lib/getQuery';
@@ -113,8 +110,6 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
 
   return (
     <div>
-      <h1>Bingo Game</h1>
-      <div>{bingoGameId}</div>
       <div className="flex justify-center w-full">
         <form action={drawLotteryNumber}>
           <input
@@ -127,26 +122,28 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
             number={bingoGame.lotteryNumbers.slice(-1)[0] ?? 0}
           />
         </form>
-        <div></div>
       </div>
 
-      {bingoGame.state === BingoGameStateEnum.FINISHED ? (
-        <div>抽選終了</div>
-      ) : (
-        <div>抽選中</div>
-      )}
-      <div className="flex flex-wrap gap-8">
+      <div className="flex flex-wrap gap-2 w-full max-w-screen-lg mx-auto my-8">
         {bingoGame.lotteryNumbers.map((lotteryNumber) => (
-          <div key={lotteryNumber}>{lotteryNumber}</div>
+          <div
+            className="flex justify-center w-16 rounded-lg bg-primary-lighten text-primary-darken"
+            key={lotteryNumber}
+          >
+            {lotteryNumber}
+          </div>
         ))}
       </div>
-      <BingoCardGenerationForm
-        action={generateDomainCard}
-        bingoGameId={bingoGameId}
-        canGenerate={canBingoCardGenerate()}
-      />
-      <hr />
-      <div className="flex flex-wrap gap-8">
+
+      <div className="flex justify-center gap-2 w-full max-w-screen-lg mx-auto my-4">
+        <BingoCardGenerationForm
+          action={generateDomainCard}
+          bingoGameId={bingoGameId}
+          canGenerate={canBingoCardGenerate()}
+        />
+      </div>
+
+      <div className="flex flex-wrap justify-center gap-8 max-w-screen-xl mx-auto">
         {bingoGame.bingoCards.map((bingoCard) => (
           <div key={bingoCard.id}>
             <div>{bingoCard.name || '名無しのカード'}</div>
@@ -156,7 +153,7 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
                   {rows.map((number, ci) => (
                     <div
                       key={`${ri}${ci}`}
-                      className={`w-8 h-8 border rounded-sm ${
+                      className={`w-8 h-8 md:h-12 md:w-12 border border-primary-darken rounded-sm ${
                         isCardBingo(bingoGame.lotteryNumbers, bingoCard.squares)
                           ? 'border-red-600'
                           : 'border-gray-500'
@@ -165,7 +162,7 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
                       <div
                         className={`w-full h-full flex justify-center items-center ${
                           [...bingoGame.lotteryNumbers, FREE].includes(number)
-                            ? 'bg-yellow-300 text-red-600'
+                            ? 'bg-primary-lighten text-red-600'
                             : ''
                         }`}
                       >
