@@ -13,6 +13,7 @@
     "test:unit": "vitest"
   },
   "dependencies": {
+    "@next/font": "^13.4.19",
     "@types/node": "20.5.8",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
