@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 
 import { isCardBingo } from '@/domains/BingoCard/lib/isCardBingo';
 import { FREE } from '@/domains/BingoCard/models/BingoCard';
+import { BingoCardDeleteUsecase } from '@/domains/BingoCard/usecases/BingoCardDelete.usecase';
 import { BingoCardGenerateUsecase } from '@/domains/BingoCard/usecases/BingoCardGenerate.usecase';
 import {
   BINGO_CARD_MAX_COUNT,
@@ -72,6 +73,30 @@ async function generateDomainCard(formData: FormData) {
   revalidatePath('/game/[bingoGameId]');
 }
 
+async function deleteBingoCard(formData: FormData) {
+  'use server';
+
+  const bingoGameId = formData.get('bingoGameId');
+  const bingoCardId = formData.get('bingoCardId');
+
+  if (typeof bingoGameId !== 'string') {
+    throw new Error('bingoGameId is invalid type');
+  }
+
+  if (typeof bingoCardId !== 'string') {
+    throw new Error('bingoGameId is invalid type');
+  }
+
+  const bingoCardDeleteUsecase = new BingoCardDeleteUsecase({
+    bingoCardRepository: getRepository('bingoCard'),
+    bingoGameRepository: getRepository('bingoGame'),
+  });
+
+  await bingoCardDeleteUsecase.execute(bingoGameId, bingoCardId);
+
+  revalidatePath('/game/[bingoGameId]');
+}
+
 export default async function GameNewPage({ params: { bingoGameId } }: Props) {
   const bingoGameQueryUsecase = new BingoGameFindOneWithCardsQueryUsecase(
     getQuery('bingoGame'),
@@ -124,31 +149,50 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
       <div className="flex flex-wrap gap-8">
         {bingoGame.bingoCards.map((bingoCard) => (
           <div key={bingoCard.id}>
-            {bingoCard.name || '名無しのカード'}
-            {bingoCard.squares.map((rows, ri) => (
-              <div key={ri} className="flex">
-                {rows.map((number, ci) => (
-                  <div
-                    key={`${ri}${ci}`}
-                    className={`w-8 h-8 border rounded-sm ${
-                      isCardBingo(bingoGame.lotteryNumbers, bingoCard.squares)
-                        ? 'border-red-600'
-                        : 'border-gray-500'
-                    }`}
-                  >
+            <div>{bingoCard.name || '名無しのカード'}</div>
+            <div>
+              {bingoCard.squares.map((rows, ri) => (
+                <div key={ri} className="flex">
+                  {rows.map((number, ci) => (
                     <div
-                      className={`w-full h-full flex justify-center items-center ${
-                        [...bingoGame.lotteryNumbers, FREE].includes(number)
-                          ? 'bg-yellow-300 text-red-600'
-                          : ''
+                      key={`${ri}${ci}`}
+                      className={`w-8 h-8 border rounded-sm ${
+                        isCardBingo(bingoGame.lotteryNumbers, bingoCard.squares)
+                          ? 'border-red-600'
+                          : 'border-gray-500'
                       }`}
                     >
-                      {number}
+                      <div
+                        className={`w-full h-full flex justify-center items-center ${
+                          [...bingoGame.lotteryNumbers, FREE].includes(number)
+                            ? 'bg-yellow-300 text-red-600'
+                            : ''
+                        }`}
+                      >
+                        {number}
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            ))}
+                  ))}
+                </div>
+              ))}
+            </div>
+            <div>
+              <form action={deleteBingoCard}>
+                <input
+                  type="text"
+                  name="bingoGameId"
+                  hidden
+                  defaultValue={bingoGameId}
+                />
+                <input
+                  type="text"
+                  name="bingoCardId"
+                  hidden
+                  defaultValue={bingoCard.id}
+                />
+                <button>delete</button>
+              </form>
+            </div>
           </div>
         ))}
       </div>

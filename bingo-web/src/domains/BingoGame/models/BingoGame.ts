@@ -80,6 +80,15 @@ export class BingoGame {
     this.dto.bingoCardIds = newBingoCardIds;
   }
 
+  deleteBingoCard(bingoCardId: string) {
+    const index = this.dto.bingoCardIds.findIndex((id) => id === bingoCardId);
+    if (index === -1) {
+      return;
+    }
+
+    this.dto.bingoCardIds.splice(index, 1);
+  }
+
   static fromDto(dto: BingoGameDto) {
     return new BingoGame({ ...dto });
   }
