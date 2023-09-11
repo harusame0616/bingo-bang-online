@@ -1,12 +1,16 @@
 'use client';
 
+import { Pacifico } from '@next/font/google';
 import { useEffect, useState } from 'react';
 
+import { Button } from '@/components/Button';
 import { LOTTERY_NUMBER_MAX } from '@/domains/BingoCard/models/BingoCard';
 
 type Props = {
   number?: number;
 };
+
+const numberFont = Pacifico({ subsets: ['latin'], weight: '400' });
 
 export default function LotteryRoulette({ number = 0 }: Props) {
   const [lotteryNumber, setLotteryNumber] = useState(1);
@@ -53,15 +57,19 @@ export default function LotteryRoulette({ number = 0 }: Props) {
 
   return (
     <div className="flex flex-col w-full">
-      <div className="flex justify-center text-9xl text-red-600">
+      <div
+        className={`flex justify-center text-[14rem] ${
+          isRouletteStart ? 'text-primary-lighten' : 'text-primary-darken'
+        } ${numberFont.className}`}
+      >
         {isRouletteStart ? lotteryNumber : number}
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-10">
         {isRouletteStart ? (
-          <button onClick={stopRoulette}>ストップ</button>
+          <Button onClick={stopRoulette}>ストップ</Button>
         ) : (
-          <button onClick={startRoulette}>スタート</button>
+          <Button onClick={startRoulette}>スタート</Button>
         )}
       </div>
     </div>
