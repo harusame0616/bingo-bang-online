@@ -17,24 +17,15 @@ export class InMemoryBingoGameQuery implements BingoGameQuery {
     }
 
     const bingoCards = Array.from(bingoCardStore.values()).filter(
-      (bingoCard) => bingoGame?.bingoCardIds.includes(bingoCard.id),
+      (card) => card.bingoGameId === bingoGameId,
     );
 
-    const bingoCardIdMap = Object.fromEntries(
-      bingoCards.map((bingoCard) => [bingoCard.id, bingoCard]),
-    );
-
-    const {
-      bingoCardIds,
-      hashedManagementPassword,
-      ...bingoGameDtoWithoutBingoCardIds
-    } = bingoGame;
+    const { hashedManagementPassword, ...bingoGameDtoWithoutBingoCardIds } =
+      bingoGame;
 
     return {
       ...bingoGameDtoWithoutBingoCardIds,
-      bingoCards: bingoGame.bingoCardIds.map(
-        (bingoCardId) => bingoCardIdMap[bingoCardId],
-      ),
+      bingoCards,
     };
   }
 }

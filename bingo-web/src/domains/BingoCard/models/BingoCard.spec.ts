@@ -6,7 +6,7 @@ const FREE = 0;
 describe('BingoCard', () => {
   describe('generateCard', () => {
     it('ビンゴカードが作成できる', () => {
-      const card = BingoCard.generateCard();
+      const card = BingoCard.generateCard('gameId');
 
       const cardDto = card.toDto();
       expect(cardDto).toEqual({
@@ -25,11 +25,12 @@ describe('BingoCard', () => {
           [...new Array(5)].map(() => expect.any(Number)),
           [...new Array(5)].map(() => expect.any(Number)),
         ],
+        bingoGameId: 'gameId',
       });
     });
 
     it('ビンゴカードの値に重複がない', () => {
-      const card = BingoCard.generateCard();
+      const card = BingoCard.generateCard('bingoGameId');
 
       const cardNumbers = Array.from(new Set(card.toDto().squares.flat()));
       expect(cardNumbers.length).toBe(25);
@@ -38,7 +39,7 @@ describe('BingoCard', () => {
     it('ビンゴカードの値が範囲内に収まっている', () => {
       const MAX = 75;
       const MIN = 1;
-      const card = BingoCard.generateCard();
+      const card = BingoCard.generateCard('bingoGameId');
 
       const cardNumbers = Array.from(new Set(card.toDto().squares.flat()));
       expect(
@@ -48,7 +49,7 @@ describe('BingoCard', () => {
 
     it('名前をつけて作成ができる', () => {
       const name = 'bingo-card';
-      const card = BingoCard.generateCard({ name });
+      const card = BingoCard.generateCard('bingoGameId', { name });
 
       expect(card.name).toBe(name);
     });

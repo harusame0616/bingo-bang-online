@@ -16,7 +16,6 @@ describe('BingoGame', () => {
         viewId: expect.any(String),
         hashedManagementPassword: null,
         state: CREATED,
-        bingoCardIds: [],
       });
     });
   });
@@ -65,77 +64,6 @@ describe('BingoGame', () => {
       });
 
       expect(() => bingoGame.drawLotteryNumber()).toThrow();
-    });
-  });
-
-  describe('registerBingoCard', () => {
-    it(`ビンゴカードを ${CARD_MAX_COUNT} 枚まで登録できる`, () => {
-      const bingoGame = BingoGame.createGame();
-
-      const ids = [...new Array(CARD_MAX_COUNT)].map((_, i) => `${i}`);
-      ids.map((id) => {
-        bingoGame.registerBingoCard(id);
-      });
-
-      expect(bingoGame.bingoCardIds).toEqual(ids);
-    });
-
-    it(`ビンゴカードを ${CARD_MAX_COUNT} 枚以上登録しようとするとエラーを返す`, () => {
-      const bingoGame = BingoGame.createGame();
-
-      const ids = [...new Array(CARD_MAX_COUNT)].map((_, i) => `${i}`);
-
-      ids.forEach((id) => {
-        bingoGame.registerBingoCard(id);
-      });
-
-      expect(() =>
-        bingoGame.registerBingoCard(`${CARD_MAX_COUNT + 1}`),
-      ).toThrow();
-    });
-
-    it('同じ ID のビンゴカードは登録しない', () => {
-      const bingoGame = BingoGame.createGame();
-
-      const ids = [...new Array(CARD_MAX_COUNT)].map((_, i) => `${i}`);
-      ids.map((id) => {
-        bingoGame.registerBingoCard(id);
-      });
-
-      bingoGame.registerBingoCard('0');
-
-      expect(bingoGame.bingoCardIds).toEqual(ids);
-    });
-  });
-
-  describe('deleteBingoCard', () => {
-    it('ビンゴカードを削除できる', () => {
-      const bingoGame = BingoGame.createGame();
-
-      const ids = [...new Array(CARD_MAX_COUNT)].map((_, i) => `${i}`);
-      ids.forEach((id) => {
-        bingoGame.registerBingoCard(id);
-      });
-
-      // 登録されていることを確認
-      expect(bingoGame.bingoCardIds).toEqual(ids);
-
-      const deleteCardId = ids[2];
-      bingoGame.deleteBingoCard(deleteCardId);
-      ids.splice(2, 1);
-
-      // IDが削除されていることを確認
-      expect(bingoGame.bingoCardIds).not.toContain(deleteCardId);
-
-      // 意図しない ID が削除されていないことを確認
-      ids.forEach((id) => {
-        expect(bingoGame.bingoCardIds).toContain('3');
-      });
-    });
-
-    it('存在しないビンゴカードでもエラーにならない', () => {
-      const bingoGame = BingoGame.createGame();
-      expect(() => bingoGame.deleteBingoCard('not_found')).not.toThrow();
     });
   });
 });

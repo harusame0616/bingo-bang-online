@@ -32,13 +32,9 @@ export class BingoCardGenerateDomainService {
       throw new Error('BingoGame not found');
     }
 
-    const bingoCard = BingoCard.generateCard(generateCardProps);
-    bingoGame.registerBingoCard(bingoCard.id);
+    const bingoCard = BingoCard.generateCard(bingoGameId, generateCardProps);
 
-    await Promise.all([
-      this.bingoCardRepository.save(bingoCard),
-      this.bingoGameRepository.save(bingoGame),
-    ]);
+    await Promise.all([this.bingoCardRepository.save(bingoCard)]);
 
     return { bingoGame, bingoCard };
   }
