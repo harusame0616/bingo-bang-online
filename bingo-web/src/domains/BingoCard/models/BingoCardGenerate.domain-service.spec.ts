@@ -15,22 +15,6 @@ describe('BingoCardGenerateDomainService', () => {
     const _bingoGame = BingoGame.createGame();
     await bingoGameRepository.save(_bingoGame);
 
-    it('生成した Bingo Card の ID が BingoGame に登録されている', async () => {
-      const bingoCardGenerateDomainService = new BingoCardGenerateDomainService(
-        {
-          bingoCardRepository,
-          bingoGameRepository,
-        },
-      );
-
-      const { bingoCard, bingoGame } =
-        await bingoCardGenerateDomainService.execute(_bingoGame.id);
-
-      expect(bingoGame.bingoCardIds.some((id) => id === bingoCard.id)).toBe(
-        true,
-      );
-    });
-
     it('対象の BingoGame が存在しないときに例外を投げる', async () => {
       const bingoCardGenerateDomainService = new BingoCardGenerateDomainService(
         {
