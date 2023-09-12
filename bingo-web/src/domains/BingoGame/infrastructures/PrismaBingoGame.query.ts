@@ -18,7 +18,6 @@ export class PrismaBingoGameQuery implements BingoGameQuery {
       }),
     ]);
 
-    console.log({ bingoGame, bingoCards: JSON.stringify(bingoCards) });
     if (!bingoGame) {
       return null;
     }
