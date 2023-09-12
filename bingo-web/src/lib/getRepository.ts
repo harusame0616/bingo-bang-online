@@ -1,6 +1,6 @@
-import { InMemoryBingoCardRepository } from '@/domains/BingoCard/infrastructures/infrastructures/InMemoryBingoCard.repository';
+import { PrismaBingoCardRepository } from '@/domains/BingoCard/infrastructures/infrastructures/PrismaBingoCard.repository';
 import { BingoCardRepository } from '@/domains/BingoCard/usecases/BingoCard.repository';
-import { InMemoryGameRepository } from '@/domains/BingoGame/infrastructures/InMemoryBingoGame.repository';
+import { PrismaBingoGameRepository } from '@/domains/BingoGame/infrastructures/PrismaBingoGame.repository';
 import { BingoGameRepository } from '@/domains/BingoGame/usecases/BingoGame.repository';
 
 type RepositoryMap = {
@@ -9,8 +9,10 @@ type RepositoryMap = {
 };
 
 const repositoryMap: RepositoryMap = {
-  bingoGame: new InMemoryGameRepository(),
-  bingoCard: new InMemoryBingoCardRepository(),
+  // bingoGame: new InMemoryGameRepository(),
+  // bingoCard: new InMemoryBingoCardRepository(),
+  bingoGame: new PrismaBingoGameRepository(),
+  bingoCard: new PrismaBingoCardRepository(),
 };
 
 export function getRepository<T extends keyof RepositoryMap>(

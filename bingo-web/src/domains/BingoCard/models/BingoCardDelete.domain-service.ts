@@ -26,11 +26,6 @@ export class BingoCardDeleteDomainService {
       throw new Error('BingoGame not found');
     }
 
-    bingoGame.deleteBingoCard(bingoCardId);
-
-    await Promise.all([
-      this.bingoCardRepository.delete(bingoCardId),
-      this.bingoGameRepository.save(bingoGame),
-    ]);
+    await Promise.all([this.bingoCardRepository.delete(bingoCardId)]);
   }
 }
