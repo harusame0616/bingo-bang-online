@@ -1,8 +1,8 @@
 import { revalidatePath } from 'next/cache';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-import { isCardBingo } from '@/domains/BingoCard/lib/isCardBingo';
-import { FREE } from '@/domains/BingoCard/models/BingoCard';
+import { BingoCard } from '@/domains/BingoCard/components/BingoCard';
 import { BingoCardDeleteUsecase } from '@/domains/BingoCard/usecases/BingoCardDelete.usecase';
 import { BingoCardGenerateUsecase } from '@/domains/BingoCard/usecases/BingoCardGenerate.usecase';
 // import { BINGO_CARD_MAX_COUNT } from '@/domains/BingoGame/models/BingoGame';
@@ -136,61 +136,26 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
         ))}
       </div>
 
-      <div className="flex justify-center gap-2 w-full max-w-screen-lg mx-auto my-4">
+      <div className="flex flex-col items-center gap-2 w-full max-w-screen-lg mx-auto my-4">
         <BingoCardGenerationForm
           action={generateDomainCard}
           bingoGameId={bingoGameId}
           canGenerate={canBingoCardGenerate()}
         />
+        <div className="w-full flex justify-end text-xs">
+          <Link href={`/views/${bingoGame.viewId}/cards`}>
+            カード一覧ページ
+          </Link>
+        </div>
       </div>
 
       <div className="flex flex-wrap justify-center gap-8 max-w-screen-xl mx-auto">
         {bingoGame.bingoCards.map((bingoCard) => (
           <div key={bingoCard.id}>
-            <div>{bingoCard.name || '名無しのカード'}</div>
-            <div>
-              {bingoCard.squares.map((rows, ri) => (
-                <div key={ri} className="flex">
-                  {rows.map((number, ci) => (
-                    <div
-                      key={`${ri}${ci}`}
-                      className={`w-8 h-8 md:h-12 md:w-12 border border-primary-darken rounded-sm ${
-                        isCardBingo(bingoGame.lotteryNumbers, bingoCard.squares)
-                          ? 'border-red-600'
-                          : 'border-gray-500'
-                      }`}
-                    >
-                      <div
-                        className={`w-full h-full flex justify-center items-center ${
-                          [...bingoGame.lotteryNumbers, FREE].includes(number)
-                            ? 'bg-primary-lighten text-red-600'
-                            : ''
-                        }`}
-                      >
-                        {number}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-            <div>
-              <form action={deleteBingoCard}>
-                <input
-                  type="text"
-                  name="bingoGameId"
-                  hidden
-                  defaultValue={bingoGameId}
-                />
-                <input
-                  type="text"
-                  name="bingoCardId"
-                  hidden
-                  defaultValue={bingoCard.id}
-                />
-                <button>delete</button>
-              </form>
-            </div>
+            <BingoCard
+              bingoCard={bingoCard}
+              lotteryNumbers={bingoGame.lotteryNumbers}
+            />
           </div>
         ))}
       </div>
