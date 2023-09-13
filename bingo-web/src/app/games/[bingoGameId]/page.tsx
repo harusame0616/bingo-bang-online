@@ -5,7 +5,7 @@ import { isCardBingo } from '@/domains/BingoCard/lib/isCardBingo';
 import { FREE } from '@/domains/BingoCard/models/BingoCard';
 import { BingoCardDeleteUsecase } from '@/domains/BingoCard/usecases/BingoCardDelete.usecase';
 import { BingoCardGenerateUsecase } from '@/domains/BingoCard/usecases/BingoCardGenerate.usecase';
-import { BINGO_CARD_MAX_COUNT } from '@/domains/BingoGame/models/BingoGame';
+// import { BINGO_CARD_MAX_COUNT } from '@/domains/BingoGame/models/BingoGame';
 import { BingoGameDrawLotteryNumberUsecase } from '@/domains/BingoGame/usecases/BingoGameDrawLotteryNumber.usecase';
 import { BingoGameFindOneWithCardsQueryUsecase } from '@/domains/BingoGame/usecases/BingoGameFindOneWithCards.query-usecase';
 import { getQuery } from '@/lib/getQuery';
@@ -105,7 +105,8 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
   }
 
   const canBingoCardGenerate = () => {
-    return bingoGame.bingoCards.length === BINGO_CARD_MAX_COUNT;
+    // return bingoGame.bingoCards.length < BINGO_CARD_MAX_COUNT;
+    return true;
   };
 
   return (

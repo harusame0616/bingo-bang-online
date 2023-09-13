@@ -53,7 +53,7 @@ export default function BingoCardGenerationForm({
         ref={bingoCardNameInput}
       />
       <div>
-        <ButtonOutline disabled={canGenerate} disableInAction={true}>
+        <ButtonOutline disabled={!canGenerate} disableInAction={true}>
           ビンゴカードを生成する
         </ButtonOutline>
       </div>
