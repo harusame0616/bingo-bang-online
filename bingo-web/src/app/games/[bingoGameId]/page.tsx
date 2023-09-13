@@ -105,7 +105,8 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
   }
 
   const canBingoCardGenerate = () => {
-    return bingoGame.bingoCards.length === BINGO_CARD_MAX_COUNT;
+    // return bingoGame.bingoCards.length < BINGO_CARD_MAX_COUNT;
+    return true;
   };
 
   return (
