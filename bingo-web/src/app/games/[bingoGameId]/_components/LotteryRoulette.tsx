@@ -67,7 +67,9 @@ export default function LotteryRoulette({ number = 0 }: Props) {
 
       <div className="flex justify-center mt-10">
         {isRouletteStart ? (
-          <Button onClick={stopRoulette}>ストップ</Button>
+          <Button onClick={stopRoulette} disableInAction={true}>
+            ストップ
+          </Button>
         ) : (
           <Button onClick={startRoulette}>スタート</Button>
         )}
