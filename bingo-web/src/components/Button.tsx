@@ -8,6 +8,7 @@ type ButtonProps = React.DetailedHTMLProps<
 > & {
   disableInAction?: boolean;
   disableInActionChildren?: React.ReactNode;
+  thick?: boolean;
 };
 
 function BaseButton(props: ButtonProps) {
@@ -33,7 +34,9 @@ export function Button(props: ButtonProps) {
   return (
     <BaseButton
       {...props}
-      className={`bg-primary-normal hover:bg-primary-darker text-white font-bold py-2 px-4 rounded disabled:opacity-40 disabled:hover:bg-primary-normal`}
+      className={`bg-primary-normal hover:bg-primary-darker text-white font-bold ${
+        props.thick ? 'text-sm' : 'py-2'
+      } px-4 rounded disabled:opacity-40 disabled:hover:bg-primary-normal`}
     />
   );
 }
