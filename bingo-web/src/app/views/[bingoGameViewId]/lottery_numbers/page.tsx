@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 
 import { Button } from '@/components/Button';
 import { Chip } from '@/components/Chip';
-import { BingoCard } from '@/domains/BingoCard/components/BingoCard';
 import { getQuery } from '@/lib/getQuery';
 
 type Props = {
