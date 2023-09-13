@@ -20,7 +20,8 @@ model BingoCardEntity {
 model BingoGameEntity {
   id             String @id @db.Char(36)
   lotteryNumbers Int[]  @map("lottery_numbers")
-  viewId         String @map("view_id") @db.Char(36)
+  viewId         String  @map("view_id") @db.Char(36)
 
+  @@unique([viewId])
   @@map("BINGO_GAME")
 }
