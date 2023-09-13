@@ -2,6 +2,7 @@ import { revalidatePath } from 'next/cache';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
+import { Chip } from '@/components/Chip';
 import { BingoCard } from '@/domains/BingoCard/components/BingoCard';
 import { BingoCardDeleteUsecase } from '@/domains/BingoCard/usecases/BingoCardDelete.usecase';
 import { BingoCardGenerateUsecase } from '@/domains/BingoCard/usecases/BingoCardGenerate.usecase';
@@ -125,14 +126,14 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
         </form>
       </div>
 
-      <div className="flex flex-wrap gap-2 w-full max-w-screen-lg mx-auto my-8">
+      <div className="w-full flex justify-end text-xs text-primary-lighter mt-8">
+        <Link href={`/views/${bingoGame.viewId}/lottery_numbers`}>
+          抽選番号発表ページ
+        </Link>
+      </div>
+      <div className="flex flex-wrap gap-2 w-full max-w-screen-lg mx-auto mb-8">
         {bingoGame.lotteryNumbers.map((lotteryNumber) => (
-          <div
-            className="flex justify-center w-16 rounded-lg bg-primary-lighten text-primary-darken"
-            key={lotteryNumber}
-          >
-            {lotteryNumber}
-          </div>
+          <Chip key={lotteryNumber}>{lotteryNumber}</Chip>
         ))}
       </div>
 
@@ -142,7 +143,7 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
           bingoGameId={bingoGameId}
           canGenerate={canBingoCardGenerate()}
         />
-        <div className="w-full flex justify-end text-xs">
+        <div className="w-full flex justify-end text-xs text-primary-lighter">
           <Link href={`/views/${bingoGame.viewId}/cards`}>
             カード一覧ページ
           </Link>
