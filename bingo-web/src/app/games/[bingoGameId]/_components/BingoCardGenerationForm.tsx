@@ -35,9 +35,9 @@ export default function BingoCardGenerationForm({
     <form
       action={handleSubmit}
       {...formProps}
-      className="flex flex-col items-center"
+      className="flex flex-col items-center w-full"
     >
-      <label>
+      <label className="max-w-md w-full">
         <input
           type="text"
           name="bingoGameId"
@@ -53,7 +53,7 @@ export default function BingoCardGenerationForm({
         ref={bingoCardNameInput}
       />
       <div>
-        <ButtonOutline disabled={canGenerate}>
+        <ButtonOutline disabled={canGenerate} disableInAction={true}>
           ビンゴカードを生成する
         </ButtonOutline>
       </div>

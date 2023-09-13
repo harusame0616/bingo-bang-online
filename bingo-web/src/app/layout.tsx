@@ -21,10 +21,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full w-full">
+      <head>
+        <title>BINGOBANG ONLINE</title>
+      </head>
       <body className={`${baseFont.className} h-full w-full flex flex-col`}>
         <header className="flex justify-center py-12 px-4 border-b-white border-b-4 grow-0 bg-primary-lighter text-white">
           <h1 className={`text-5xl ${titleFont.className}`}>
-            BINGOBANG! ONLINE!
+            BINGOBANG ONLINE
           </h1>
         </header>
         <main className="py-8 px-2 grow items-stretch">{children}</main>
