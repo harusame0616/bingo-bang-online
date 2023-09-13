@@ -1,9 +1,11 @@
+import { Pacifico } from '@next/font/google';
 import { notFound } from 'next/navigation';
 
 import { Button } from '@/components/Button';
 import { Chip } from '@/components/Chip';
 import { getQuery } from '@/lib/getQuery';
 
+const numberFont = Pacifico({ subsets: ['latin'], weight: '400' });
 type Props = {
   params: {
     bingoGameViewId: string;
@@ -26,7 +28,9 @@ export default async function Page({ params: { bingoGameViewId } }: Props) {
       </h1>
       <div className="flex flex-col items-center">
         <div className="text-xs text-primary-lighter">最終抽選番号</div>
-        <div className="text-primary-darken text-[10rem] -mt-12">
+        <div
+          className={`text-primary-darken text-[10rem] -mt-12 ${numberFont.className}`}
+        >
           {bingoGameViewDto.lotteryNumbers.slice(-1)[0] ?? '-'}
         </div>
       </div>
