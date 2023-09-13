@@ -1,8 +1,9 @@
 import { redirect } from 'next/navigation';
 
-import { Button } from '@/components/Button';
 import { BingoGameCreateUsecase } from '@/domains/BingoGame/usecases/BingoGameCreate.usecase';
 import { getRepository } from '@/lib/getRepository';
+
+import BingoGameStartButton from './_components/BingoGameStartButton';
 
 async function startBingoGame() {
   'use server';
@@ -16,7 +17,7 @@ export default function Home() {
   return (
     <main className="w-full h-full flex justify-center">
       <form action={startBingoGame}>
-        <Button>新しいビンゴゲームを開始する</Button>
+        <BingoGameStartButton />
       </form>
     </main>
   );
