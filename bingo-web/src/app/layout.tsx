@@ -18,17 +18,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-full w-full">
+    <html lang="ja" className="h-full w-full">
       <head>
         <title>BINGOBANG ONLINE</title>
       </head>
-      <body className={`${baseFont.className} h-full w-full flex flex-col`}>
-        <header className="flex justify-center py-12 px-4 border-b-white border-b-4 grow-0 bg-primary-lighter text-white">
+      <body
+        className={`${baseFont.className} h-full w-full flex flex-col text-primary-normal`}
+      >
+        <header className="flex justify-center py-12 px-4 grow-0 bg-primary-lighter text-white">
           <h1 className={`text-5xl ${titleFont.className}`}>
             <Link href="/">BINGOBANG ONLINE</Link>
           </h1>
         </header>
-        <main className="py-8 px-2 grow items-stretch">{children}</main>
+        <div className="py-8 grow">{children}</div>
+        <footer className="bg-primary-lighter grow-0 py-2 font-black text-center text-primary-darken">
+          &copy; 2023 Masaharu nemoto
+        </footer>
       </body>
     </html>
   );
