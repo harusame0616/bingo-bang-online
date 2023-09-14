@@ -126,10 +126,14 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
         </form>
       </div>
 
-      <div className="w-full flex justify-end text-xs text-primary-lighter mt-8">
-        <Link href={`/views/${bingoGame.viewId}/lottery_numbers`}>
-          抽選番号発表ページ
-        </Link>
+      <div className="w-full max-w-screen-lg mx-auto my-4">
+        <div className="flex flex-col items-center gap-2 w-full max-w-screen-lg mx-auto">
+          <div className="w-full flex justify-end text-xs text-primary-lighter mt-8">
+            <Link href={`/views/${bingoGame.viewId}/lottery_numbers`}>
+              抽選番号発表ページ
+            </Link>
+          </div>
+        </div>
       </div>
       <div className="flex flex-wrap gap-2 w-full max-w-screen-lg mx-auto mb-8">
         {bingoGame.lotteryNumbers.map((lotteryNumber) => (
