@@ -2,7 +2,7 @@ import { isCardBingo } from '../lib/isCardBingo';
 import { BingoCardDto, FREE } from '../models/BingoCard';
 
 type Props = {
-  bingoCard: BingoCardDto | Omit<BingoCardDto, 'id'>;
+  bingoCard: BingoCardDto | Omit<BingoCardDto, 'bingoGameId'>;
   lotteryNumbers?: number[];
 };
 export function BingoCard({ bingoCard, lotteryNumbers }: Props) {
