@@ -6,7 +6,7 @@ export type BingoGameViewDtoWithCards = Omit<
   BingoGameDto,
   'hashedManagementPassword' | 'bingoCardIds' | 'id'
 > & {
-  bingoCards: Array<BingoCardDto>;
+  bingoCards: Array<Omit<BingoCardDto, 'bingoGameId'>>;
 };
 
 export type BingoGameDtoWithCards = Omit<
