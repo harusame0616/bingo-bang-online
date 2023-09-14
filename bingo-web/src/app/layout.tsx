@@ -1,11 +1,8 @@
 import './globals.css';
 
-import { M_PLUS_1, Rowdies } from '@next/font/google';
+import { M_PLUS_Rounded_1c, Rowdies } from '@next/font/google';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import Link from 'next/link';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -13,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 const titleFont = Rowdies({ subsets: ['latin'], weight: '400' });
-const baseFont = M_PLUS_1({ subsets: ['latin-ext'], weight: '600' });
+const baseFont = M_PLUS_Rounded_1c({ subsets: ['latin'], weight: '400' });
 
 export default function RootLayout({
   children,
