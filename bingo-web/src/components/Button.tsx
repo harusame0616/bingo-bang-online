@@ -12,19 +12,16 @@ type ButtonProps = React.DetailedHTMLProps<
 };
 
 function BaseButton(props: ButtonProps) {
-  const { children, ...rest } = props;
+  const { children, disableInAction, disableInActionChildren, ...rest } = props;
   const { pending } = useFormStatus();
 
   const showChildren =
-    props.disableInAction === true && pending && props.disableInActionChildren
-      ? props.disableInActionChildren
+    disableInAction === true && pending && disableInActionChildren
+      ? disableInActionChildren
       : children;
 
   return (
-    <button
-      {...rest}
-      disabled={props.disabled || (props.disableInAction && pending)}
-    >
+    <button {...rest} disabled={props.disabled || (disableInAction && pending)}>
       {showChildren}
     </button>
   );
