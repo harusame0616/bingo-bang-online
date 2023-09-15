@@ -1,10 +1,25 @@
 {
-  "extends": ["next/core-web-vitals", "prettier"],
-  "plugins": ["eslint-plugin-unused-imports", "simple-import-sort"],
+  "extends": [
+    "plugin:@typescript-eslint/strict",
+    "plugin:@typescript-eslint/stylistic",
+    "plugin:tailwindcss/recommended",
+    "next/core-web-vitals",
+    "prettier"
+  ],
+  "plugins": [
+    "eslint-plugin-unused-imports",
+    "simple-import-sort",
+    "sort-destructure-keys"
+  ],
   "rules": {
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     "unused-imports/no-unused-imports": "error",
-    "no-console": "error"
+    "sort-destructure-keys/sort-destructure-keys": "error",
+    "no-console": "error",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+    ]
   }
 }

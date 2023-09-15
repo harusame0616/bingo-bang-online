@@ -23,15 +23,15 @@ export default function RootLayout({
         <title>BINGOBANG ONLINE</title>
       </head>
       <body
-        className={`${baseFont.className} h-full w-full flex flex-col text-primary-normal`}
+        className={`${baseFont.className} flex h-full w-full flex-col text-primary-normal`}
       >
-        <header className="flex justify-center py-12 px-4 grow-0 bg-primary-lighter text-white">
+        <header className="flex grow-0 justify-center bg-primary-lighter px-4 py-12 text-white">
           <h1 className={`text-5xl ${titleFont.className}`}>
             <Link href="/">BINGOBANG ONLINE</Link>
           </h1>
         </header>
-        <div className="py-8 grow">{children}</div>
-        <footer className="bg-primary-lighter grow-0 py-2 font-black text-center text-primary-darken">
+        <div className="grow py-8">{children}</div>
+        <footer className="grow-0 bg-primary-lighter py-2 text-center font-black text-primary-darken">
           &copy; 2023 Masaharu nemoto
         </footer>
       </body>

@@ -2,6 +2,7 @@ import { revalidatePath } from 'next/cache';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
+import { Button } from '@/components/Button';
 import { Chip } from '@/components/Chip';
 import { BingoCard } from '@/domains/BingoCard/components/BingoCard';
 import { BingoCardDeleteUsecase } from '@/domains/BingoCard/usecases/BingoCardDelete.usecase';
@@ -15,11 +16,11 @@ import { getRepository } from '@/lib/getRepository';
 import BingoCardGenerationForm from './_components/BingoCardGenerationForm';
 import LotteryRoulette from './_components/LotteryRoulette';
 
-type Props = {
+interface Props {
   params: {
     bingoGameId: string;
   };
-};
+}
 
 async function drawLotteryNumber(formData: FormData) {
   'use server';
@@ -112,7 +113,7 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
 
   return (
     <div>
-      <div className="flex justify-center w-full">
+      <div className="flex w-full justify-center">
         <form action={drawLotteryNumber}>
           <input
             type="text"
@@ -126,41 +127,48 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
         </form>
       </div>
 
-      <div className="w-full max-w-screen-lg mx-auto my-4">
-        <div className="flex flex-col items-center gap-2 w-full max-w-screen-lg mx-auto">
-          <div className="w-full flex justify-end text-xs text-primary-lighter mt-8">
+      <div className="mx-auto my-4 w-full max-w-screen-lg">
+        <div className="mx-auto flex w-full max-w-screen-lg flex-col items-center gap-2">
+          <div className="mt-8 flex w-full justify-end text-xs text-primary-lighter">
             <Link href={`/views/${bingoGame.viewId}/lottery_numbers`}>
               抽選番号発表ページ
             </Link>
           </div>
         </div>
       </div>
-      <div className="flex flex-wrap gap-2 w-full max-w-screen-lg mx-auto mb-8">
+      <div className="mx-auto mb-8 flex w-full max-w-screen-lg flex-wrap gap-2">
         {bingoGame.lotteryNumbers.map((lotteryNumber) => (
           <Chip key={lotteryNumber}>{lotteryNumber}</Chip>
         ))}
       </div>
 
-      <div className="flex flex-col items-center gap-2 w-full max-w-screen-lg mx-auto my-4">
+      <div className="mx-auto my-4 flex w-full max-w-screen-lg flex-col items-center gap-2">
         <BingoCardGenerationForm
           action={generateDomainCard}
           bingoGameId={bingoGameId}
           canGenerate={canBingoCardGenerate()}
         />
-        <div className="w-full flex justify-end text-xs text-primary-lighter">
+        <div className="flex w-full justify-end text-xs text-primary-lighter">
           <Link href={`/views/${bingoGame.viewId}/cards`}>
             カード一覧ページ
           </Link>
         </div>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-8 max-w-screen-xl mx-auto">
+      <div className="mx-auto flex max-w-screen-xl flex-wrap justify-center gap-8">
         {bingoGame.bingoCards.map((bingoCard) => (
           <div key={bingoCard.id}>
             <BingoCard
               bingoCard={bingoCard}
               lotteryNumbers={bingoGame.lotteryNumbers}
             />
+            <form action={deleteBingoCard}>
+              <input hidden defaultValue={bingoGameId} name="bingoGameId" />
+              <input hidden defaultValue={bingoCard.id} name="bingoCardId" />
+              <Button thick className="text-xs">
+                削除
+              </Button>
+            </form>
           </div>
         ))}
       </div>

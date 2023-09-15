@@ -1,9 +1,9 @@
 import { PrismaBingoGameQuery } from '@/domains/BingoGame/infrastructures/PrismaBingoGame.query';
 import { BingoGameQuery } from '@/domains/BingoGame/usecases/BingoGame.query';
 
-type QueryMap = {
+interface QueryMap {
   bingoGame: BingoGameQuery;
-};
+}
 
 const queryMap: QueryMap = {
   // bingoGame: new InMemoryBingoGameQuery(),

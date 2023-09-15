@@ -31,9 +31,9 @@ export function Button(props: ButtonProps) {
   return (
     <BaseButton
       {...props}
-      className={`bg-primary-normal hover:bg-primary-darker text-white font-bold ${
+      className={`bg-primary-normal font-bold text-white hover:bg-primary-darker ${
         props.thick ? 'text-sm' : 'py-2'
-      } px-4 rounded disabled:opacity-40 disabled:hover:bg-primary-normal`}
+      } rounded px-4 disabled:opacity-40 disabled:hover:bg-primary-normal`}
     />
   );
 }
@@ -42,7 +42,7 @@ export function ButtonOutline(props: ButtonProps) {
   return (
     <BaseButton
       {...props}
-      className="border-primary-normal hover:bg-primary-darker hover:text-white border  text-primary-darker font-bold py-2 px-4 rounded disabled:opacity-20"
+      className="rounded border border-primary-normal px-4  py-2 font-bold text-primary-darker hover:bg-primary-darker hover:text-white disabled:opacity-20"
     />
   );
 }

@@ -1,15 +1,15 @@
 export const FREE = 0;
 export const LOTTERY_NUMBER_MAX = 75;
-export type BingoCardDto = {
+export interface BingoCardDto {
   id: string;
   squares: number[][];
   name: string;
   bingoGameId: string;
-};
+}
 
-export type GenerateCardProps = {
+export interface GenerateCardProps {
   name?: string;
-};
+}
 
 export class BingoCard {
   constructor(private readonly dto: BingoCardDto) {}

@@ -6,9 +6,9 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/Button';
 import { LOTTERY_NUMBER_MAX } from '@/domains/BingoCard/models/BingoCard';
 
-type Props = {
+interface Props {
   number?: number;
-};
+}
 
 const numberFont = Pacifico({ subsets: ['latin'], weight: '400' });
 
@@ -21,6 +21,7 @@ export default function LotteryRoulette({ number = 0 }: Props) {
 
   useEffect(() => {
     spiningAudio.loop = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -56,7 +57,7 @@ export default function LotteryRoulette({ number = 0 }: Props) {
   };
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex w-full flex-col">
       <div
         className={`flex justify-center text-[14rem] ${
           isRouletteStart ? 'text-primary-lighten' : 'text-primary-darken'
@@ -65,7 +66,7 @@ export default function LotteryRoulette({ number = 0 }: Props) {
         {isRouletteStart ? lotteryNumber : number}
       </div>
 
-      <div className="flex justify-center mt-10">
+      <div className="mt-10 flex justify-center">
         {isRouletteStart ? (
           <Button onClick={stopRoulette} disableInAction={true}>
             ストップ

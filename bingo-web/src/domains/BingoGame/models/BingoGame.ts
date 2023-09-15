@@ -9,13 +9,13 @@ export const BingoGameStateEnum = {
 type BingoGameStateName = keyof typeof BingoGameStateEnum;
 type BingoGameState = (typeof BingoGameStateEnum)[BingoGameStateName];
 
-export type BingoGameDto = {
+export interface BingoGameDto {
   id: string;
   lotteryNumbers: number[];
   viewId: string;
   state: BingoGameState;
   hashedManagementPassword: string | null;
-};
+}
 
 export class BingoGame {
   private constructor(private dto: BingoGameDto) {}

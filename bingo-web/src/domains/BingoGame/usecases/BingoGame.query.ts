@@ -6,17 +6,17 @@ export type BingoGameViewDtoWithCards = Omit<
   BingoGameDto,
   'hashedManagementPassword' | 'bingoCardIds' | 'id'
 > & {
-  bingoCards: Array<Omit<BingoCardDto, 'bingoGameId'>>;
+  bingoCards: Omit<BingoCardDto, 'bingoGameId'>[];
 };
 
 export type BingoGameDtoWithCards = Omit<
   BingoGameDto,
   'hashedManagementPassword' | 'bingoCardIds'
 > & {
-  bingoCards: Array<BingoCardDto>;
+  bingoCards: BingoCardDto[];
 };
 
-export type BingoGameQuery = {
+export interface BingoGameQuery {
   findOneByViewIdWithCards: (
     bingoGameId: string,
   ) => Promise<BingoGameViewDtoWithCards | null>;
@@ -24,4 +24,4 @@ export type BingoGameQuery = {
   findOneByIdWithCards: (
     bingoGameId: string,
   ) => Promise<BingoGameDtoWithCards | null>;
-};
+}

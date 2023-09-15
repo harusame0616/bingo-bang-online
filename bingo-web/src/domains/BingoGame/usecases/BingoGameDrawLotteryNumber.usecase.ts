@@ -19,7 +19,7 @@ export class BingoGameDrawLotteryNumberUsecase {
 
     await this.bingoGameRepository.save(bingoGame);
 
-    const { hashedManagementPassword, ...bingoGameDrawLotteryNumberDto } =
+    const { hashedManagementPassword: _, ...bingoGameDrawLotteryNumberDto } =
       bingoGame.toDto();
 
     return bingoGameDrawLotteryNumberDto;

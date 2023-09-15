@@ -22,8 +22,11 @@ export class PrismaBingoGameRepository implements BingoGameRepository {
   }
 
   async save(bingoGame: BingoGame): Promise<void> {
-    const { hashedManagementPassword, state, ...bingoGameDto } =
-      bingoGame.toDto();
+    const {
+      hashedManagementPassword: _,
+      state: __,
+      ...bingoGameDto
+    } = bingoGame.toDto();
     await prisma.bingoGameEntity.upsert({
       where: { id: bingoGame.id },
       create: bingoGameDto,
