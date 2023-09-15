@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import { Button } from '@/components/Button';
@@ -34,7 +35,12 @@ export default async function Page({ params: { bingoGameViewId } }: Props) {
   return (
     <div className="mx-auto flex w-full max-w-screen-lg flex-wrap justify-center gap-8">
       {bingoGameViewDto.bingoCards.map((bingoCard) => (
-        <BingoCard key={bingoCard.id} bingoCard={bingoCard} />
+        <div key={bingoCard.id}>
+          <BingoCard bingoCard={bingoCard} />
+          <Link href={`/views/${bingoGameViewId}/cards/${bingoCard.id}`}>
+            閲覧ページ
+          </Link>
+        </div>
       ))}
     </div>
   );
