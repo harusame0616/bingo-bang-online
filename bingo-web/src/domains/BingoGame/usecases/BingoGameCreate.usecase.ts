@@ -11,7 +11,7 @@ export class BingoGameCreateUsecase {
 
     await this.bingoGameRepository.save(bingoGame);
 
-    const { hashedManagementPassword, ...bingoGameCreateDto } =
+    const { hashedManagementPassword: _, ...bingoGameCreateDto } =
       bingoGame.toDto();
 
     return bingoGameCreateDto;

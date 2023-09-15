@@ -2,14 +2,14 @@ import { BingoGameRepository } from '@/domains/BingoGame/usecases/BingoGame.repo
 
 import { BingoCardRepository } from '../usecases/BingoCard.repository';
 
-type ConstructorProps = {
+interface ConstructorProps {
   bingoCardRepository: BingoCardRepository;
   bingoGameRepository: BingoGameRepository;
-};
+}
 
-export type BingoCardGenerationProps = {
+export interface BingoCardGenerationProps {
   name?: string;
-};
+}
 
 export class BingoCardDeleteDomainService {
   bingoCardRepository: BingoCardRepository;

@@ -12,7 +12,7 @@ export class BingoGameFindOneUsecase {
       throw new Error('ビンゴゲームが見つかりません');
     }
 
-    const { hashedManagementPassword, ...bingoGameDto } = bingoGame.toDto();
+    const { hashedManagementPassword: _, ...bingoGameDto } = bingoGame.toDto();
 
     return bingoGameDto;
   }

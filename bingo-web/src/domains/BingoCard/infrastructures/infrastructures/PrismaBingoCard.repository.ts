@@ -21,6 +21,6 @@ export class PrismaBingoCardRepository implements BingoCardRepository {
   }
 
   async delete(bingoCardId: string): Promise<void> {
-    prisma.bingoCardEntity.delete({ where: { id: bingoCardId } });
+    await prisma.bingoCardEntity.delete({ where: { id: bingoCardId } });
   }
 }

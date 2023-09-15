@@ -3,10 +3,10 @@ import { BingoGameRepository } from '@/domains/BingoGame/usecases/BingoGame.repo
 import { BingoCardDeleteDomainService } from '../models/BingoCardDelete.domain-service';
 import { BingoCardRepository } from './BingoCard.repository';
 
-type ConstructorProps = {
+interface ConstructorProps {
   bingoGameRepository: BingoGameRepository;
   bingoCardRepository: BingoCardRepository;
-};
+}
 export class BingoCardDeleteUsecase {
   private bingoCardDeleteDomainService: BingoCardDeleteDomainService;
 

@@ -4,15 +4,15 @@ import { BingoCardGenerateDomainService } from '../models/BingCardGenerate.domai
 import { BingoCardDto, GenerateCardProps } from '../models/BingoCard';
 import { BingoCardRepository } from './BingoCard.repository';
 
-type BingoCardGenerateUsecaseDto = {
+interface BingoCardGenerateUsecaseDto {
   bingoCard: BingoCardDto;
   bingoGameId: string;
-};
+}
 
-type ConstructorProps = {
+interface ConstructorProps {
   bingoGameRepository: BingoGameRepository;
   bingoCardRepository: BingoCardRepository;
-};
+}
 export class BingoCardGenerateUsecase {
   private generateDomainService: BingoCardGenerateDomainService;
 

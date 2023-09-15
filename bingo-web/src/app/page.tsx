@@ -24,7 +24,7 @@ function Note({
   pre?: string;
 }) {
   return (
-    <i className="text-xs text-primary-lighter block">
+    <i className="block text-xs text-primary-lighter">
       {pre}&nbsp;{children}
     </i>
   );
@@ -88,16 +88,16 @@ export default function Home() {
   ];
 
   return (
-    <main className="flex flex-col items-center w-full h-full px-4">
-      <section className="text-center mt-4">
-        <h2 className="text-2xl text-primary-darken font-black text-center">
+    <main className="flex h-full w-full flex-col items-center px-4">
+      <section className="mt-4 text-center">
+        <h2 className="text-center text-2xl font-black text-primary-darken">
           BINGOBANG ONLINE とは
         </h2>
         <div className="mt-2">
           <StrongKeyword>インストール不要</StrongKeyword>、
           <StrongKeyword>登録不要</StrongKeyword>、
           <StrongKeyword>無料</StrongKeyword>
-          <div className="md:inline text-sm">
+          <div className="text-sm md:inline">
             {' '}
             でビンゴを楽しめるサービスです。
           </div>
@@ -126,17 +126,17 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="block mt-12">
-        <h2 className="text-2xl text-primary-darken font-black text-center">
+      <section className="mt-12 block">
+        <h2 className="text-center text-2xl font-black text-primary-darken">
           BINGOBANG ONLINE <div className="md:inline">でできること</div>
         </h2>
-        <ul className="flex flex-col gap-y-4 mt-2">
+        <ul className="mt-2 flex flex-col gap-y-4">
           {features.map((feature) => (
             <li key={feature.title}>
-              <div className="text-primary-darken font-black">
+              <div className="font-black text-primary-darken">
                 {feature.title}
               </div>
-              <div className="text-sm mt-1"> {feature.description}</div>
+              <div className="mt-1 text-sm"> {feature.description}</div>
             </li>
           ))}
         </ul>

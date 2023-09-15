@@ -1,6 +1,6 @@
 import { BingoCard } from '../models/BingoCard';
 
-export type BingoCardRepository = {
+export interface BingoCardRepository {
   save: (bingoGame: BingoCard) => Promise<void>;
   delete: (bingoCardId: string) => Promise<void>;
-};
+}

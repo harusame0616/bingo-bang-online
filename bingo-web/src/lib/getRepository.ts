@@ -3,10 +3,10 @@ import { BingoCardRepository } from '@/domains/BingoCard/usecases/BingoCard.repo
 import { PrismaBingoGameRepository } from '@/domains/BingoGame/infrastructures/PrismaBingoGame.repository';
 import { BingoGameRepository } from '@/domains/BingoGame/usecases/BingoGame.repository';
 
-type RepositoryMap = {
+interface RepositoryMap {
   bingoGame: BingoGameRepository;
   bingoCard: BingoCardRepository;
-};
+}
 
 const repositoryMap: RepositoryMap = {
   // bingoGame: new InMemoryGameRepository(),

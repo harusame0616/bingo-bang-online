@@ -19,7 +19,7 @@ export class PrismaBingoGameQuery implements BingoGameQuery {
       return null;
     }
 
-    const { id, ...bingoGameWithoutId } = bingoGame;
+    const { id: _, ...bingoGameWithoutId } = bingoGame;
 
     return {
       ...bingoGameWithoutId,

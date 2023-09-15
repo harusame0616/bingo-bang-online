@@ -3,7 +3,6 @@ import { describe, expect, it } from 'vitest';
 import { BingoGame } from './BingoGame';
 
 const CREATED = 'created';
-const CARD_MAX_COUNT = 15;
 
 describe('BingoGame', () => {
   describe('createGame', () => {

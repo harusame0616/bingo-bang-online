@@ -10,9 +10,9 @@ type Props = DetailedHTMLProps<
 > & { bingoGameId: string; canGenerate: boolean };
 
 export default function BingoCardGenerationForm({
+  action,
   bingoGameId,
   canGenerate,
-  action,
   ...formProps
 }: Props) {
   const bingoCardNameInput = useRef<HTMLInputElement>(null);
@@ -35,9 +35,9 @@ export default function BingoCardGenerationForm({
     <form
       action={handleSubmit}
       {...formProps}
-      className="flex flex-col items-center w-full"
+      className="flex w-full flex-col items-center"
     >
-      <label className="max-w-md w-full">
+      <label className="w-full max-w-md">
         <input
           type="text"
           name="bingoGameId"
@@ -49,7 +49,7 @@ export default function BingoCardGenerationForm({
       <input
         type="text"
         name="bingoCardName"
-        className="  border border-slate-800 p-2 rounded-md mb-1 max-w-lg w-full"
+        className="  mb-1 w-full max-w-lg rounded-md border border-slate-800 p-2"
         ref={bingoCardNameInput}
       />
       <div>
