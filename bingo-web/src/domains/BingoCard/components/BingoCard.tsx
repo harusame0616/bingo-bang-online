@@ -1,11 +1,16 @@
 import { isCardBingo } from '../lib/isCardBingo';
 import { BingoCardDto, FREE } from '../models/BingoCard';
 
-interface Props {
+type Props = {
   bingoCard: BingoCardDto | Omit<BingoCardDto, 'bingoGameId'>;
   lotteryNumbers?: number[];
-}
-export function BingoCard({ bingoCard, lotteryNumbers }: Props) {
+} & {
+  large?: boolean;
+};
+
+export function BingoCard({ bingoCard, large, lotteryNumbers }: Props) {
+  const squareSize = large ? 'h-12 w-12' : 'h-8 w-8';
+
   return (
     <div>
       <div>{bingoCard.name || '名無しのカード'}</div>
@@ -15,7 +20,7 @@ export function BingoCard({ bingoCard, lotteryNumbers }: Props) {
             {rows.map((number, ci) => (
               <div
                 key={`${ri}${ci}`}
-                className={`h-8 w-8 rounded-sm border border-primary-darken md:h-12 md:w-12 ${
+                className={`rounded-sm border border-primary-darken ${squareSize} ${
                   lotteryNumbers &&
                   isCardBingo(lotteryNumbers, bingoCard.squares)
                     ? 'border-red-600'

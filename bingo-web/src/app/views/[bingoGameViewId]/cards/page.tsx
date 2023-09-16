@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import { PageBox } from '@/components/BoxPageContent';
@@ -35,7 +36,12 @@ export default async function Page({ params: { bingoGameViewId } }: Props) {
   return (
     <PageBox className="flex flex-wrap justify-center gap-x-4 gap-y-8">
       {bingoGameViewDto.bingoCards.map((bingoCard) => (
-        <BingoCard key={bingoCard.id} bingoCard={bingoCard} />
+        <div key={bingoCard.id}>
+          <BingoCard bingoCard={bingoCard} />
+          <Link href={`/views/${bingoGameViewId}/cards/${bingoCard.id}`}>
+            閲覧ページ
+          </Link>
+        </div>
       ))}
     </PageBox>
   );
