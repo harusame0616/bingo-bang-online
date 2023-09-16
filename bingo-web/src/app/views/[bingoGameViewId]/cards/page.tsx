@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
+import { PageBox } from '@/components/BoxPageContent';
 import { Button } from '@/components/Button';
 import { BingoCard } from '@/domains/BingoCard/components/BingoCard';
 import { getQuery } from '@/lib/getQuery';
@@ -22,18 +23,18 @@ export default async function Page({ params: { bingoGameViewId } }: Props) {
 
   if (bingoGameViewDto.bingoCards.length === 0) {
     return (
-      <div className="mx-auto max-w-screen-lg text-center">
+      <PageBox className="text-center">
         ビンゴカードが登録されていません。
         <br /> 管理ページでビンゴカードを登録してください。
         <form>
           <Button>更新</Button>
         </form>
-      </div>
+      </PageBox>
     );
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-screen-lg flex-wrap justify-center gap-8">
+    <PageBox className="flex flex-wrap justify-center gap-x-4 gap-y-8">
       {bingoGameViewDto.bingoCards.map((bingoCard) => (
         <div key={bingoCard.id}>
           <BingoCard bingoCard={bingoCard} />
@@ -42,6 +43,6 @@ export default async function Page({ params: { bingoGameViewId } }: Props) {
           </Link>
         </div>
       ))}
-    </div>
+    </PageBox>
   );
 }

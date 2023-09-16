@@ -30,7 +30,7 @@ export default function RootLayout({
             <Link href="/">BINGOBANG ONLINE</Link>
           </h1>
         </header>
-        <div className="grow py-8">{children}</div>
+        <main className="grow py-8">{children}</main>
         <footer className="grow-0 bg-primary-lighter py-2 text-center font-black text-primary-darken">
           &copy; 2023 Masaharu nemoto
         </footer>
