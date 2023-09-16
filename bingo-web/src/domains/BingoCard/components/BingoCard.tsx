@@ -12,8 +12,8 @@ export function BingoCard({ bingoCard, large, lotteryNumbers }: Props) {
   const squareSize = large ? 'h-12 w-12' : 'h-8 w-8';
 
   return (
-    <div>
-      <div>{bingoCard.name || '名無しのカード'}</div>
+    <figure>
+      <figcaption>{bingoCard.name || '名無しのカード'}</figcaption>
       <div>
         {bingoCard.squares.map((rows, ri) => (
           <div key={ri} className="flex">
@@ -45,6 +45,6 @@ export function BingoCard({ bingoCard, large, lotteryNumbers }: Props) {
           </div>
         ))}
       </div>
-    </div>
+    </figure>
   );
 }

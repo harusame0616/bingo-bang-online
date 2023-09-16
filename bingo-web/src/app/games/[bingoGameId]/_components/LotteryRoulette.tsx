@@ -8,16 +8,17 @@ import { LOTTERY_NUMBER_MAX } from '@/domains/BingoCard/models/BingoCard';
 
 interface Props {
   number?: number;
+  finish?: boolean;
 }
 
 const numberFont = Pacifico({ subsets: ['latin'], weight: '400' });
 
-export default function LotteryRoulette({ number = 0 }: Props) {
+export default function LotteryRoulette({ finish, number }: Props) {
   const [lotteryNumber, setLotteryNumber] = useState(1);
   const [timer, setTimer] = useState<number | undefined>(undefined);
   const [isRouletteStart, setIsRouletteStart] = useState(false);
   const [spiningAudio] = useState(new Audio('/se/spinning.mp3'));
-  const [stopAudio] = useState(new Audio('/se/stop.mp3'));
+  // const [stopAudio] = useState(new Audio('/se/stop.mp3'));
 
   useEffect(() => {
     spiningAudio.loop = true;
@@ -44,35 +45,49 @@ export default function LotteryRoulette({ number = 0 }: Props) {
     setIsRouletteStart(false);
   }, [number]);
 
-  const startRoulette = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const startRoulette = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    spiningAudio.play();
+    // await spiningAudio.play();
     setIsRouletteStart(true);
   };
 
-  const stopRoulette = () => {
-    spiningAudio.pause();
-    stopAudio.play();
+  const stopRoulette = async () => {
+    // spiningAudio.pause();
+    // await stopAudio.play();
     setIsRouletteStart(false);
   };
 
   return (
     <div className="flex w-full flex-col">
-      <div
-        className={`flex justify-center text-[14rem] ${
+      <label
+        htmlFor="lottery-result"
+        className="text-center text-xs text-primary-lighter"
+      >
+        抽選結果
+      </label>
+      <output
+        id="lottery-result"
+        className={`-mt-16 text-center text-[14rem] ${
           isRouletteStart ? 'text-primary-lighten' : 'text-primary-darken'
         } ${numberFont.className}`}
+        data-testid="last_lottery_number"
       >
-        {isRouletteStart ? lotteryNumber : number}
-      </div>
+        {isRouletteStart ? lotteryNumber : number ?? '-'}
+      </output>
 
-      <div className="mt-10 flex justify-center">
+      <div className=" flex justify-center">
         {isRouletteStart ? (
-          <Button onClick={stopRoulette} disableInAction={true}>
+          <Button
+            onClick={stopRoulette}
+            disableInAction={true}
+            disabled={finish}
+          >
             ストップ
           </Button>
         ) : (
-          <Button onClick={startRoulette}>スタート</Button>
+          <Button onClick={startRoulette} disabled={finish}>
+            {finish ? '抽選終了' : 'スタート'}
+          </Button>
         )}
       </div>
     </div>

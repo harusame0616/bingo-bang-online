@@ -37,21 +37,16 @@ export default function BingoCardGenerationForm({
       {...formProps}
       className="flex w-full flex-col items-center"
     >
+      <input type="text" name="bingoGameId" hidden defaultValue={bingoGameId} />
       <label className="w-full max-w-md">
+        ビンゴカードの名前
         <input
           type="text"
-          name="bingoGameId"
-          hidden
-          defaultValue={bingoGameId}
+          name="bingoCardName"
+          className="  mb-1 w-full max-w-lg rounded-md border border-slate-800 p-2"
+          ref={bingoCardNameInput}
         />
-        ビンゴカードの名前
       </label>
-      <input
-        type="text"
-        name="bingoCardName"
-        className="  mb-1 w-full max-w-lg rounded-md border border-slate-800 p-2"
-        ref={bingoCardNameInput}
-      />
       <div>
         <ButtonOutline disabled={!canGenerate} disableInAction={true}>
           ビンゴカードを生成する
