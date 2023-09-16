@@ -6,6 +6,8 @@ import { defineConfig, devices } from '@playwright/test';
  */
 // require('dotenv').config();
 
+const testServerUrl = 'http://localhost:3001/';
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -68,10 +70,10 @@ export default defineConfig({
     // },
   ],
 
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
+  // /* Run your local dev server before starting the tests */
+  webServer: {
+    command: 'PORT=3001 INFRASTRUCTURE=INMEMORY npm run dev',
+    url: testServerUrl,
+    reuseExistingServer: !process.env.CI,
+  },
 });
