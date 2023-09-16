@@ -73,7 +73,7 @@ export default defineConfig({
   // /* Run your local dev server before starting the tests */
   webServer: {
     command:
-      'INFRASTRUCTURE=INMEMORY npm run build && PORT=3001 INFRASTRUCTURE=INMEMORY npm start',
+      'INFRA=INMEMORY npm run build && PORT=3001 INFRA=INMEMORY npm start',
     url: testServerUrl,
     reuseExistingServer: !process.env.CI,
   },
