@@ -11,7 +11,8 @@
     "lint:write": "next lint --fix",
     "format:check": "prettier -c ./**/*.{ts,tsx,json}",
     "format:write": "prettier -w ./**/*.{ts,tsx,json}",
-    "test:unit": "vitest"
+    "test:unit": "vitest",
+    "db:deploy": "prisma migrate deploy"
   },
   "dependencies": {
     "@next/font": "^13.4.19",
