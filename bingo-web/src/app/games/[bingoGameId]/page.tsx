@@ -2,6 +2,8 @@ import { revalidatePath } from 'next/cache';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
+import { PageBox } from '@/components/BoxPageContent';
+import { Section } from '@/components/BoxSection';
 import { Button } from '@/components/Button';
 import { Chip } from '@/components/Chip';
 import { BingoCard } from '@/domains/BingoCard/components/BingoCard';
@@ -112,8 +114,8 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
   };
 
   return (
-    <div>
-      <div className="flex w-full justify-center">
+    <PageBox>
+      <Section>
         <form action={drawLotteryNumber}>
           <input
             type="text"
@@ -125,53 +127,56 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
             number={bingoGame.lotteryNumbers.slice(-1)[0] ?? 0}
           />
         </form>
-      </div>
+      </Section>
 
-      <div className="mx-auto my-4 w-full max-w-screen-lg">
-        <div className="mx-auto flex w-full max-w-screen-lg flex-col items-center gap-2">
-          <div className="mt-8 flex w-full justify-end text-xs text-primary-lighter">
-            <Link href={`/views/${bingoGame.viewId}/lottery_numbers`}>
-              抽選番号発表ページ
-            </Link>
-          </div>
+      <Section>
+        <Link
+          href={`/views/${bingoGame.viewId}/lottery_numbers`}
+          className="mb-2 block  text-center text-xs text-primary-lighter"
+        >
+          抽選番号発表ページ
+        </Link>
+        <div className="flex flex-wrap gap-x-2 gap-y-1">
+          {bingoGame.lotteryNumbers.map((lotteryNumber) => (
+            <Chip key={lotteryNumber}>{lotteryNumber}</Chip>
+          ))}
         </div>
-      </div>
-      <div className="mx-auto mb-8 flex w-full max-w-screen-lg flex-wrap gap-2">
-        {bingoGame.lotteryNumbers.map((lotteryNumber) => (
-          <Chip key={lotteryNumber}>{lotteryNumber}</Chip>
-        ))}
-      </div>
+      </Section>
 
-      <div className="mx-auto my-4 flex w-full max-w-screen-lg flex-col items-center gap-2">
+      <Section>
         <BingoCardGenerationForm
           action={generateDomainCard}
           bingoGameId={bingoGameId}
           canGenerate={canBingoCardGenerate()}
         />
-        <div className="flex w-full justify-end text-xs text-primary-lighter">
-          <Link href={`/views/${bingoGame.viewId}/cards`}>
-            カード一覧ページ
-          </Link>
-        </div>
-      </div>
+      </Section>
 
-      <div className="mx-auto flex max-w-screen-xl flex-wrap justify-center gap-8">
-        {bingoGame.bingoCards.map((bingoCard) => (
-          <div key={bingoCard.id}>
-            <BingoCard
-              bingoCard={bingoCard}
-              lotteryNumbers={bingoGame.lotteryNumbers}
-            />
-            <form action={deleteBingoCard}>
-              <input hidden defaultValue={bingoGameId} name="bingoGameId" />
-              <input hidden defaultValue={bingoCard.id} name="bingoCardId" />
-              <Button thick className="text-xs">
-                削除
-              </Button>
-            </form>
-          </div>
-        ))}
-      </div>
-    </div>
+      <Section>
+        <Link
+          href={`/views/${bingoGame.viewId}/cards`}
+          className="mb-2 block  text-center text-xs text-primary-lighter"
+        >
+          カード一覧ページ
+        </Link>
+
+        <div className="flex flex-wrap justify-center gap-x-4 gap-y-8">
+          {bingoGame.bingoCards.map((bingoCard) => (
+            <div key={bingoCard.id}>
+              <BingoCard
+                bingoCard={bingoCard}
+                lotteryNumbers={bingoGame.lotteryNumbers}
+              />
+              <form action={deleteBingoCard}>
+                <input hidden defaultValue={bingoGameId} name="bingoGameId" />
+                <input hidden defaultValue={bingoCard.id} name="bingoCardId" />
+                <Button thick className="text-xs">
+                  削除
+                </Button>
+              </form>
+            </div>
+          ))}
+        </div>
+      </Section>
+    </PageBox>
   );
 }

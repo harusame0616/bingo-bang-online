@@ -1,5 +1,7 @@
 import { redirect } from 'next/navigation';
 
+import { PageBox } from '@/components/BoxPageContent';
+import { Section } from '@/components/BoxSection';
 import { Button } from '@/components/Button';
 import { BingoGameCreateUsecase } from '@/domains/BingoGame/usecases/BingoGameCreate.usecase';
 import { getRepository } from '@/lib/getRepository';
@@ -88,8 +90,8 @@ export default function Home() {
   ];
 
   return (
-    <main className="flex h-full w-full flex-col items-center px-4">
-      <section className="mt-4 text-center">
+    <PageBox>
+      <Section className="mt-12 text-center">
         <h2 className="text-center text-2xl font-black text-primary-darken">
           BINGOBANG ONLINE とは
         </h2>
@@ -102,10 +104,10 @@ export default function Home() {
             でビンゴを楽しめるサービスです。
           </div>
         </div>
-      </section>
+      </Section>
 
-      <section className="mt-12">
-        <form action={startBingoGame} className="flex justify-center">
+      <Section>
+        <form action={startBingoGame} className="mb-2 flex justify-center">
           <Button
             disableInAction={true}
             disableInActionChildren="ビンゴゲームを準備中です"
@@ -114,23 +116,23 @@ export default function Home() {
             新しくビンゴゲームを開始する
           </Button>
         </form>
-        <div className="mt-2">
+        <div className="mx-auto max-w-screen-sm">
           <Note>
-            「新しいビンゴゲームを開始する」をクリックすると専用の URL
-            が発行されます。お気に入りに登録してご利用ください。
+            ボタンをクリックするとビンゴゲーム管理 URL が発行されます。
+            お気に入りに登録してご利用ください。
           </Note>
           <Note>
             URL
             が流出すると他の人がビンゴゲームの管理（抽選やカードの生成)ができてしまうのでご注意ください。
           </Note>
         </div>
-      </section>
+      </Section>
 
-      <section className="mt-12 block">
-        <h2 className="text-center text-2xl font-black text-primary-darken">
+      <Section>
+        <h2 className="mb-2 text-center text-2xl font-black text-primary-darken">
           BINGOBANG ONLINE <div className="md:inline">でできること</div>
         </h2>
-        <ul className="mt-2 flex flex-col gap-y-4">
+        <ul className="mx-auto mb-8 flex max-w-screen-sm flex-col gap-y-4">
           {features.map((feature) => (
             <li key={feature.title}>
               <div className="font-black text-primary-darken">
@@ -140,10 +142,10 @@ export default function Home() {
             </li>
           ))}
         </ul>
-        <div className="mt-8 text-primary-darken">
+        <div className="mx-auto max-w-screen-sm ">
           その他続々と機能を追加予定です。
         </div>
-      </section>
-    </main>
+      </Section>
+    </PageBox>
   );
 }
