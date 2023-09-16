@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { InMemoryGameRepository } from '@/domains/BingoGame/infrastructures/InMemoryBingoGame.repository';
+import { InMemoryBingoGameRepository } from '@/domains/BingoGame/infrastructures/InMemoryBingoGame.repository';
 import { BingoGame } from '@/domains/BingoGame/models/BingoGame';
 
 import { BingoCardRepository } from '../usecases/BingoCard.repository';
@@ -8,7 +8,7 @@ import { BingoCardGenerateDomainService } from './BingCardGenerate.domain-servic
 
 describe('BingoCardGenerateDomainService', () => {
   describe('execute', async () => {
-    const bingoGameRepository = new InMemoryGameRepository();
+    const bingoGameRepository = new InMemoryBingoGameRepository();
     const bingoCardRepository = {
       save: vi.fn(),
     } as unknown as BingoCardRepository;

@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
 
-import { InMemoryGameRepository } from '../infrastructures/InMemoryBingoGame.repository';
+import { InMemoryBingoGameRepository } from '../infrastructures/InMemoryBingoGame.repository';
 import { BingoGameCreateUsecase } from './BingoGameCreate.usecase';
 import { BingoGameDrawLotteryNumberUsecase } from './BingoGameDrawLotteryNumber.usecase';
 
 describe('BingoGameDrawLotteryNumber', () => {
   describe('execute', () => {
     it('抽選ができる', async () => {
-      const bingoGameRepository = new InMemoryGameRepository();
+      const bingoGameRepository = new InMemoryBingoGameRepository();
 
       const bingoGameCreateUsecase = new BingoGameCreateUsecase(
         bingoGameRepository,
@@ -33,7 +33,7 @@ describe('BingoGameDrawLotteryNumber', () => {
     });
 
     it('存在しない ID を指定したときに例外が発生する', async () => {
-      const bingoGameRepository = new InMemoryGameRepository();
+      const bingoGameRepository = new InMemoryBingoGameRepository();
 
       const bingoGameDrawLotteryNumberUsecase =
         new BingoGameDrawLotteryNumberUsecase(bingoGameRepository);
