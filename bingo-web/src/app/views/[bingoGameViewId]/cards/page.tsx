@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { PageBox } from '@/components/BoxPageContent';
 import { Button } from '@/components/Button';
 import { BingoCard } from '@/domains/BingoCard/components/BingoCard';
-import { getQuery } from '@/lib/getQuery';
+import { getQuery } from '@/lib/infra/getQuery';
 
 interface Props {
   params: {

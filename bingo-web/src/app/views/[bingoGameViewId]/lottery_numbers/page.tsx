@@ -5,7 +5,7 @@ import { PageBox } from '@/components/BoxPageContent';
 import { Section } from '@/components/BoxSection';
 import { Button } from '@/components/Button';
 import { Chip } from '@/components/Chip';
-import { getQuery } from '@/lib/getQuery';
+import { getQuery } from '@/lib/infra/getQuery';
 
 const numberFont = Pacifico({ subsets: ['latin'], weight: '400' });
 interface Props {

@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 
 import { BingoCard } from '@/domains/BingoCard/components/BingoCard';
-import { getQuery } from '@/lib/getQuery';
+import { getQuery } from '@/lib/infra/getQuery';
 
 import { BingoCardDetailPageQueryUsecase } from './BingoCardDetailPageQueryUsecase';
 

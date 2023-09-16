@@ -4,7 +4,7 @@ import { PageBox } from '@/components/BoxPageContent';
 import { Section } from '@/components/BoxSection';
 import { Button } from '@/components/Button';
 import { BingoGameCreateUsecase } from '@/domains/BingoGame/usecases/BingoGameCreate.usecase';
-import { getRepository } from '@/lib/getRepository';
+import { getRepository } from '@/lib/infra/getRepository';
 
 async function startBingoGame() {
   'use server';

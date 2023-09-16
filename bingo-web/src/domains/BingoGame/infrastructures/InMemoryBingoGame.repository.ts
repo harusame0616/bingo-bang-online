@@ -2,7 +2,7 @@ import { BingoGame } from '../models/BingoGame';
 import { BingoGameRepository } from '../usecases/BingoGame.repository';
 import { bingoGameStore } from './InMemoryBIngoGame.store';
 
-export class InMemoryGameRepository implements BingoGameRepository {
+export class InMemoryBingoGameRepository implements BingoGameRepository {
   async findOneById(bingoGameId: string): Promise<BingoGame | null> {
     const bingoGame = bingoGameStore.get(bingoGameId);
     if (!bingoGame) {

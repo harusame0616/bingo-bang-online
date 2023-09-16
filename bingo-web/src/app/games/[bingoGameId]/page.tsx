@@ -12,8 +12,8 @@ import { BingoCardGenerateUsecase } from '@/domains/BingoCard/usecases/BingoCard
 // import { BINGO_CARD_MAX_COUNT } from '@/domains/BingoGame/models/BingoGame';
 import { BingoGameDrawLotteryNumberUsecase } from '@/domains/BingoGame/usecases/BingoGameDrawLotteryNumber.usecase';
 import { BingoGameFindOneWithCardsQueryUsecase } from '@/domains/BingoGame/usecases/BingoGameFindOneWithCards.query-usecase';
-import { getQuery } from '@/lib/getQuery';
-import { getRepository } from '@/lib/getRepository';
+import { getQuery } from '@/lib/infra/getQuery';
+import { getRepository } from '@/lib/infra/getRepository';
 
 import BingoCardGenerationForm from './_components/BingoCardGenerationForm';
 import LotteryRoulette from './_components/LotteryRoulette';
