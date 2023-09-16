@@ -24,8 +24,8 @@ export default async function CardDetailPage({ params: { cardId } }: Props) {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-screen-lg flex-wrap justify-center gap-8">
-      <BingoCard key={bingoCard.id} bingoCard={bingoCard} />
+    <div className="mx-auto flex max-w-screen-lg justify-center">
+      <BingoCard key={bingoCard.id} bingoCard={bingoCard} large />
     </div>
   );
 }
