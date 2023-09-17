@@ -70,6 +70,7 @@ test.describe('ビンゴゲーム管理ページ', () => {
       ).toBeEnabled();
       await page.getByRole('button', { name: 'スタート' }).click();
       await page.getByRole('button', { name: 'ストップ' }).click();
+      await page.waitForTimeout(100);
     }
 
     // 全部の数字を抽選したら、スタートボタンが「抽選終了」になり無効になる
