@@ -65,6 +65,9 @@ test.describe('ビンゴゲーム管理ページ', () => {
     );
 
     for (const _ in [...new Array(74)]) {
+      await expect(
+        page.getByRole('button', { name: 'スタート' }),
+      ).toBeEnabled();
       await page.getByRole('button', { name: 'スタート' }).click();
       await page.getByRole('button', { name: 'ストップ' }).click();
     }
