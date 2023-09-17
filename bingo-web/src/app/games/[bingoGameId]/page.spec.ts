@@ -74,7 +74,7 @@ test.describe('ビンゴゲーム管理ページ', () => {
         (await lotteryNumberLocator.textContent())!,
       );
 
-      await page.waitForTimeout(100);
+      await page.waitForTimeout(200);
     }
 
     // 最後の番号を抽選する
