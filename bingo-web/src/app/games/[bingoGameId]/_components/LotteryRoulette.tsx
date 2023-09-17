@@ -55,7 +55,7 @@ export default function LotteryRoulette({
   }, [number]);
 
   const startRoulette: MouseEventHandler<HTMLButtonElement> = async (e) => {
-    e.preventDefault;
+    e.preventDefault();
     await spiningAudio?.play();
     setIsRouletteStart(true);
 
