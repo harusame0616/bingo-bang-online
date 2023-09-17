@@ -11,7 +11,7 @@ async function startBingoGame() {
   const createUsecase = new BingoGameCreateUsecase(getRepository('bingoGame'));
 
   const bingoGame = await createUsecase.execute();
-  redirect(`/games/${bingoGame.id}`);
+  redirect(`/games/${bingoGame.id}?sound=${process.env.ci ? 'off' : 'on'}`);
 }
 
 function StrongKeyword({ children }: { children: React.ReactNode }) {
