@@ -2,10 +2,16 @@ name: ci
 
 on:
   pull_request:
+    paths:
+      - "bingo-web/**"
+      - "!README.md"
     branches:
       - main
       - develop
   push:
+    paths:
+      - "bingo-web/**"
+      - "!README.md"
     branches:
       - main
       - develop
