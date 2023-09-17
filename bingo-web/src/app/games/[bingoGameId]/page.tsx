@@ -120,9 +120,7 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
           <div className="flex flex-wrap justify-center gap-x-2 gap-y-1">
             {bingoGame.lotteryNumbers.map((lotteryNumber, i) => (
               <li key={lotteryNumber}>
-                <Chip data-testid={`lottery_number_history_${i + 1}`}>
-                  {lotteryNumber}
-                </Chip>
+                <Chip>{lotteryNumber}</Chip>
               </li>
             ))}
           </div>

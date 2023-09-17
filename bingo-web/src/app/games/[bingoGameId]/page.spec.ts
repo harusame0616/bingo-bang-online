@@ -110,7 +110,7 @@ test.describe('ビンゴゲーム管理ページ', () => {
 
     // ビンゴ完成カードが名前の順で表示される
     const bingoCompleteCardsLocator = page
-      .getByRole('list', { name: 'ビンゴ完成カード一覧(名前順)' })
+      .getByRole('list', { name: 'ビンゴ完成カード名一覧(名前順)' })
       .getByRole('listitem');
 
     await expect(bingoCompleteCardsLocator.first()).toHaveText('あああ');
