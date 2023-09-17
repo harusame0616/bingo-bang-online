@@ -7,6 +7,7 @@ import { Section } from '@/components/BoxSection';
 import { Button } from '@/components/Button';
 import { Chip } from '@/components/Chip';
 import { BingoCard } from '@/domains/BingoCard/components/BingoCard';
+import { isCardBingo } from '@/domains/BingoCard/lib/isCardBingo';
 import { LOTTERY_NUMBER_MAX } from '@/domains/BingoCard/models/BingoCard';
 import { BingoCardDeleteUsecase } from '@/domains/BingoCard/usecases/BingoCardDelete.usecase';
 import { BingoCardGenerateUsecase } from '@/domains/BingoCard/usecases/BingoCardGenerate.usecase';
@@ -92,6 +93,12 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
     return true;
   };
 
+  const bingoCompleteCards = bingoGame.bingoCards
+    .filter((bingoCard) =>
+      isCardBingo(bingoGame.lotteryNumbers, bingoCard.squares),
+    )
+    .sort((a, b) => a.name.localeCompare(b.name));
+
   return (
     <PageBox>
       <Section>
@@ -103,22 +110,21 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
       </Section>
 
       <Section>
-        <Link
-          href={`/views/${bingoGame.viewId}/lottery_numbers`}
-          className="mb-2 block  text-center text-xs text-primary-lighter"
-        >
-          抽選番号発表ページ
-        </Link>
-        <div className="flex flex-wrap gap-x-2 gap-y-1">
-          {bingoGame.lotteryNumbers.map((lotteryNumber, i) => (
-            <Chip
-              key={lotteryNumber}
-              data-testid={`lottery_number_history_${i + 1}`}
-            >
-              {lotteryNumber}
-            </Chip>
-          ))}
-        </div>
+        <ol aria-labelledby="lottery-number-history">
+          <div
+            className="mb-2 text-center text-xs text-primary-darken"
+            id="lottery-number-history"
+          >
+            抽選番号履歴
+          </div>
+          <div className="flex flex-wrap justify-center gap-x-2 gap-y-1">
+            {bingoGame.lotteryNumbers.map((lotteryNumber) => (
+              <li key={lotteryNumber}>
+                <Chip>{lotteryNumber}</Chip>
+              </li>
+            ))}
+          </div>
+        </ol>
       </Section>
 
       <Section>
@@ -130,30 +136,76 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
       </Section>
 
       <Section>
-        <Link
-          href={`/views/${bingoGame.viewId}/cards`}
-          className="mb-2 block  text-center text-xs text-primary-lighter"
-        >
-          カード一覧ページ
-        </Link>
-
-        <div className="flex flex-wrap justify-center gap-x-4 gap-y-8">
-          {bingoGame.bingoCards.map((bingoCard) => (
-            <div key={bingoCard.id}>
-              <BingoCard
-                bingoCard={bingoCard}
-                lotteryNumbers={bingoGame.lotteryNumbers}
-              />
-              <form action={deleteBingoCard}>
-                <input hidden defaultValue={bingoGameId} name="bingoGameId" />
-                <input hidden defaultValue={bingoCard.id} name="bingoCardId" />
-                <Button thick className="text-xs">
-                  削除
-                </Button>
-              </form>
-            </div>
-          ))}
-        </div>
+        <ol aria-labelledby="bingo-complete-card-name-list">
+          <div
+            className="mb-2 text-center text-xs text-primary-darken"
+            id="bingo-complete-card-name-list"
+          >
+            ビンゴ完成カード名一覧(名前順)
+          </div>
+          <div className="flex flex-wrap justify-center gap-x-4">
+            {bingoCompleteCards.map(({ id, name }) => (
+              <li key={id}>{name || '名無しのカード'}</li>
+            ))}
+          </div>
+        </ol>
+      </Section>
+      <Section>
+        <ul aria-labelledby="bingo-cards">
+          <div
+            className="mb-2 text-center text-xs text-primary-darken "
+            id="bingo-cards"
+          >
+            ビンゴカード一覧
+          </div>
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-8">
+            {bingoGame.bingoCards.map((bingoCard) => (
+              <li key={bingoCard.id}>
+                <BingoCard
+                  bingoCard={bingoCard}
+                  lotteryNumbers={bingoGame.lotteryNumbers}
+                />
+                <form action={deleteBingoCard}>
+                  <input hidden defaultValue={bingoGameId} name="bingoGameId" />
+                  <input
+                    hidden
+                    defaultValue={bingoCard.id}
+                    name="bingoCardId"
+                  />
+                  <Button thick className="text-xs">
+                    削除
+                  </Button>
+                </form>
+              </li>
+            ))}
+          </div>
+        </ul>
+      </Section>
+      <Section>
+        <ul aria-labelledby="view-pages">
+          <div
+            className="mb-2 text-center text-xs text-primary-darken "
+            id="view-pages"
+          >
+            閲覧専用ページリンク
+          </div>
+          <li>
+            <Link
+              href={`/views/${bingoGame.viewId}/lottery_numbers`}
+              className="block text-center text-xs italic text-primary-lighter underline hover:text-primary-darken"
+            >
+              抽選番号発表ページ
+            </Link>
+          </li>
+          <li>
+            <Link
+              href={`/views/${bingoGame.viewId}/cards`}
+              className="block text-center text-xs italic text-primary-lighter underline hover:text-primary-darken"
+            >
+              カード一覧ページ
+            </Link>
+          </li>
+        </ul>
       </Section>
     </PageBox>
   );
