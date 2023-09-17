@@ -61,13 +61,13 @@ export default function LotteryRoulette({
     <div className="flex w-full flex-col">
       <label
         htmlFor="lottery-result"
-        className="text-center text-xs text-primary-lighter"
+        className="text-center text-xs text-primary-darken"
       >
         抽選結果
       </label>
       <output
         id="lottery-result"
-        className={`-mt-16 text-center text-[14rem] ${
+        className={`-mt-24 text-center text-[14rem] ${
           isRouletteStart ? 'text-primary-lighten' : 'text-primary-darken'
         } ${numberFont.className}`}
         data-testid="last_lottery_number"

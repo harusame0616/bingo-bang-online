@@ -50,31 +50,53 @@ test.describe('ビンゴゲーム管理ページ', () => {
     const lotteryNumberLocator = page.getByLabel('抽選結果');
     await expect(lotteryNumberLocator).toHaveText('-');
 
-    // 番号を抽選する
-    await page.getByRole('button', { name: 'スタート' }).click();
-    await page.getByRole('button', { name: 'ストップ' }).click();
-
-    // スタートボタンが有効化され抽選結果が表示される
-    await expect(page.getByRole('button', { name: 'スタート' })).toBeEnabled();
-    await expect(lotteryNumberLocator).toHaveText(/^[0-9]{1,2}$/);
-
-    // 抽選履歴が表示されて、抽選結果と一致する
-    await expect(page.getByTestId('lottery_number_history_1')).toHaveText(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      (await lotteryNumberLocator.textContent())!,
-    );
-
     for (const _ in [...new Array(74)]) {
+      // 番号を抽選する
+      await page.getByRole('button', { name: 'スタート' }).click();
+      await page.getByRole('button', { name: 'ストップ' }).click();
+
+      // スタートボタンが有効化される
       await expect(
         page.getByRole('button', { name: 'スタート' }),
       ).toBeEnabled();
-      await page.getByRole('button', { name: 'スタート' }).click();
-      await page.getByRole('button', { name: 'ストップ' }).click();
+
+      // 抽選結果が表示される
+      await expect(lotteryNumberLocator).toHaveText(/^[0-9]{1,2}$/);
+
+      // 抽選履歴の最後に番号が追加される
+      await expect(
+        page
+          .getByRole('list', { name: '抽選番号履歴' })
+          .getByRole('listitem')
+          .last(),
+      ).toHaveText(
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        (await lotteryNumberLocator.textContent())!,
+      );
+
       await page.waitForTimeout(100);
     }
 
+    // 最後の番号を抽選する
+    await page.getByRole('button', { name: 'スタート' }).click();
+    await page.getByRole('button', { name: 'ストップ' }).click();
+
     // 全部の数字を抽選したら、スタートボタンが「抽選終了」になり無効になる
     await expect(page.getByRole('button', { name: '抽選終了' })).toBeDisabled();
+
+    // 抽選結果が表示される
+    await expect(lotteryNumberLocator).toHaveText(/^[0-9]{1,2}$/);
+
+    // 抽選履歴の最後に番号が追加される
+    await expect(
+      page
+        .getByRole('list', { name: '抽選番号履歴' })
+        .getByRole('listitem')
+        .last(),
+    ).toHaveText(
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      (await lotteryNumberLocator.textContent())!,
+    );
 
     // ビンゴカードに名前をつけて生成する
     await page.getByLabel('ビンゴカードの名前').click();
