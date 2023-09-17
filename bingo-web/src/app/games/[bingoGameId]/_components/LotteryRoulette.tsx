@@ -6,14 +6,21 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/Button';
 import { LOTTERY_NUMBER_MAX } from '@/domains/BingoCard/models/BingoCard';
 
+import { drawLotteryNumber } from './drawLotteryNumber';
+
 interface Props {
+  bingoGameId: string;
   number?: number;
   finish?: boolean;
 }
 
 const numberFont = Pacifico({ subsets: ['latin'], weight: '400' });
 
-export default function LotteryRoulette({ finish, number }: Props) {
+export default function LotteryRoulette({
+  bingoGameId,
+  finish,
+  number,
+}: Props) {
   const [lotteryNumber, setLotteryNumber] = useState(1);
   const [timer, setTimer] = useState<number | undefined>(undefined);
   const [isRouletteStart, setIsRouletteStart] = useState(false);
@@ -27,34 +34,27 @@ export default function LotteryRoulette({ finish, number }: Props) {
 
   useEffect(() => {
     if (!isRouletteStart) {
-      clearInterval(timer);
       return;
     }
+
+    setIsRouletteStart(false);
+    clearInterval(timer);
+
+    spiningAudio.pause();
+    stopAudio.play();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [number]);
+
+  const startRoulette = async () => {
+    await spiningAudio.play();
+    setIsRouletteStart(true);
 
     const newTimer = window.setInterval(() => {
       setLotteryNumber(generateLotteryNumber());
     }, 100);
 
     setTimer(newTimer);
-
-    return () => clearInterval(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isRouletteStart]);
-
-  useEffect(() => {
-    setIsRouletteStart(false);
-  }, [number]);
-
-  const startRoulette = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    await spiningAudio.play();
-    setIsRouletteStart(true);
-  };
-
-  const stopRoulette = async () => {
-    await spiningAudio.pause();
-    await stopAudio.play();
-    setIsRouletteStart(false);
   };
 
   return (
@@ -75,21 +75,30 @@ export default function LotteryRoulette({ finish, number }: Props) {
         {isRouletteStart ? lotteryNumber : number ?? '-'}
       </output>
 
-      <div className=" flex justify-center">
-        {isRouletteStart ? (
-          <Button
-            onClick={stopRoulette}
-            disableInAction={true}
-            disabled={finish}
-          >
-            ストップ
-          </Button>
-        ) : (
-          <Button onClick={startRoulette} disabled={finish}>
-            {finish ? '抽選終了' : 'スタート'}
-          </Button>
-        )}
-      </div>
+      <form action={drawLotteryNumber}>
+        <input
+          type="text"
+          name="bingoGameId"
+          hidden
+          defaultValue={bingoGameId}
+        />
+
+        <div className=" flex justify-center">
+          {isRouletteStart ? (
+            <Button
+              disableInAction={true}
+              disableInActionChildren="抽選中..."
+              disabled={finish}
+            >
+              ストップ
+            </Button>
+          ) : (
+            <Button type="button" onClick={startRoulette} disabled={finish}>
+              {finish ? '抽選終了' : 'スタート'}
+            </Button>
+          )}
+        </div>
+      </form>
     </div>
   );
 }

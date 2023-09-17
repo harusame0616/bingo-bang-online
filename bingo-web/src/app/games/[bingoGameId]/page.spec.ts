@@ -54,8 +54,8 @@ test.describe('ビンゴゲーム管理ページ', () => {
     await page.getByRole('button', { name: 'スタート' }).click();
     await page.getByRole('button', { name: 'ストップ' }).click();
 
-    // ボタンがスタートになりクリックできるようになって抽選結果が表示される
-    await page.getByRole('button', { name: 'スタート' }).isEnabled();
+    // スタートボタンが有効化され抽選結果が表示される
+    await expect(page.getByRole('button', { name: 'スタート' })).toBeEnabled();
     await expect(lotteryNumberLocator).toHaveText(/^[0-9]{1,2}$/);
 
     // 抽選履歴が表示されて、抽選結果と一致する
@@ -65,11 +65,12 @@ test.describe('ビンゴゲーム管理ページ', () => {
     );
 
     for (const _ in [...new Array(74)]) {
+      await expect(
+        page.getByRole('button', { name: 'スタート' }),
+      ).toBeEnabled();
       await page.getByRole('button', { name: 'スタート' }).click();
       await page.getByRole('button', { name: 'ストップ' }).click();
-      await new Promise((r) => {
-        return setTimeout(r, 100);
-      });
+      await page.waitForTimeout(100);
     }
 
     // 全部の数字を抽選したら、スタートボタンが「抽選終了」になり無効になる
