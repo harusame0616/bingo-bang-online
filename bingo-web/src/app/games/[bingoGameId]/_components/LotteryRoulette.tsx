@@ -6,14 +6,21 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/Button';
 import { LOTTERY_NUMBER_MAX } from '@/domains/BingoCard/models/BingoCard';
 
+import { drawLotteryNumber } from './drawLotteryNumber';
+
 interface Props {
+  bingoGameId: string;
   number?: number;
   finish?: boolean;
 }
 
 const numberFont = Pacifico({ subsets: ['latin'], weight: '400' });
 
-export default function LotteryRoulette({ finish, number }: Props) {
+export default function LotteryRoulette({
+  bingoGameId,
+  finish,
+  number,
+}: Props) {
   const [lotteryNumber, setLotteryNumber] = useState(1);
   const [timer, setTimer] = useState<number | undefined>(undefined);
   const [isRouletteStart, setIsRouletteStart] = useState(false);
@@ -68,17 +75,30 @@ export default function LotteryRoulette({ finish, number }: Props) {
         {isRouletteStart ? lotteryNumber : number ?? '-'}
       </output>
 
-      <div className=" flex justify-center">
-        {isRouletteStart ? (
-          <Button disableInAction={true} disabled={finish}>
-            ストップ
-          </Button>
-        ) : (
-          <Button type="button" onClick={startRoulette} disabled={finish}>
-            {finish ? '抽選終了' : 'スタート'}
-          </Button>
-        )}
-      </div>
+      <form action={drawLotteryNumber}>
+        <input
+          type="text"
+          name="bingoGameId"
+          hidden
+          defaultValue={bingoGameId}
+        />
+
+        <div className=" flex justify-center">
+          {isRouletteStart ? (
+            <Button
+              disableInAction={true}
+              disableInActionChildren="抽選中..."
+              disabled={finish}
+            >
+              ストップ
+            </Button>
+          ) : (
+            <Button type="button" onClick={startRoulette} disabled={finish}>
+              {finish ? '抽選終了' : 'スタート'}
+            </Button>
+          )}
+        </div>
+      </form>
     </div>
   );
 }

@@ -10,7 +10,6 @@ import { BingoCard } from '@/domains/BingoCard/components/BingoCard';
 import { LOTTERY_NUMBER_MAX } from '@/domains/BingoCard/models/BingoCard';
 import { BingoCardDeleteUsecase } from '@/domains/BingoCard/usecases/BingoCardDelete.usecase';
 import { BingoCardGenerateUsecase } from '@/domains/BingoCard/usecases/BingoCardGenerate.usecase';
-import { BingoGameDrawLotteryNumberUsecase } from '@/domains/BingoGame/usecases/BingoGameDrawLotteryNumber.usecase';
 import { BingoGameFindOneWithCardsQueryUsecase } from '@/domains/BingoGame/usecases/BingoGameFindOneWithCards.query-usecase';
 import { getQuery } from '@/lib/infra/getQuery';
 import { getRepository } from '@/lib/infra/getRepository';
@@ -22,26 +21,6 @@ interface Props {
   params: {
     bingoGameId: string;
   };
-}
-
-async function drawLotteryNumber(formData: FormData) {
-  'use server';
-
-  const bingoGameId = formData.get('bingoGameId');
-
-  if (!bingoGameId) {
-    throw new Error('bingoGameId is required');
-  }
-
-  if (typeof bingoGameId !== 'string') {
-    throw new Error('bingoGameId is invalid type');
-  }
-
-  const drawLotteryNumberUsecase = new BingoGameDrawLotteryNumberUsecase(
-    getRepository('bingoGame'),
-  );
-  await drawLotteryNumberUsecase.execute(bingoGameId);
-  revalidatePath('/game/[bingoGameId]');
 }
 
 async function generateDomainCard(formData: FormData) {
@@ -116,18 +95,11 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
   return (
     <PageBox>
       <Section>
-        <form action={drawLotteryNumber}>
-          <input
-            type="text"
-            name="bingoGameId"
-            hidden
-            defaultValue={bingoGameId}
-          />
-          <LotteryRoulette
-            number={bingoGame.lotteryNumbers.slice(-1)[0]}
-            finish={bingoGame.lotteryNumbers.length === LOTTERY_NUMBER_MAX}
-          />
-        </form>
+        <LotteryRoulette
+          bingoGameId={bingoGameId}
+          number={bingoGame.lotteryNumbers.slice(-1)[0]}
+          finish={bingoGame.lotteryNumbers.length === LOTTERY_NUMBER_MAX}
+        />
       </Section>
 
       <Section>
