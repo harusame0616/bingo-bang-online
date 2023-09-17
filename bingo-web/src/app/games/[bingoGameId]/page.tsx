@@ -118,7 +118,7 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
             抽選番号履歴
           </div>
           <div className="flex flex-wrap justify-center gap-x-2 gap-y-1">
-            {bingoGame.lotteryNumbers.map((lotteryNumber, i) => (
+            {bingoGame.lotteryNumbers.map((lotteryNumber) => (
               <li key={lotteryNumber}>
                 <Chip>{lotteryNumber}</Chip>
               </li>
