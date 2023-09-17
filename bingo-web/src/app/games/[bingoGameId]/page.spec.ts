@@ -54,7 +54,8 @@ test.describe('ビンゴゲーム管理ページ', () => {
     await page.getByRole('button', { name: 'スタート' }).click();
     await page.getByRole('button', { name: 'ストップ' }).click();
 
-    // 抽選結果が表示される
+    // ボタンがスタートになりクリックできるようになって抽選結果が表示される
+    await page.getByRole('button', { name: 'スタート' }).isEnabled();
     await expect(lotteryNumberLocator).toHaveText(/^[0-9]{1,2}$/);
 
     // 抽選履歴が表示されて、抽選結果と一致する
@@ -67,7 +68,7 @@ test.describe('ビンゴゲーム管理ページ', () => {
       await page.getByRole('button', { name: 'スタート' }).click();
       await page.getByRole('button', { name: 'ストップ' }).click();
       await new Promise((r) => {
-        return setTimeout(r, 200);
+        return setTimeout(r, 100);
       });
     }
 
