@@ -98,10 +98,16 @@ test.describe('ビンゴゲーム管理ページ', () => {
       (await lotteryNumberLocator.textContent())!,
     );
 
-    // ビンゴカードに名前をつけて生成する
-    await page.getByLabel('ビンゴカードの名前').click();
-    await page.keyboard.type('いいい');
-    await page.getByRole('button', { name: 'ビンゴカードを生成する' }).click();
+
+    for (const _ in [...new Array(74)]) {
+      await expect(
+        page.getByRole('button', { name: 'スタート' }),
+      ).toBeEnabled();
+      await page.getByRole('button', { name: 'スタート' }).click();
+      await page.getByRole('button', { name: 'ストップ' }).click();
+      await page.waitForTimeout(100);
+    }
+
 
     // ビンゴカードの名前をつけて作成する
     await page.getByLabel('ビンゴカードの名前').click();
