@@ -4,9 +4,11 @@ on:
   pull_request:
     branches:
       - main
+      - develop
   push:
     branches:
       - main
+      - develop
 
 defaults:
   run:
@@ -39,6 +41,33 @@ jobs:
         run: npm ci
       - name: execute
         run: npm run test:unit
+
+  e2e:
+    needs: prepare
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: npm
+          cache-dependency-path: ./**/package-lock.json
+      - name: Install dependency
+        run: npm ci
+      - name: execute
+        working-directory: ./bingo-web
+        run: npm run format:check
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run Playwright tests
+        run: npx playwright test
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: bingo-web/playwright-report/
+          retention-days: 30
 
   lint:
     needs: prepare

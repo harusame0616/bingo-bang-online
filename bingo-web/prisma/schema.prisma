@@ -1,31 +1,28 @@
 generator client {
   provider = "prisma-client-js"
+  schema   = env("POSTGRES_PRISMA_SCHEMA")
 }
 
 datasource db {
-   provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL")
-  // url = env("DB_URL")
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL")
 }
 
 model BingoCardEntity {
-  id          String @id @db.Char(36)
+  id          String          @id @db.Char(36)
   squares     Int[]
-  name        String @db.VarChar(40)
-  bingoGameId String @map("bingo_game_id") @db.Char(36)
-
-  bingoGame BingoGameEntity @relation(fields: [bingoGameId], references: [id])
+  name        String          @db.VarChar(40)
+  bingoGameId String          @map("bingo_game_id") @db.Char(36)
+  bingoGame   BingoGameEntity @relation(fields: [bingoGameId], references: [id])
 
   @@map("BINGO_CARD")
 }
 
 model BingoGameEntity {
-  id             String @id @db.Char(36)
-  lotteryNumbers Int[]  @map("lottery_numbers")
-  viewId         String  @map("view_id") @db.Char(36)
+  id             String            @id @db.Char(36)
+  lotteryNumbers Int[]             @map("lottery_numbers")
+  viewId         String            @unique @map("view_id") @db.Char(36)
+  bingoCards     BingoCardEntity[]
 
-  bingoCards BingoCardEntity[]
-
-  @@unique([viewId])
   @@map("BINGO_GAME")
 }

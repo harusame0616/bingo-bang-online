@@ -7,9 +7,9 @@ import { Section } from '@/components/BoxSection';
 import { Button } from '@/components/Button';
 import { Chip } from '@/components/Chip';
 import { BingoCard } from '@/domains/BingoCard/components/BingoCard';
+import { LOTTERY_NUMBER_MAX } from '@/domains/BingoCard/models/BingoCard';
 import { BingoCardDeleteUsecase } from '@/domains/BingoCard/usecases/BingoCardDelete.usecase';
 import { BingoCardGenerateUsecase } from '@/domains/BingoCard/usecases/BingoCardGenerate.usecase';
-// import { BINGO_CARD_MAX_COUNT } from '@/domains/BingoGame/models/BingoGame';
 import { BingoGameDrawLotteryNumberUsecase } from '@/domains/BingoGame/usecases/BingoGameDrawLotteryNumber.usecase';
 import { BingoGameFindOneWithCardsQueryUsecase } from '@/domains/BingoGame/usecases/BingoGameFindOneWithCards.query-usecase';
 import { getQuery } from '@/lib/infra/getQuery';
@@ -124,7 +124,8 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
             defaultValue={bingoGameId}
           />
           <LotteryRoulette
-            number={bingoGame.lotteryNumbers.slice(-1)[0] ?? 0}
+            number={bingoGame.lotteryNumbers.slice(-1)[0]}
+            finish={bingoGame.lotteryNumbers.length === LOTTERY_NUMBER_MAX}
           />
         </form>
       </Section>
@@ -137,8 +138,13 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
           抽選番号発表ページ
         </Link>
         <div className="flex flex-wrap gap-x-2 gap-y-1">
-          {bingoGame.lotteryNumbers.map((lotteryNumber) => (
-            <Chip key={lotteryNumber}>{lotteryNumber}</Chip>
+          {bingoGame.lotteryNumbers.map((lotteryNumber, i) => (
+            <Chip
+              key={lotteryNumber}
+              data-testid={`lottery_number_history_${i + 1}`}
+            >
+              {lotteryNumber}
+            </Chip>
           ))}
         </div>
       </Section>
