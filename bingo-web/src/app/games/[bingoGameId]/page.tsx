@@ -7,6 +7,7 @@ import { Section } from '@/components/BoxSection';
 import { Button } from '@/components/Button';
 import { Chip } from '@/components/Chip';
 import { BingoCard } from '@/domains/BingoCard/components/BingoCard';
+import { isCardBingo } from '@/domains/BingoCard/lib/isCardBingo';
 import { LOTTERY_NUMBER_MAX } from '@/domains/BingoCard/models/BingoCard';
 import { BingoCardDeleteUsecase } from '@/domains/BingoCard/usecases/BingoCardDelete.usecase';
 import { BingoCardGenerateUsecase } from '@/domains/BingoCard/usecases/BingoCardGenerate.usecase';
@@ -92,6 +93,12 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
     return true;
   };
 
+  const bingoCompleteCards = bingoGame.bingoCards
+    .filter((bingoCard) =>
+      isCardBingo(bingoGame.lotteryNumbers, bingoCard.squares),
+    )
+    .sort((a, b) => a.name.localeCompare(b.name));
+
   return (
     <PageBox>
       <Section>
@@ -129,6 +136,21 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
         />
       </Section>
 
+      <Section>
+        <ol aria-labelledby="bingo-complete-card-title">
+          <div
+            className="mb-2 text-center text-xs text-primary-lighter"
+            id="bingo-complete-card-title"
+          >
+            ビンゴ完成カード一覧(名前順)
+          </div>
+          <div className="flex flex-wrap justify-center gap-x-4">
+            {bingoCompleteCards.map(({ id, name }) => (
+              <li key={id}>{name || '名無しのカード'}</li>
+            ))}
+          </div>
+        </ol>
+      </Section>
       <Section>
         <Link
           href={`/views/${bingoGame.viewId}/cards`}

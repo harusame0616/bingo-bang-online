@@ -36,7 +36,7 @@ test.describe('ビンゴゲーム管理ページ', () => {
     await expect(page.getByRole('figure', { name: 'bingonta' })).toBeHidden();
   });
 
-  test('番号の抽選', async ({ page }) => {
+  test('番号の抽選, ビンゴ完成カードリスト', async ({ page }) => {
     test.slow();
     // ビンゴゲームを開始する
     await page.goto(path);
@@ -75,5 +75,23 @@ test.describe('ビンゴゲーム管理ページ', () => {
 
     // 全部の数字を抽選したら、スタートボタンが「抽選終了」になり無効になる
     await expect(page.getByRole('button', { name: '抽選終了' })).toBeDisabled();
+
+    // ビンゴカードに名前をつけて生成する
+    await page.getByLabel('ビンゴカードの名前').click();
+    await page.keyboard.type('いいい');
+    await page.getByRole('button', { name: 'ビンゴカードを生成する' }).click();
+
+    // ビンゴカードの名前をつけて作成する
+    await page.getByLabel('ビンゴカードの名前').click();
+    await page.keyboard.type('あああ');
+    await page.getByRole('button', { name: 'ビンゴカードを生成する' }).click();
+
+    // ビンゴ完成カードが名前の順で表示される
+    const bingoCompleteCardsLocator = page
+      .getByRole('list', { name: 'ビンゴ完成カード一覧(名前順)' })
+      .getByRole('listitem');
+
+    await expect(bingoCompleteCardsLocator.first()).toHaveText('あああ');
+    await expect(bingoCompleteCardsLocator.nth(1)).toHaveText('いいい');
   });
 });
