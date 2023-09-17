@@ -18,7 +18,7 @@ export default function LotteryRoulette({ finish, number }: Props) {
   const [timer, setTimer] = useState<number | undefined>(undefined);
   const [isRouletteStart, setIsRouletteStart] = useState(false);
   const [spiningAudio] = useState(new Audio('/se/spinning.mp3'));
-  // const [stopAudio] = useState(new Audio('/se/stop.mp3'));
+  const [stopAudio] = useState(new Audio('/se/stop.mp3'));
 
   useEffect(() => {
     spiningAudio.loop = true;
@@ -47,13 +47,13 @@ export default function LotteryRoulette({ finish, number }: Props) {
 
   const startRoulette = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    // await spiningAudio.play();
+    await spiningAudio.play();
     setIsRouletteStart(true);
   };
 
   const stopRoulette = async () => {
-    // spiningAudio.pause();
-    // await stopAudio.play();
+    await spiningAudio.pause();
+    await stopAudio.play();
     setIsRouletteStart(false);
   };
 
