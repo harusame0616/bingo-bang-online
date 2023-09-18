@@ -27,16 +27,28 @@ export default function LotteryRoulette({
   const [isRouletteStart, setIsRouletteStart] = useState(false);
   const searchParams = useSearchParams();
   const needsPlaySound = searchParams.get('sound') !== 'off';
-  const [spiningAudio] = useState(
-    needsPlaySound ? new Audio('/se/spinning.mp3') : null,
-  );
+  const [audioContext] = useState(needsPlaySound ? new AudioContext() : null);
+  const [spinAudioSource] = useState(audioContext?.createBufferSource());
+
   const [stopAudio] = useState(
     needsPlaySound ? new Audio('/se/stop.mp3') : null,
   );
   useEffect(() => {
-    if (spiningAudio) {
-      spiningAudio.loop = true;
-    }
+    const audioSetting = async () => {
+      if (!audioContext || !spinAudioSource) {
+        return;
+      }
+      const response = await fetch('/se/spin.mp3');
+      const audioData = await response.arrayBuffer();
+      const buffer = await audioContext.decodeAudioData(audioData);
+      spinAudioSource.buffer = buffer;
+      spinAudioSource.loop = true;
+      spinAudioSource.connect(audioContext.destination);
+      spinAudioSource?.start();
+      audioContext?.suspend();
+    };
+
+    audioSetting();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -48,14 +60,15 @@ export default function LotteryRoulette({
     setIsRouletteStart(false);
     clearInterval(timer);
 
-    spiningAudio?.pause();
+    audioContext?.suspend();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [number]);
 
   const startRoulette: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
-    await spiningAudio?.play();
+
+    audioContext?.resume();
     setIsRouletteStart(true);
 
     const newTimer = window.setInterval(() => {
