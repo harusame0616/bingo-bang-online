@@ -2,7 +2,7 @@
 
 import { experimental_useFormStatus as useFormStatus } from 'react-dom';
 
-type ButtonProps = React.DetailedHTMLProps<
+export type ButtonProps = React.DetailedHTMLProps<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
 > & {
