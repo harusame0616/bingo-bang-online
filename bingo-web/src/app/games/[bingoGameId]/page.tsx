@@ -24,7 +24,7 @@ interface Props {
   };
 }
 
-async function generateDomainCard(formData: FormData) {
+async function generateBingoCard(formData: FormData) {
   'use server';
 
   const bingoGameId = formData.get('bingoGameId');
@@ -78,7 +78,9 @@ async function deleteBingoCard(formData: FormData) {
   revalidatePath('/game/[bingoGameId]');
 }
 
-export default async function GameNewPage({ params: { bingoGameId } }: Props) {
+export default async function BingoGameManagementPage({
+  params: { bingoGameId },
+}: Props) {
   const bingoGameQueryUsecase = new BingoGameFindOneWithCardsQueryUsecase(
     getQuery('bingoGame'),
   );
@@ -110,13 +112,13 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
       </Section>
 
       <Section>
+        <div
+          className="mb-2 text-center text-xs text-primary-darken"
+          id="lottery-number-history"
+        >
+          抽選番号履歴
+        </div>
         <ol aria-labelledby="lottery-number-history">
-          <div
-            className="mb-2 text-center text-xs text-primary-darken"
-            id="lottery-number-history"
-          >
-            抽選番号履歴
-          </div>
           <div className="flex flex-wrap justify-center gap-x-2 gap-y-1">
             {bingoGame.lotteryNumbers.map((lotteryNumber) => (
               <li key={lotteryNumber}>
@@ -129,20 +131,20 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
 
       <Section>
         <BingoCardGenerationForm
-          action={generateDomainCard}
+          action={generateBingoCard}
           bingoGameId={bingoGameId}
           canGenerate={canBingoCardGenerate()}
         />
       </Section>
 
       <Section>
+        <div
+          className="mb-2 text-center text-xs text-primary-darken"
+          id="bingo-complete-card-name-list"
+        >
+          ビンゴ完成カード名一覧(名前順)
+        </div>
         <ol aria-labelledby="bingo-complete-card-name-list">
-          <div
-            className="mb-2 text-center text-xs text-primary-darken"
-            id="bingo-complete-card-name-list"
-          >
-            ビンゴ完成カード名一覧(名前順)
-          </div>
           <div className="flex flex-wrap justify-center gap-x-4">
             {bingoCompleteCards.map(({ id, name }) => (
               <li key={id}>{name || '名無しのカード'}</li>
@@ -151,13 +153,13 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
         </ol>
       </Section>
       <Section>
+        <div
+          className="mb-2 text-center text-xs text-primary-darken "
+          id="bingo-cards"
+        >
+          ビンゴカード一覧
+        </div>
         <ul aria-labelledby="bingo-cards">
-          <div
-            className="mb-2 text-center text-xs text-primary-darken "
-            id="bingo-cards"
-          >
-            ビンゴカード一覧
-          </div>
           <div className="flex flex-wrap justify-center gap-x-4 gap-y-8">
             {bingoGame.bingoCards.map((bingoCard) => (
               <li key={bingoCard.id}>
@@ -182,13 +184,13 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
         </ul>
       </Section>
       <Section>
+        <div
+          className="mb-2 text-center text-xs text-primary-darken "
+          id="view-pages"
+        >
+          閲覧専用ページリンク
+        </div>
         <ul aria-labelledby="view-pages">
-          <div
-            className="mb-2 text-center text-xs text-primary-darken "
-            id="view-pages"
-          >
-            閲覧専用ページリンク
-          </div>
           <li>
             <Link
               href={`/views/${bingoGame.viewId}/lottery_numbers`}
