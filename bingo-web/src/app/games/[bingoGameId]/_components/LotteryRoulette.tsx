@@ -49,7 +49,6 @@ export default function LotteryRoulette({
     clearInterval(timer);
 
     spiningAudio?.pause();
-    stopAudio?.play();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [number]);
@@ -64,6 +63,11 @@ export default function LotteryRoulette({
     }, 150);
 
     setTimer(newTimer);
+  };
+
+  const stopRoulette = async () => {
+    // useEffect で再生すると NotAllowedError が発生するため stopAudio はボタンクリック時に再生する
+    await stopAudio?.play();
   };
 
   return (
@@ -98,6 +102,7 @@ export default function LotteryRoulette({
               disableInAction={true}
               disableInActionChildren="抽選中..."
               disabled={finish}
+              onClick={stopRoulette}
             >
               ストップ
             </Button>
