@@ -24,7 +24,7 @@ interface Props {
   };
 }
 
-async function generateDomainCard(formData: FormData) {
+async function generateBingoCard(formData: FormData) {
   'use server';
 
   const bingoGameId = formData.get('bingoGameId');
@@ -78,7 +78,9 @@ async function deleteBingoCard(formData: FormData) {
   revalidatePath('/game/[bingoGameId]');
 }
 
-export default async function GameNewPage({ params: { bingoGameId } }: Props) {
+export default async function BingoGameManagementPage({
+  params: { bingoGameId },
+}: Props) {
   const bingoGameQueryUsecase = new BingoGameFindOneWithCardsQueryUsecase(
     getQuery('bingoGame'),
   );
@@ -129,7 +131,7 @@ export default async function GameNewPage({ params: { bingoGameId } }: Props) {
 
       <Section>
         <BingoCardGenerationForm
-          action={generateDomainCard}
+          action={generateBingoCard}
           bingoGameId={bingoGameId}
           canGenerate={canBingoCardGenerate()}
         />
