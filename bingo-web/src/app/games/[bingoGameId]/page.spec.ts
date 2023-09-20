@@ -31,9 +31,23 @@ test.describe('ビンゴゲーム管理ページ', () => {
       page.getByRole('figure', { name: '名無しのカード' }),
     ).toBeVisible();
 
+    await expect(
+      page
+        .getByRole('list', { name: 'ビンゴカード一覧' })
+        .getByRole('listitem', { level: 1 }),
+    ).toHaveCount(2);
+
     // ビンゴカードを削除する
-    await page.getByRole('button', { name: '削除' }).first().click();
+    await page.getByRole('button', { name: '削除する' }).first().click();
+    await page
+      .getByRole('button', { name: 'もとに戻せないことを理解して削除する' })
+      .click();
     await expect(page.getByRole('figure', { name: 'bingonta' })).toBeHidden();
+    await expect(
+      page
+        .getByRole('list', { name: 'ビンゴカード一覧' })
+        .getByRole('listitem', { level: 1 }),
+    ).toHaveCount(1);
   });
 
   test('番号の抽選, ビンゴ完成カードリスト', async ({ page }) => {
