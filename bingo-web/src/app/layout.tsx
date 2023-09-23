@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import './globals.css';
 
 import { M_PLUS_Rounded_1c, Rowdies } from '@next/font/google';
