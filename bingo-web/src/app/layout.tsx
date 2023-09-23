@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     siteName: 'BINGOBANG ONLINE',
     images: [
       {
-        url: `${process.env.VERCEL_URL}/img/ogp.png`,
+        url: `/img/ogp.png`,
         width: 1200,
         height: 630,
         alt: 'BINGOBANG ONLINE',
