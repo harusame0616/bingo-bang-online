@@ -4,17 +4,16 @@ import { notFound } from 'next/navigation';
 
 import { PageBox } from '@/components/BoxPageContent';
 import { Section } from '@/components/BoxSection';
-import { Button } from '@/components/Button';
 import { Chip } from '@/components/Chip';
 import { BingoCard } from '@/domains/BingoCard/components/BingoCard';
 import { isCardBingo } from '@/domains/BingoCard/lib/isCardBingo';
 import { LOTTERY_NUMBER_MAX } from '@/domains/BingoCard/models/BingoCard';
-import { BingoCardDeleteUsecase } from '@/domains/BingoCard/usecases/BingoCardDelete.usecase';
 import { BingoCardGenerateUsecase } from '@/domains/BingoCard/usecases/BingoCardGenerate.usecase';
 import { BingoGameFindOneWithCardsQueryUsecase } from '@/domains/BingoGame/usecases/BingoGameFindOneWithCards.query-usecase';
 import { getQuery } from '@/lib/infra/getQuery';
 import { getRepository } from '@/lib/infra/getRepository';
 
+import { BingoCardDeleteButton } from './_components/BingoCardDeleteButton';
 import BingoCardGenerationForm from './_components/BingoCardGenerationForm';
 import LotteryRoulette from './_components/LotteryRoulette';
 
@@ -50,30 +49,6 @@ async function generateBingoCard(formData: FormData) {
   await bingoCardGenerateUsecase.execute(bingoGameId, {
     name: cardName,
   });
-
-  revalidatePath('/game/[bingoGameId]');
-}
-
-async function deleteBingoCard(formData: FormData) {
-  'use server';
-
-  const bingoGameId = formData.get('bingoGameId');
-  const bingoCardId = formData.get('bingoCardId');
-
-  if (typeof bingoGameId !== 'string') {
-    throw new Error('bingoGameId is invalid type');
-  }
-
-  if (typeof bingoCardId !== 'string') {
-    throw new Error('bingoGameId is invalid type');
-  }
-
-  const bingoCardDeleteUsecase = new BingoCardDeleteUsecase({
-    bingoCardRepository: getRepository('bingoCard'),
-    bingoGameRepository: getRepository('bingoGame'),
-  });
-
-  await bingoCardDeleteUsecase.execute(bingoGameId, bingoCardId);
 
   revalidatePath('/game/[bingoGameId]');
 }
@@ -162,22 +137,17 @@ export default async function BingoGameManagementPage({
         <ul aria-labelledby="bingo-cards">
           <div className="flex flex-wrap justify-center gap-x-4 gap-y-8">
             {bingoGame.bingoCards.map((bingoCard) => (
-              <li key={bingoCard.id}>
-                <BingoCard
-                  bingoCard={bingoCard}
-                  lotteryNumbers={bingoGame.lotteryNumbers}
-                />
-                <form action={deleteBingoCard}>
-                  <input hidden defaultValue={bingoGameId} name="bingoGameId" />
-                  <input
-                    hidden
-                    defaultValue={bingoCard.id}
-                    name="bingoCardId"
+              <li key={bingoCard.id} aria-level={1}>
+                <div className="mb-1">
+                  <BingoCard
+                    bingoCard={bingoCard}
+                    lotteryNumbers={bingoGame.lotteryNumbers}
                   />
-                  <Button thick className="text-xs">
-                    削除
-                  </Button>
-                </form>
+                </div>
+                <BingoCardDeleteButton
+                  bingoCardId={bingoCard.id}
+                  bingoCardName={bingoCard.name || '名無し'}
+                />
               </li>
             ))}
           </div>
