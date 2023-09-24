@@ -19,7 +19,7 @@ export type BingoGameDtoWithCards = Omit<
 export interface BingoGameQuery {
   findOneByViewIdWithCards: (
     bingoGameId: string,
-  ) => Promise<BingoGameViewDtoWithCards | null>;
+  ) => Promise<BingoGameViewDtoWithCards>;
 
   findOneByIdWithCards: (
     bingoGameId: string,

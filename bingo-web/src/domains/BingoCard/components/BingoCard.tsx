@@ -6,17 +6,23 @@ import { BingoCardDto, FREE } from '../models/BingoCard';
 type Props = {
   bingoCard: BingoCardDto | Omit<BingoCardDto, 'bingoGameId'>;
   lotteryNumbers?: number[];
+  noLabel?: boolean;
 } & {
   large?: boolean;
 };
 
-export function BingoCard({ bingoCard, large, lotteryNumbers }: Props) {
+export function BingoCard({
+  bingoCard,
+  large,
+  lotteryNumbers,
+  noLabel,
+}: Props) {
   const squareSize = large ? 'h-12 w-12' : 'h-8 w-8';
   const bingoCardId = useId();
 
   return (
     <figure>
-      <figcaption id={bingoCardId}>
+      <figcaption id={bingoCardId} className={noLabel ? 'sr-only' : ''}>
         {bingoCard.name || '名無しのカード'}
       </figcaption>
       <ul aria-labelledby={bingoCardId}>
@@ -33,7 +39,7 @@ export function BingoCard({ bingoCard, large, lotteryNumbers }: Props) {
                       : 'border-gray-500'
                   }`}
                 >
-                  <li
+                  <div
                     className={`flex h-full w-full items-center justify-center ${
                       lotteryNumbers &&
                       [...lotteryNumbers, FREE].includes(number)
@@ -46,7 +52,7 @@ export function BingoCard({ bingoCard, large, lotteryNumbers }: Props) {
                     ) : (
                       number
                     )}
-                  </li>
+                  </div>
                 </li>
               ))}
             </ul>

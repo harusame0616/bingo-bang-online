@@ -6,10 +6,10 @@ import { bingoCardStore } from './IMBingoCardStore';
 export class InMemoryBingoCardQuery implements BingoCardQuery {
   async findOneBingoCardForDetailPage(
     bingoCardId: string,
-  ): Promise<BingoCardDtoForDetailPage | null> {
+  ): Promise<BingoCardDtoForDetailPage> {
     const bingoCard = bingoCardStore.get(bingoCardId);
     if (!bingoCard) {
-      return null;
+      throw new Error();
     }
 
     const { bingoGameId: _, ...bingoCardDtoWithoutBingoGameId } = bingoCard;

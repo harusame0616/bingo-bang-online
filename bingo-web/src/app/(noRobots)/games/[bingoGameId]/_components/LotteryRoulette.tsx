@@ -6,7 +6,7 @@ import React from 'react';
 
 import { Button, ButtonProps } from '@/components/Button';
 
-import { drawLotteryNumber } from './drawLotteryNumber';
+import { drawLotteryNumber } from '../_actions/drawLotteryNumber';
 import RouletteNumber from './RouletteNumber';
 
 interface Props {
@@ -40,13 +40,11 @@ export default function LotteryRoulette({
 
   return (
     <div className="flex w-full flex-col">
-      <label className="flex flex-col justify-center">
-        <div className="text-center text-xs text-primary-darken">抽選結果</div>
-
+      <div className="flex flex-col justify-center">
         <RouletteNumber isSpinning={isRouletteSpinning} soundOff={!isSoundOff}>
           {number ?? '-'}
         </RouletteNumber>
-      </label>
+      </div>
 
       <form action={drawLotteryNumber} className="flex justify-center">
         <input name="bingoGameId" hidden defaultValue={bingoGameId} />

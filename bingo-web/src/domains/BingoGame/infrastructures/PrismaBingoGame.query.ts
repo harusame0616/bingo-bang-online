@@ -9,14 +9,14 @@ import {
 export class PrismaBingoGameQuery implements BingoGameQuery {
   async findOneByViewIdWithCards(
     viewId: string,
-  ): Promise<BingoGameViewDtoWithCards | null> {
+  ): Promise<BingoGameViewDtoWithCards> {
     const bingoGame = await prisma.bingoGameEntity.findUnique({
       include: { bingoCards: true },
       where: { viewId },
     });
 
     if (!bingoGame) {
-      return null;
+      throw new Error();
     }
 
     const { id: _, ...bingoGameWithoutId } = bingoGame;

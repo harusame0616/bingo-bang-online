@@ -5,6 +5,6 @@ export const metadata: Metadata = {
   robots: 'noindex, nofollow',
 };
 
-export default function noRobots({ children }: PropsWithChildren) {
+export default function NoRobotsLayout({ children }: PropsWithChildren) {
   return children;
 }

@@ -61,7 +61,7 @@ test.describe('ビンゴゲーム管理ページ', () => {
       .click();
 
     // 抽選結果の初期値が表示されている
-    const lotteryNumberLocator = page.getByLabel('抽選結果');
+    const lotteryNumberLocator = page.getByRole('status', { name: '抽選結果' });
     await expect(lotteryNumberLocator).toHaveText('-');
 
     for (const _ in [...new Array(74)]) {
