@@ -10,13 +10,16 @@ export const metadata: Metadata = {
   title: 'BINGOBANG ONLINE',
   description:
     '登録不要、無料で手軽に楽しめるオールインワンのビンゴサービスです。ビンゴカードの自動生成、番号の抽選、ビンゴチェック、ビンゴしたカード一覧など管理の手間を省きます。ユーザー向けにビンゴカード一覧・ビンゴカード詳細ページ、抽選番号履歴ページもあり、配布や確認も簡単です。',
+  robots: 'index, follow',
+  applicationName: 'BINGOBANG ONLINE',
+  viewport: 'width=device-width,initial-scale=1.0',
   openGraph: {
     type: 'website',
     locale: 'ja_JP',
     url: process.env.VERCEL_URL,
     title: 'BINGOBANG ONLINE',
     description:
-      '登録不要、無料で手軽に楽しめるオールインワンのビンゴサービスです。ビンゴカードの自動生成、番号の抽選、ビンゴチェック、ビンゴしたカード一覧など管理の手間を省きます。ユーザー向けにビンゴカード一覧・ビンゴカード詳細ページ、抽選番号履歴ページもあり、配布や確認も簡単です。',
+      '登録不要、無料で手軽に楽しめるビンゴ管理サービスです。ビンゴカードの自動生成、番号の抽選、ビンゴチェック、ビンゴしたカード一覧など管理の手間を省きます。ユーザー向けにビンゴカード一覧・ビンゴカード詳細ページ、抽選番号履歴ページもあり、配布や確認も簡単です。',
     siteName: 'BINGOBANG ONLINE',
     images: [
       {
