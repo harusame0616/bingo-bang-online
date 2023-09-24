@@ -45,16 +45,28 @@ export default function RootLayout({
       <body
         className={`${baseFont.className} flex h-full w-full flex-col text-primary-normal`}
       >
-        <header className="flex grow-0 justify-center bg-primary-lighter px-4 py-12 text-white">
-          <h1 className={`text-5xl ${titleFont.className}`}>
-            <Link href="/">BINGOBANG ONLINE</Link>
-          </h1>
-        </header>
+        <Header />
         <main className="grow py-8">{children}</main>
-        <footer className="grow-0 bg-primary-lighter py-2 text-center font-black text-primary-darken">
-          &copy; 2023 Masaharu nemoto
-        </footer>
+        <Footer />
       </body>
     </html>
+  );
+}
+
+function Header() {
+  return (
+    <header className="flex grow-0 justify-center bg-primary-lighter px-4 py-12 text-white">
+      <h1 className={`text-5xl ${titleFont.className}`}>
+        <Link href="/">BINGOBANG ONLINE</Link>
+      </h1>
+    </header>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="grow-0 bg-primary-lighter py-2 text-center font-black text-primary-darken">
+      &copy; 2023 Masaharu nemoto
+    </footer>
   );
 }

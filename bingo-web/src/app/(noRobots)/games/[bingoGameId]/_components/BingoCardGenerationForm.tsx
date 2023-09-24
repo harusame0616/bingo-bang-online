@@ -1,5 +1,6 @@
 'use client';
 
+import { ReloadIcon } from '@radix-ui/react-icons';
 import { DetailedHTMLProps, FormHTMLAttributes, useRef } from 'react';
 
 import { ButtonOutline } from '@/components/Button';
@@ -47,11 +48,18 @@ export default function BingoCardGenerationForm({
           ref={bingoCardNameInput}
         />
       </label>
-      <div>
-        <ButtonOutline disabled={!canGenerate} disableInAction={true}>
-          ビンゴカードを生成する
-        </ButtonOutline>
-      </div>
+      <ButtonOutline
+        disabled={!canGenerate}
+        disableInAction={true}
+        disableInActionChildren={
+          <div className="flex items-center">
+            <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+            ビンゴカードを生成中です
+          </div>
+        }
+      >
+        ビンゴカードを生成する
+      </ButtonOutline>
     </form>
   );
 }

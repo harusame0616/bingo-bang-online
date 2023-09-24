@@ -1,5 +1,4 @@
-import { notFound } from 'next/navigation';
-
+import { PageBox } from '@/components/BoxPageContent';
 import { BingoCard } from '@/domains/BingoCard/components/BingoCard';
 import { getQuery } from '@/lib/infra/getQuery';
 
@@ -12,20 +11,25 @@ interface Props {
   };
 }
 
-export default async function CardDetailPage({ params: { cardId } }: Props) {
+function getBingoCard(bingoCardId: string) {
   const bingoCardDetailPageQueryUsecase = new BingoCardDetailPageQueryUsecase(
     getQuery('bingoCard'),
   );
 
-  const bingoCard = await bingoCardDetailPageQueryUsecase.execute(cardId);
+  return bingoCardDetailPageQueryUsecase.execute(bingoCardId);
+}
 
-  if (!bingoCard) {
-    return notFound();
-  }
+export default async function CardDetailPage({ params: { cardId } }: Props) {
+  const bingoCard = await getBingoCard(cardId);
 
   return (
-    <div className="mx-auto flex max-w-screen-lg justify-center">
-      <BingoCard key={bingoCard.id} bingoCard={bingoCard} large />
-    </div>
+    <PageBox>
+      <article className="flex flex-col items-center justify-center">
+        <h2 className="mb-4 text-lg text-primary-darken">
+          {bingoCard.name || '名無しのカード'}
+        </h2>
+        <BingoCard bingoCard={bingoCard} large noLabel />
+      </article>
+    </PageBox>
   );
 }

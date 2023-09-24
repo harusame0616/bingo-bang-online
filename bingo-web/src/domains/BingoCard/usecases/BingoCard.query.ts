@@ -3,5 +3,5 @@ import { BingoCardDtoForDetailPage } from '@/app/(noRobots)/views/[bingoGameView
 export interface BingoCardQuery {
   findOneBingoCardForDetailPage: (
     bingoCardId: string,
-  ) => Promise<BingoCardDtoForDetailPage | null>;
+  ) => Promise<BingoCardDtoForDetailPage>;
 }

@@ -1,10 +1,9 @@
 import { Pacifico } from '@next/font/google';
-import { notFound } from 'next/navigation';
 
+import { LotteryHistory } from '@/app/(noRobots)/_components/LotteryHistory';
 import { PageBox } from '@/components/BoxPageContent';
 import { Section } from '@/components/BoxSection';
 import { Button } from '@/components/Button';
-import { Chip } from '@/components/Chip';
 import { getQuery } from '@/lib/infra/getQuery';
 
 const numberFont = Pacifico({ subsets: ['latin'], weight: '400' });
@@ -14,39 +13,45 @@ interface Props {
   };
 }
 
-export default async function Page({ params: { bingoGameViewId } }: Props) {
+async function getLotteryNumbers(bingoGameViewId: string) {
   const repository = getQuery('bingoGame');
-  const bingoGameViewDto =
+
+  const { lotteryNumbers } =
     await repository.findOneByViewIdWithCards(bingoGameViewId);
 
-  if (!bingoGameViewDto) {
-    return notFound();
-  }
+  return lotteryNumbers;
+}
+
+export default async function Page({ params: { bingoGameViewId } }: Props) {
+  const lotteryNumbers = await getLotteryNumbers(bingoGameViewId);
 
   return (
     <PageBox>
-      <Section>
-        <h1 className="mb-4 text-center text-2xl text-primary-darken">
-          抽選番号発表
-        </h1>
-        <div className="flex flex-col items-center">
-          <div className="text-xs text-primary-lighter">最終抽選番号</div>
-          <div
-            className={`-mt-20 text-[10rem] text-primary-darken ${numberFont.className}`}
-          >
-            {bingoGameViewDto.lotteryNumbers.slice(-1)[0] ?? '-'}
-          </div>
-        </div>
-        <form className="-mt-4 flex justify-center">
-          <Button thick>再読み込み</Button>
-        </form>
-      </Section>
-
-      <Section className="flex flex-wrap justify-center gap-2">
-        {bingoGameViewDto.lotteryNumbers.map((number) => (
-          <Chip key={number}>{number}</Chip>
-        ))}
-      </Section>
+      <LastLotteryNumber lotteryNumber={lotteryNumbers.slice(-1)[0] ?? '-'} />
+      <LotteryHistory lotteryNumbers={lotteryNumbers} />
     </PageBox>
+  );
+}
+
+function LastLotteryNumber({ lotteryNumber }: { lotteryNumber: number }) {
+  return (
+    <Section>
+      <h2
+        className="mb-2 text-center text-xs text-primary-darken"
+        id="lottery-history"
+      >
+        最終抽選番号
+      </h2>
+      <div className="flex flex-col items-center">
+        <div
+          className={`-mt-20 text-[10rem] text-primary-darken ${numberFont.className}`}
+        >
+          {lotteryNumber ?? '-'}
+        </div>
+      </div>
+      <form className="-mt-4 flex justify-center">
+        <Button thick>再読み込み</Button>
+      </form>
+    </Section>
   );
 }

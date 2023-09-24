@@ -9,13 +9,13 @@ import { bingoGameStore } from './InMemoryBIngoGame.store';
 export class InMemoryBingoGameQuery implements BingoGameQuery {
   async findOneByViewIdWithCards(
     bingoGameViewId: string,
-  ): Promise<BingoGameDtoWithCards | null> {
+  ): Promise<BingoGameDtoWithCards> {
     const bingoGame = Array.from(bingoGameStore.values()).find(
       (bingoGame) => bingoGame.viewId === bingoGameViewId,
     );
 
     if (!bingoGame) {
-      return null;
+      throw new Error();
     }
 
     const bingoCards = Array.from(bingoCardStore.values()).filter(
