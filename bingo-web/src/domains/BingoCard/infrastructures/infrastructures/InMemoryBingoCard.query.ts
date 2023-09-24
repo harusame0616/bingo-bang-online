@@ -1,4 +1,4 @@
-import { BingoCardDtoForDetailPage } from '@/app/views/[bingoGameViewId]/cards/[cardId]/BingoCardDetailPageQueryUsecase';
+import { BingoCardDtoForDetailPage } from '@/app/(noRobots)/views/[bingoGameViewId]/cards/[cardId]/BingoCardDetailPageQueryUsecase';
 
 import { BingoCardQuery } from '../../usecases/BingoCard.query';
 import { bingoCardStore } from './IMBingoCardStore';
