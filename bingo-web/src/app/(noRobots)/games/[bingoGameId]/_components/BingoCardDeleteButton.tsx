@@ -1,12 +1,11 @@
 'use client';
 
-import { ReloadIcon, TrashIcon } from '@radix-ui/react-icons';
+import { TrashIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
-import { experimental_useFormStatus as useFormStatus } from 'react-dom';
 
+import { Button } from '@/components/Button';
 import {
   AlertDialog,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -14,7 +13,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
 
 import { deleteBingoCard } from '../_actions/deleteBingoCard';
 
@@ -37,13 +35,8 @@ export function BingoCardDeleteButton({
   return (
     <AlertDialog open={open}>
       <AlertDialogTrigger onClick={openDialog}>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="border-destructive"
-          aria-label="削除する"
-        >
-          <TrashIcon className="text-destructive" />
+        <Button variant="ghost" size="icon" aria-label="削除する">
+          <TrashIcon />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -62,31 +55,21 @@ export function BingoCardDeleteButton({
           }}
         >
           <input hidden defaultValue={bingoCardId} name="bingoCardId" />
-          <OperationButtons closeDialog={closeDialog} />
+          <AlertDialogFooter>
+            <Button variant="outline" type="button" onClick={closeDialog}>
+              キャンセル
+            </Button>
+            <Button
+              variant="destructive"
+              type="submit"
+              disableInAction
+              disableInActionChildren="削除中です"
+            >
+              もとに戻せないことを理解して削除する
+            </Button>
+          </AlertDialogFooter>
         </form>
       </AlertDialogContent>
     </AlertDialog>
-  );
-}
-
-function OperationButtons({ closeDialog }: { closeDialog: () => void }) {
-  const { pending } = useFormStatus();
-
-  return (
-    <AlertDialogFooter>
-      <AlertDialogCancel disabled={pending} onClick={closeDialog}>
-        キャンセル
-      </AlertDialogCancel>
-      <Button variant="destructive" type="submit" disabled={pending}>
-        {pending ? (
-          <>
-            <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-            削除中です...
-          </>
-        ) : (
-          'もとに戻せないことを理解して削除する'
-        )}
-      </Button>
-    </AlertDialogFooter>
   );
 }

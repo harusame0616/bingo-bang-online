@@ -78,11 +78,11 @@ export default async function BingoGameManagementPage({
           lotteryNumbers={lotteryNumbers}
         />
         <LotteryHistory lotteryNumbers={lotteryNumbers} />
-        <BingoGameGeneration bingoGameId={bingoGameId} />
         <BingoCompletionCards
           bingoCards={bingoCards}
           lotteryNumbers={lotteryNumbers}
         />
+        <BingoGameGeneration bingoGameId={bingoGameId} />
         <BingoCards bingoCards={bingoCards} lotteryNumbers={lotteryNumbers} />
         <ViewLinks viewId={viewId} />
       </article>
@@ -112,7 +112,7 @@ function LotteryResult({
 function BingoGameGeneration({ bingoGameId }: { bingoGameId: string }) {
   return (
     <Section>
-      <Heading srOnly>ビンゴカード生成フォーム</Heading>
+      <Heading>ビンゴカード生成</Heading>
       <BingoCardGenerationForm
         action={generateBingoCard}
         bingoGameId={bingoGameId}

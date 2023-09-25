@@ -54,7 +54,6 @@ function GameStart() {
         <Button
           disableInAction={true}
           disableInActionChildren="ビンゴゲームを準備中です"
-          className="mx-auto"
         >
           新しくビンゴゲームを開始する
         </Button>
