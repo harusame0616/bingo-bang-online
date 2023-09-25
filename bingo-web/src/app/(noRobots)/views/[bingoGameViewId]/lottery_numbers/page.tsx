@@ -49,8 +49,8 @@ function LastLotteryNumber({ lotteryNumber }: { lotteryNumber: number }) {
           {lotteryNumber ?? '-'}
         </div>
       </div>
-      <form className="-mt-4 flex justify-center">
-        <Button thick>再読み込み</Button>
+      <form className="-mt-4 flex justify-center" method="GET">
+        <Button>再読み込み</Button>
       </form>
     </Section>
   );

@@ -1,18 +1,24 @@
 'use client';
 
+import { ReloadIcon } from '@radix-ui/react-icons';
 import { experimental_useFormStatus as useFormStatus } from 'react-dom';
 
-export type ButtonProps = React.DetailedHTMLProps<
-  React.ButtonHTMLAttributes<HTMLButtonElement>,
-  HTMLButtonElement
-> & {
+import { Button as ShadcnButton } from '@/components/ui/button';
+
+export type ButtonProps = React.ComponentProps<typeof ShadcnButton> & {
   disableInAction?: boolean;
   disableInActionChildren?: React.ReactNode;
-  thick?: boolean;
+  loading?: boolean;
 };
 
 function BaseButton(props: ButtonProps) {
-  const { children, disableInAction, disableInActionChildren, ...rest } = props;
+  const {
+    children,
+    disableInAction,
+    disableInActionChildren,
+    loading,
+    ...rest
+  } = props;
   const { pending } = useFormStatus();
 
   const showChildren =
@@ -21,28 +27,18 @@ function BaseButton(props: ButtonProps) {
       : children;
 
   return (
-    <button {...rest} disabled={props.disabled || (disableInAction && pending)}>
+    <ShadcnButton
+      {...rest}
+      disabled={props.disabled || (disableInAction && pending)}
+    >
+      {(loading || (disableInAction === true && pending)) && (
+        <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+      )}
       {showChildren}
-    </button>
+    </ShadcnButton>
   );
 }
 
 export function Button(props: ButtonProps) {
-  return (
-    <BaseButton
-      {...props}
-      className={`bg-primary-normal font-bold text-white hover:bg-primary-darker ${
-        props.thick ? 'text-sm' : 'py-2'
-      } rounded px-4 disabled:opacity-40 disabled:hover:bg-primary-normal`}
-    />
-  );
-}
-
-export function ButtonOutline(props: ButtonProps) {
-  return (
-    <BaseButton
-      {...props}
-      className="rounded border border-primary-normal px-4  py-2 font-bold text-primary-darker hover:bg-primary-darker hover:text-white disabled:opacity-20"
-    />
-  );
+  return <BaseButton {...props} />;
 }
