@@ -6,17 +6,32 @@ import { BingoCardDto, FREE } from '../models/BingoCard';
 type Props = {
   bingoCard: BingoCardDto | Omit<BingoCardDto, 'bingoGameId'>;
   lotteryNumbers?: number[];
+  noLabel?: boolean;
 } & {
   large?: boolean;
 };
 
-export function BingoCard({ bingoCard, large, lotteryNumbers }: Props) {
-  const squareSize = large ? 'h-12 w-12' : 'h-8 w-8';
+export function BingoCard({
+  bingoCard,
+  large,
+  lotteryNumbers,
+  noLabel,
+}: Props) {
+  const squareSize = large ? 12 : 8;
+  const labelSize = squareSize * 4 * 5;
+  // tailwind のクラス検出用コメント -> h-12 w-12 h-8 w-8
+  const squareSizeStyle = `h-${squareSize} w-${squareSize}`;
   const bingoCardId = useId();
 
   return (
     <figure>
-      <figcaption id={bingoCardId}>
+      <figcaption
+        id={bingoCardId}
+        className={
+          `max-w-[${labelSize}px] overflow-hidden text-ellipsis` +
+          (noLabel ? 'sr-only' : '')
+        }
+      >
         {bingoCard.name || '名無しのカード'}
       </figcaption>
       <ul aria-labelledby={bingoCardId}>
@@ -26,14 +41,14 @@ export function BingoCard({ bingoCard, large, lotteryNumbers }: Props) {
               {rows.map((number, ci) => (
                 <li
                   key={`${ri}${ci}`}
-                  className={`rounded-sm border border-primary-darken ${squareSize} ${
+                  className={`grow-0 rounded-sm border border-primary-darken ${squareSizeStyle} ${
                     lotteryNumbers &&
                     isCardBingo(lotteryNumbers, bingoCard.squares)
                       ? 'border-red-600'
                       : 'border-gray-500'
                   }`}
                 >
-                  <li
+                  <div
                     className={`flex h-full w-full items-center justify-center ${
                       lotteryNumbers &&
                       [...lotteryNumbers, FREE].includes(number)
@@ -46,7 +61,7 @@ export function BingoCard({ bingoCard, large, lotteryNumbers }: Props) {
                     ) : (
                       number
                     )}
-                  </li>
+                  </div>
                 </li>
               ))}
             </ul>

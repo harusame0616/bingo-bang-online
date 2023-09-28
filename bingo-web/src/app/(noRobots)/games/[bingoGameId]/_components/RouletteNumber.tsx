@@ -65,6 +65,8 @@ export default function LotteryRoulette({
       className={`-mt-24 text-center text-[14rem] ${
         isSpinning ? 'text-primary-lighten' : 'text-primary-darken'
       } ${numberFont.className}`}
+      aria-label="抽選結果"
+      aria-live={isSpinning ? 'off' : 'polite'}
     >
       {isSpinning ? lotteryNumber : children}
     </output>

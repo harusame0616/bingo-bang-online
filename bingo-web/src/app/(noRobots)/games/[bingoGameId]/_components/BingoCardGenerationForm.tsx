@@ -1,8 +1,9 @@
 'use client';
 
-import { DetailedHTMLProps, FormHTMLAttributes, useRef } from 'react';
+import { DetailedHTMLProps, FormHTMLAttributes, useState } from 'react';
 
-import { ButtonOutline } from '@/components/Button';
+import { Button } from '@/components/Button';
+import { Input } from '@/components/Input';
 
 type Props = DetailedHTMLProps<
   FormHTMLAttributes<HTMLFormElement>,
@@ -15,12 +16,10 @@ export default function BingoCardGenerationForm({
   canGenerate,
   ...formProps
 }: Props) {
-  const bingoCardNameInput = useRef<HTMLInputElement>(null);
+  const [bingoCardName, setBingCardName] = useState('');
 
   const resetBingoCardName = () => {
-    if (bingoCardNameInput.current) {
-      bingoCardNameInput.current.value = '';
-    }
+    setBingCardName('');
   };
 
   const handleSubmit = (formData: FormData) => {
@@ -35,23 +34,27 @@ export default function BingoCardGenerationForm({
     <form
       action={handleSubmit}
       {...formProps}
-      className="flex w-full flex-col items-center"
+      className="flex w-full flex-col items-end gap-1 md:flex-row md:justify-center"
     >
       <input type="text" name="bingoGameId" hidden defaultValue={bingoGameId} />
       <label className="w-full max-w-md">
         ビンゴカードの名前
-        <input
+        <Input
           type="text"
           name="bingoCardName"
-          className="  mb-1 w-full max-w-lg rounded-md border border-slate-800 p-2"
-          ref={bingoCardNameInput}
+          maxLength={40}
+          value={bingoCardName}
+          onChange={(event) => setBingCardName(event.target.value)}
         />
       </label>
-      <div>
-        <ButtonOutline disabled={!canGenerate} disableInAction={true}>
-          ビンゴカードを生成する
-        </ButtonOutline>
-      </div>
+      <Button
+        disabled={!canGenerate}
+        disableInAction={true}
+        disableInActionChildren="生成中です..."
+        className="shrink-0"
+      >
+        生成する
+      </Button>
     </form>
   );
 }

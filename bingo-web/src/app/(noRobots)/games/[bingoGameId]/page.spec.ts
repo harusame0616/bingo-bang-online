@@ -15,7 +15,7 @@ test.describe('ビンゴゲーム管理ページ', () => {
     // ビンゴカードの名前をつけて作成する
     await page.getByLabel('ビンゴカードの名前').click();
     await page.keyboard.type('bingonta');
-    await page.getByRole('button', { name: 'ビンゴカードを生成する' }).click();
+    await page.getByRole('button', { name: '生成する' }).click();
 
     // ビンゴカードの名前の入力欄が空になる
     await expect(page.getByLabel('ビンゴカードの名前')).toBeEmpty();
@@ -24,16 +24,30 @@ test.describe('ビンゴゲーム管理ページ', () => {
 
     // ビンゴカードの名前をつけずに作成する
     await page.getByLabel('ビンゴカードの名前').click();
-    await page.getByRole('button', { name: 'ビンゴカードを生成する' }).click();
+    await page.getByRole('button', { name: '生成する' }).click();
 
     // 名前のついていないビンゴカードが作成される
     await expect(
       page.getByRole('figure', { name: '名無しのカード' }),
     ).toBeVisible();
 
+    await expect(
+      page
+        .getByRole('list', { name: 'ビンゴカード一覧' })
+        .getByRole('listitem', { level: 1 }),
+    ).toHaveCount(2);
+
     // ビンゴカードを削除する
-    await page.getByRole('button', { name: '削除' }).first().click();
+    await page.getByRole('button', { name: '削除する' }).first().click();
+    await page
+      .getByRole('button', { name: 'もとに戻せないことを理解して削除する' })
+      .click();
     await expect(page.getByRole('figure', { name: 'bingonta' })).toBeHidden();
+    await expect(
+      page
+        .getByRole('list', { name: 'ビンゴカード一覧' })
+        .getByRole('listitem', { level: 1 }),
+    ).toHaveCount(1);
   });
 
   test('番号の抽選, ビンゴ完成カードリスト', async ({ page }) => {
@@ -47,7 +61,7 @@ test.describe('ビンゴゲーム管理ページ', () => {
       .click();
 
     // 抽選結果の初期値が表示されている
-    const lotteryNumberLocator = page.getByLabel('抽選結果');
+    const lotteryNumberLocator = page.getByRole('status', { name: '抽選結果' });
     await expect(lotteryNumberLocator).toHaveText('-');
 
     for (const _ in [...new Array(74)]) {
@@ -101,12 +115,12 @@ test.describe('ビンゴゲーム管理ページ', () => {
     // ビンゴカードの名前をつけて作成する
     await page.getByLabel('ビンゴカードの名前').click();
     await page.keyboard.type('いいい');
-    await page.getByRole('button', { name: 'ビンゴカードを生成する' }).click();
+    await page.getByRole('button', { name: '生成する' }).click();
 
     // ビンゴカードの名前をつけて作成する
     await page.getByLabel('ビンゴカードの名前').click();
     await page.keyboard.type('あああ');
-    await page.getByRole('button', { name: 'ビンゴカードを生成する' }).click();
+    await page.getByRole('button', { name: '生成する' }).click();
 
     // ビンゴ完成カードが名前の順で表示される
     const bingoCompleteCardsLocator = page

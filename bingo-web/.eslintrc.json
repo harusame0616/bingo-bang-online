@@ -9,7 +9,8 @@
   "plugins": [
     "eslint-plugin-unused-imports",
     "simple-import-sort",
-    "sort-destructure-keys"
+    "sort-destructure-keys",
+    "import"
   ],
   "rules": {
     "simple-import-sort/imports": "error",
@@ -20,6 +21,7 @@
     "@typescript-eslint/no-unused-vars": [
       "error",
       { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
-    ]
+    ],
+    "import/no-unresolved": "error"
   }
 }
