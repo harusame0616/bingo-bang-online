@@ -1,5 +1,7 @@
 import { useId } from 'react';
 
+import { Card } from '@/components/ui/Card';
+
 import { isCardBingo } from '../lib/isCardBingo';
 import { BingoCardDto, FREE } from '../models/BingoCard';
 
@@ -24,50 +26,52 @@ export function BingoCard({
   const bingoCardId = useId();
 
   return (
-    <figure>
-      <figcaption
-        id={bingoCardId}
-        className={
-          `max-w-[${labelSize}px] overflow-hidden text-ellipsis` +
-          (noLabel ? 'sr-only' : '')
-        }
-      >
-        {bingoCard.name || '名無しのカード'}
-      </figcaption>
-      <ul aria-labelledby={bingoCardId}>
-        {bingoCard.squares.map((rows, ri) => (
-          <li key={ri} aria-label={`ビンゴカード${ri + 1}段目`}>
-            <ul className="flex">
-              {rows.map((number, ci) => (
-                <li
-                  key={`${ri}${ci}`}
-                  className={`grow-0 rounded-sm border border-primary-darken ${squareSizeStyle} ${
-                    lotteryNumbers &&
-                    isCardBingo(lotteryNumbers, bingoCard.squares)
-                      ? 'border-red-600'
-                      : 'border-gray-500'
-                  }`}
-                >
-                  <div
-                    className={`flex h-full w-full items-center justify-center ${
+    <Card className="p-2">
+      <figure>
+        <figcaption
+          id={bingoCardId}
+          className={
+            `max-w-[${labelSize}px] overflow-hidden text-ellipsis pb-1` +
+            (noLabel ? 'sr-only' : '')
+          }
+        >
+          {bingoCard.name || '名無しのカード'}
+        </figcaption>
+        <ul aria-labelledby={bingoCardId}>
+          {bingoCard.squares.map((rows, ri) => (
+            <li key={ri} aria-label={`ビンゴカード${ri + 1}段目`}>
+              <ul className="flex">
+                {rows.map((number, ci) => (
+                  <li
+                    key={`${ri}${ci}`}
+                    className={`grow-0 border border-gray-200 ${squareSizeStyle} ${
                       lotteryNumbers &&
-                      [...lotteryNumbers, FREE].includes(number)
-                        ? 'bg-primary-lighten text-red-600'
+                      isCardBingo(lotteryNumbers, bingoCard.squares)
+                        ? 'border-red-600'
                         : ''
                     }`}
                   >
-                    {number === FREE ? (
-                      <span className="text-xs text-red-600">FREE</span>
-                    ) : (
-                      number
-                    )}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
-    </figure>
+                    <div
+                      className={`flex h-full w-full items-center justify-center ${
+                        lotteryNumbers &&
+                        [...lotteryNumbers, FREE].includes(number)
+                          ? 'bg-primary text-red-600'
+                          : ''
+                      }`}
+                    >
+                      {number === FREE ? (
+                        <span className="text-xs text-red-600">FREE</span>
+                      ) : (
+                        number
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      </figure>
+    </Card>
   );
 }
