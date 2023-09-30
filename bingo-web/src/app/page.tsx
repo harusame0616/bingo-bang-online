@@ -33,15 +33,10 @@ export default function Home() {
 function AboutThis() {
   return (
     <Section className="mt-12 text-center">
-      <SectionTitle>BINGOBANG ONLINE とは</SectionTitle>
-      <p>
-        <StrongKeyword>インストール不要</StrongKeyword>、
-        <StrongKeyword>登録不要</StrongKeyword>、
-        <StrongKeyword>無料</StrongKeyword>
-        <span className="ml-1 block text-sm md:inline">
-          でビンゴを楽しめるサービスです。{' '}
-        </span>
-      </p>
+      <strong className="font-black">インストール不要・登録不要・無料</strong>
+      <span className="ml-1 block text-sm md:inline">
+        でビンゴを管理できるサービスです。
+      </span>
     </Section>
   );
 }
@@ -59,10 +54,7 @@ function GameStart() {
         </Button>
       </form>
 
-      <div
-        className="block text-center text-xs text-primary-darken"
-        id="bingo-game-start-note"
-      >
+      <div className="block text-center text-xs" id="bingo-game-start-note">
         新しくゲームを開始する際の注意
       </div>
       <ul
@@ -100,10 +92,13 @@ function Feature() {
       >
         {features.map((feature, i) => (
           <li key={feature.title} aria-labelledby={`feature-${i}`}>
-            <div className="font-black text-primary-darken" id={`feature-${i}`}>
+            <div className="font-black" id={`feature-${i}`}>
               {feature.title}
             </div>
-            <div className="mt-1 text-sm"> {feature.description}</div>
+            <div className="mt-1 text-xs text-muted-foreground">
+              {' '}
+              {feature.description}
+            </div>
           </li>
         ))}
       </ul>
@@ -114,10 +109,6 @@ function Feature() {
   );
 }
 
-function StrongKeyword({ children }: { children: React.ReactNode }) {
-  return <strong className="font-black text-primary-darken">{children}</strong>;
-}
-
 function Note({
   children,
   pre = '※',
@@ -126,16 +117,12 @@ function Note({
   pre?: string;
 }) {
   return (
-    <i className="block text-xs font-bold text-primary-lighter">
+    <i className="block text-xs font-bold text-muted-foreground">
       {pre}&nbsp;{children}
     </i>
   );
 }
 
 function SectionTitle({ children }: PropsWithChildren) {
-  return (
-    <h2 className="mb-2 text-center text-2xl font-black text-primary-darken">
-      {children}
-    </h2>
-  );
+  return <h2 className="mb-2 text-center text-2xl font-black">{children}</h2>;
 }

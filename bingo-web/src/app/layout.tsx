@@ -47,7 +47,7 @@ export default function RootLayout({
     <html lang="ja" className="h-full w-full">
       <body className={`${baseFont.className} flex h-full w-full flex-col`}>
         <Header />
-        <main className="grow py-8">{children}</main>
+        <main className="mt-[48px] grow py-4">{children}</main>
         <Footer />
       </body>
     </html>
