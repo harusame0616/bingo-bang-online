@@ -1,6 +1,6 @@
 import { useId } from 'react';
 
-import { Card } from '@/components/ui/Card';
+import { Card } from '@/components/ui/card';
 
 import { isCardBingo } from '../lib/isCardBingo';
 import { BingoCardDto, FREE } from '../models/BingoCard';
