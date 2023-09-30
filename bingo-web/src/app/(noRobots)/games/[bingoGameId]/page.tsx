@@ -189,10 +189,7 @@ function BingoCards({
 function ViewLinks({ viewId }: { viewId: string }) {
   return (
     <Section>
-      <h2
-        className="mb-2 text-center text-xs text-primary-darken "
-        id="view-pages"
-      >
+      <h2 className="mb-2 text-center text-xs" id="view-pages">
         閲覧専用ページリンク
       </h2>
       <ul aria-labelledby="view-pages">
