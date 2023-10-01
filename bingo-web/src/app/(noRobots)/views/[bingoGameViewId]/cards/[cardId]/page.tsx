@@ -28,7 +28,7 @@ export default async function CardDetailPage({ params: { cardId } }: Props) {
         <h2 className="mb-4 text-lg text-primary-darken">
           {bingoCard.name || '名無しのカード'}
         </h2>
-        <div className="grid h-full w-full max-w-md grid-cols-1">
+        <div className="grid w-full max-w-md grid-cols-1">
           <BingoCard bingoCard={bingoCard} noLabel />
         </div>
       </article>
