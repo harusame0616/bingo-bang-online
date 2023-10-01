@@ -34,10 +34,12 @@ export function BingoCardDeleteButton({
 
   return (
     <AlertDialog open={open}>
-      <AlertDialogTrigger onClick={openDialog}>
-        <Button variant="ghost" size="icon" aria-label="削除する">
-          <TrashIcon />
-        </Button>
+      <AlertDialogTrigger
+        onClick={openDialog}
+        aria-label="削除する"
+        className="p-2"
+      >
+        <TrashIcon />
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -54,8 +56,8 @@ export function BingoCardDeleteButton({
             closeDialog();
           }}
         >
-          <input hidden defaultValue={bingoCardId} name="bingoCardId" />
           <AlertDialogFooter>
+            <input hidden defaultValue={bingoCardId} name="bingoCardId" />
             <Button variant="outline" type="button" onClick={closeDialog}>
               キャンセル
             </Button>

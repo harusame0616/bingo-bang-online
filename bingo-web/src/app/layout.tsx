@@ -56,7 +56,7 @@ export default function RootLayout({
 
 function Header() {
   return (
-    <header className="fixed flex  w-full justify-center bg-background px-4 py-2 shadow-md">
+    <header className="fixed z-50  flex w-full justify-center bg-background px-4 py-2 shadow-md">
       <Image src={Mark} alt="" width="30" height="30" className="mr-2" />
       <h1 className={`text-2xl ${titleFont.className} text-primary-darken`}>
         <Link href="/">BINGOBANG ONLINE</Link>

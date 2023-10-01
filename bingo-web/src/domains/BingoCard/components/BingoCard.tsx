@@ -2,7 +2,6 @@ import { useId } from 'react';
 
 import { Card } from '@/components/ui/card';
 
-import { isCardBingo } from '../lib/isCardBingo';
 import { BingoCardDto, FREE } from '../models/BingoCard';
 
 type Props = {
@@ -21,8 +20,6 @@ export function BingoCard({
 }: Props) {
   const squareSize = large ? 12 : 8;
   const labelSize = squareSize * 4 * 5;
-  // tailwind のクラス検出用コメント -> h-12 w-12 h-8 w-8
-  const squareSizeStyle = `h-${squareSize} w-${squareSize}`;
   const bingoCardId = useId();
 
   return (
@@ -31,7 +28,7 @@ export function BingoCard({
         <figcaption
           id={bingoCardId}
           className={
-            `max-w-[${labelSize}px] overflow-hidden text-ellipsis pb-1` +
+            `max-w-[${labelSize}px] overflow-hidden text-ellipsis pb-1 text-sm` +
             (noLabel ? 'sr-only' : '')
           }
         >
@@ -40,25 +37,19 @@ export function BingoCard({
         <ul aria-labelledby={bingoCardId}>
           {bingoCard.squares.map((rows, ri) => (
             <li key={ri} aria-label={`ビンゴカード${ri + 1}段目`}>
-              <ul className="flex">
+              <ul className="grid grid-cols-5">
                 {rows.map((number, ci) => (
                   <li
                     key={`${ri}${ci}`}
-                    className={`grow-0 border border-gray-200 ${squareSizeStyle} ${
+                    className={`relative flex h-0 grow-0 border border-gray-200 pb-[100%] ${
                       lotteryNumbers &&
-                      isCardBingo(lotteryNumbers, bingoCard.squares)
-                        ? 'border-red-600'
+                      lotteryNumbers &&
+                      [...lotteryNumbers, FREE].includes(number)
+                        ? 'bg-primary text-red-600'
                         : ''
                     }`}
                   >
-                    <div
-                      className={`flex h-full w-full items-center justify-center ${
-                        lotteryNumbers &&
-                        [...lotteryNumbers, FREE].includes(number)
-                          ? 'bg-primary text-red-600'
-                          : ''
-                      }`}
-                    >
+                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                       {number === FREE ? (
                         <span className="text-xs text-red-600">FREE</span>
                       ) : (

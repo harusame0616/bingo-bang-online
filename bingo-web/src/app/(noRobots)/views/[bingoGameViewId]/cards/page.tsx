@@ -31,18 +31,20 @@ export default async function Page({ params: { bingoGameViewId } }: Props) {
         <Heading>
           <span id="bingo-cards">ビンゴカード一覧</span>
         </Heading>
-        <ul
-          aria-labelledby="bingo-cards"
-          className="flex flex-wrap justify-center gap-x-4 gap-y-8"
-        >
-          {bingoGameViewDto.bingoCards.map((bingoCard) => (
-            <li key={bingoCard.id}>
-              <BingoCard bingoCard={bingoCard} />
-              <Link href={`/views/${bingoGameViewId}/cards/${bingoCard.id}`}>
-                閲覧ページ
-              </Link>
-            </li>
-          ))}
+        <ul aria-label="ビンゴカード" className="w-full">
+          <div
+            className="grid grid-cols-2 gap-x-4  gap-y-8 sm:grid-cols-3 md:grid-cols-4"
+            aria-label="ビンゴカード"
+          >
+            {bingoGameViewDto.bingoCards.map((bingoCard) => (
+              <li key={bingoCard.id}>
+                <BingoCard bingoCard={bingoCard} />
+                <Link href={`/views/${bingoGameViewId}/cards/${bingoCard.id}`}>
+                  閲覧ページ
+                </Link>
+              </li>
+            ))}
+          </div>
         </ul>
       </article>
     </PageBox>
