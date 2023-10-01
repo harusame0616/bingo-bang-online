@@ -6,6 +6,7 @@ import { M_PLUS_Rounded_1c, Montserrat } from '@next/font/google';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import Script from 'next/script';
 
 import Mark from './mark.svg';
 
@@ -45,6 +46,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja" className="h-full w-full">
+      <head>
+        <GoogleAnalytics />
+      </head>
       <body className={`${baseFont.className} flex h-full w-full flex-col`}>
         <Header />
         <main className="mt-[48px] grow py-4">{children}</main>
@@ -70,5 +74,25 @@ function Footer() {
     <footer className="grow-0 bg-primary-lighter py-2 text-center font-black text-primary-darken">
       &copy; 2023 Masaharu nemoto
     </footer>
+  );
+}
+
+function GoogleAnalytics() {
+  return (
+    <>
+      <Script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=G-30177J9MB5"
+      />
+      <Script id="google-analytics">
+        {`
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-30177J9MB5');
+  `}
+      </Script>
+    </>
   );
 }
