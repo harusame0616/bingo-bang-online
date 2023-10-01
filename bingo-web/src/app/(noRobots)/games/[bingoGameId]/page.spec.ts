@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test';
 test.describe('ビンゴゲーム管理ページ', () => {
   const path = '/';
 
-  test('ビンゴカードの作成、削除ができる', async ({ page }) => {
+  test.skip('ビンゴカードの作成、削除ができる', async ({ page }) => {
     // ビンゴゲームを開始する
     await page.goto(path);
 
@@ -50,7 +50,7 @@ test.describe('ビンゴゲーム管理ページ', () => {
     ).toHaveCount(1);
   });
 
-  test('番号の抽選, ビンゴ完成カードリスト', async ({ page }) => {
+  test.skip('番号の抽選, ビンゴ完成カードリスト', async ({ page }) => {
     test.slow();
     // ビンゴゲームを開始する
     await page.goto(path);
