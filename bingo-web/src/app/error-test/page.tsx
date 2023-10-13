@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 export default function Page() {
+  // eslint-disable-next-line no-console
   console.log('page');
   return (
     <div>
