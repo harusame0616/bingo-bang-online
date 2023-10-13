@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 export default function Page() {
+  console.log('page');
   return (
     <div>
       <div>
