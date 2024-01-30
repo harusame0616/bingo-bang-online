@@ -53,3 +53,9 @@ URL: https://bingo-bang-online.vercel.app/
 | E2E Test       | Playwright     |                        |
 | フォーマッタ   | Prettier       |                        |
 | リンター       | ESLint         |                        |
+
+## その他リンク
+
+- 画像素材
+  - [Icon-rainbow](https://icon-rainbow.com/)
+  - [ICOOON MONO](https://icooon-mono.com/)

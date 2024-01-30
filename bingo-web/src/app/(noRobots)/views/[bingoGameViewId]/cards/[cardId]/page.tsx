@@ -24,11 +24,13 @@ export default async function CardDetailPage({ params: { cardId } }: Props) {
 
   return (
     <PageBox>
-      <article className="flex flex-col items-center justify-center">
+      <article className="flex flex-col items-center">
         <h2 className="mb-4 text-lg text-primary-darken">
           {bingoCard.name || '名無しのカード'}
         </h2>
-        <BingoCard bingoCard={bingoCard} large noLabel />
+        <div className="grid w-full max-w-md grid-cols-1">
+          <BingoCard bingoCard={bingoCard} noLabel />
+        </div>
       </article>
     </PageBox>
   );

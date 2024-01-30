@@ -5,6 +5,9 @@ export function Section({
   ...props
 }: DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>) {
   return (
-    <section className={`mb-12 last:mb-0 ${className || ''}`} {...props} />
+    <section
+      className={`mb-12 w-full last:mb-0 ${className || ''}`}
+      {...props}
+    />
   );
 }

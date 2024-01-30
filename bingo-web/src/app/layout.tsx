@@ -2,9 +2,13 @@ export const dynamic = 'force-dynamic';
 
 import './globals.css';
 
-import { M_PLUS_Rounded_1c, Rowdies } from '@next/font/google';
+import { M_PLUS_Rounded_1c, Montserrat } from '@next/font/google';
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
+import Script from 'next/script';
+
+import Mark from './mark.svg';
 
 export const metadata: Metadata = {
   title: 'BINGOBANG ONLINE',
@@ -32,7 +36,7 @@ export const metadata: Metadata = {
   },
 };
 
-const titleFont = Rowdies({ subsets: ['latin'], weight: '400' });
+const titleFont = Montserrat({ subsets: ['latin'], weight: '400' });
 const baseFont = M_PLUS_Rounded_1c({ subsets: ['latin'], weight: '400' });
 
 export default function RootLayout({
@@ -42,11 +46,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja" className="h-full w-full">
-      <body
-        className={`${baseFont.className} flex h-full w-full flex-col text-primary-normal`}
-      >
+      <head>
+        <GoogleAnalytics />
+      </head>
+      <body className={`${baseFont.className} flex h-full w-full flex-col`}>
         <Header />
-        <main className="grow py-8">{children}</main>
+        <main className="mt-[48px] grow py-4">{children}</main>
         <Footer />
       </body>
     </html>
@@ -55,8 +60,9 @@ export default function RootLayout({
 
 function Header() {
   return (
-    <header className="flex grow-0 justify-center bg-primary-lighter px-4 py-12 text-white">
-      <h1 className={`text-5xl ${titleFont.className}`}>
+    <header className="fixed z-50  flex w-full justify-center bg-background px-4 py-2 shadow-md">
+      <Image src={Mark} alt="" width="30" height="30" className="mr-2" />
+      <h1 className={`text-2xl ${titleFont.className} text-primary-darken`}>
         <Link href="/">BINGOBANG ONLINE</Link>
       </h1>
     </header>
@@ -68,5 +74,25 @@ function Footer() {
     <footer className="grow-0 bg-primary-lighter py-2 text-center font-black text-primary-darken">
       &copy; 2023 Masaharu nemoto
     </footer>
+  );
+}
+
+function GoogleAnalytics() {
+  return (
+    <>
+      <Script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=G-30177J9MB5"
+      />
+      <Script id="google-analytics">
+        {`
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-30177J9MB5');
+  `}
+      </Script>
+    </>
   );
 }

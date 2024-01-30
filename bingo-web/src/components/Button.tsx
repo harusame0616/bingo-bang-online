@@ -11,7 +11,7 @@ export type ButtonProps = React.ComponentProps<typeof ShadcnButton> & {
   loading?: boolean;
 };
 
-function BaseButton(props: ButtonProps) {
+export function Button(props: ButtonProps) {
   const {
     children,
     disableInAction,
@@ -37,8 +37,4 @@ function BaseButton(props: ButtonProps) {
       {showChildren}
     </ShadcnButton>
   );
-}
-
-export function Button(props: ButtonProps) {
-  return <BaseButton {...props} />;
 }
