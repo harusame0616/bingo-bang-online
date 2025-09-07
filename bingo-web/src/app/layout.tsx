@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import './globals.css';
 
-import { M_PLUS_Rounded_1c, Montserrat } from '@next/font/google';
+import { M_PLUS_Rounded_1c, Montserrat } from 'next/font/google';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';

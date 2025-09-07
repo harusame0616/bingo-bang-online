@@ -1,4 +1,4 @@
-import { Pacifico } from '@next/font/google';
+import { Pacifico } from 'next/font/google';
 
 import { LotteryHistory } from '@/app/(noRobots)/_components/LotteryHistory';
 import { PageBox } from '@/components/BoxPageContent';

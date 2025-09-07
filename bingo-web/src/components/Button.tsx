@@ -1,9 +1,10 @@
 'use client';
 
 import { ReloadIcon } from '@radix-ui/react-icons';
-import { experimental_useFormStatus as useFormStatus } from 'react-dom';
 
 import { Button as ShadcnButton } from '@/components/ui/button';
+
+import { useFormStatus } from 'react-dom'
 
 export type ButtonProps = React.ComponentProps<typeof ShadcnButton> & {
   disableInAction?: boolean;

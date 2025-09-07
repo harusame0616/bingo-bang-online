@@ -1,6 +1,6 @@
 'use client';
 
-import { Pacifico } from '@next/font/google';
+import { Pacifico } from 'next/font/google';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import React from 'react';
 
