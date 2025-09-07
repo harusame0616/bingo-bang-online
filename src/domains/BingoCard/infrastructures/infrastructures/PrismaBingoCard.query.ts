@@ -1,5 +1,5 @@
 import { BingoCardDtoForDetailPage } from '@/app/(noRobots)/views/[bingoGameViewId]/cards/[cardId]/BingoCardDetailPageQueryUsecase';
-import { prisma } from '@/lib/prisma';
+import prisma from '@/lib/prisma';
 
 import { BingoCardQuery } from '../../usecases/BingoCard.query';
 

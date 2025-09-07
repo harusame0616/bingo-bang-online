@@ -14,6 +14,7 @@ async function startBingoGame() {
   const createUsecase = new BingoGameCreateUsecase(getRepository('bingoGame'));
 
   const bingoGame = await createUsecase.execute();
+  console.log(bingoGame)
   redirect(`/games/${bingoGame.id}?sound=${process.env.CI ? 'off' : 'on'}`);
 }
 
