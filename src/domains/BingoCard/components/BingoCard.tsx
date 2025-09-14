@@ -1,7 +1,10 @@
+'use client';
+
 import { useId } from 'react';
 
 import { BingoCardEntity } from '@/app/generated/prisma';
 import { Card } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 
 import { FREE } from '../models/BingoCard';
 
@@ -9,6 +12,7 @@ type Props = {
   bingoCard: BingoCardEntity;
   lotteryNumbers?: number[];
   noLabel?: boolean;
+  onNumberClick?: (number: number) => void;
 } & {
   large?: boolean;
 };
@@ -18,6 +22,7 @@ export function BingoCard({
   large,
   lotteryNumbers,
   noLabel,
+  onNumberClick,
 }: Props) {
   const squareSize = large ? 12 : 8;
   const labelSize = squareSize * 4 * 5;
@@ -49,21 +54,23 @@ export function BingoCard({
                 {rows.map((number, ci) => (
                   <li
                     key={`${ri}${ci}`}
-                    className={`relative flex h-0 grow-0 border border-gray-200 pb-[100%] ${
+                    className={cn(
+                      'relative flex h-0 grow-0 border border-gray-200 pb-[100%]',
                       lotteryNumbers &&
-                      lotteryNumbers &&
-                      [...lotteryNumbers, FREE].includes(number)
-                        ? 'bg-primary text-red-600'
-                        : ''
-                    }`}
+                        [...lotteryNumbers, FREE].includes(number) &&
+                        'bg-primary text-red-600',
+                    )}
                   >
-                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <button
+                      className={cn("absolute inset-0", !onNumberClick && 'pointer-events-none')}
+                      onClick={onNumberClick?.bind(null, number)}
+                    >
                       {number === FREE ? (
                         <span className="text-xs text-red-600">FREE</span>
                       ) : (
                         number
                       )}
-                    </div>
+                    </button>
                   </li>
                 ))}
               </ul>

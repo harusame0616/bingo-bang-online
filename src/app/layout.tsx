@@ -56,9 +56,7 @@ export default function RootLayout({
             <Link href="/">BINGOBANG ONLINE</Link>
           </h1>
         </header>
-        <main className="flex grow flex-col overflow-y-hidden">
-          {children}
-        </main>
+        <main className="flex grow flex-col overflow-y-hidden">{children}</main>
       </body>
     </html>
   );

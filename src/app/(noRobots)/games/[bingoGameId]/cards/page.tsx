@@ -117,9 +117,7 @@ export function BingoCardsPresenter({
   lotteryNumbers: number[];
 }) {
   return (
-    <BingoCardList
-      aria-label="ビンゴカード"
-    >
+    <BingoCardList aria-label="ビンゴカード">
       {bingoCards.map((bingoCard) => (
         <li key={bingoCard.id} aria-level={1} className="">
           <BingoCard bingoCard={bingoCard} lotteryNumbers={lotteryNumbers} />

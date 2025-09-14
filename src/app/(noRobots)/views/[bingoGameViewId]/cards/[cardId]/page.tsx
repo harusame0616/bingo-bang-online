@@ -2,9 +2,9 @@ import { ReloadIcon } from '@radix-ui/react-icons';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
-import { BingoCardEntity } from '@/app/generated/prisma';
-import { BingoCard } from '@/domains/BingoCard/components/BingoCard';
 import prisma from '@/lib/prisma';
+
+import { BingoDetailPresenter } from './BingoDetailPresenter';
 
 export default async function CardDetailPage({
   params,
@@ -38,8 +38,4 @@ async function BingoDetailContainer({ bingoCardId }: { bingoCardId: string }) {
   const bingoCard = await getBingoCard(bingoCardId);
 
   return <BingoDetailPresenter bingoCard={bingoCard} />;
-}
-
-function BingoDetailPresenter({ bingoCard }: { bingoCard: BingoCardEntity }) {
-  return <BingoCard bingoCard={bingoCard} />;
 }

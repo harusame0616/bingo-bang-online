@@ -1,7 +1,7 @@
 'use client';
 
 import { ReloadIcon } from '@radix-ui/react-icons';
-import { useFormStatus } from 'react-dom'
+import { useFormStatus } from 'react-dom';
 
 import { Button as ShadcnButton } from '@/components/ui/button';
 export type ButtonProps = React.ComponentProps<typeof ShadcnButton> & {

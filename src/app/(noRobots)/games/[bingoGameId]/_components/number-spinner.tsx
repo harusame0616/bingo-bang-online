@@ -79,9 +79,9 @@ export function NumberSpinner({
     spinAudioSource.current.start();
   }, [sound]);
 
-  const stopSound= useCallback(() => {
+  const stopSound = useCallback(() => {
     if (!sound) {
-      return
+      return;
     }
 
     if (spinAudioSource.current) {
@@ -91,7 +91,7 @@ export function NumberSpinner({
         spinAudioSource.current = null;
       } catch {}
     }
-  },[sound]);
+  }, [sound]);
 
   useEffect(() => {
     if (!isSpinning && timer.current) {

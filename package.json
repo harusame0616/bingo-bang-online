@@ -7,13 +7,14 @@
     "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
-    "lint:check": "next lint",
-    "lint:write": "next lint --fix",
+    "lint:check": "eslint .",
+    "lint:fix": "eslint --fix .",
     "format:check": "prettier -c ./**/*.{ts,tsx,json}",
-    "format:write": "prettier -w ./**/*.{ts,tsx,json}",
+    "format:fix": "prettier -w ./**/*.{ts,tsx,json}",
     "test:unit": "vitest",
     "db:deploy": "prisma migrate deploy"
   },
+  "packageManager": "pnpm@10.12.4",
   "prisma": {
     "seed": "pnpm dlx tsx prisma/seed.ts"
   },
@@ -31,6 +32,7 @@
     "clsx": "^2.0.0",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
+    "jotai": "^2.14.0",
     "next": "15.5.2",
     "postcss": "8.4.29",
     "react": "19.1.1",
