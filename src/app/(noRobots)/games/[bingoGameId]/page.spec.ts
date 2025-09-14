@@ -1,133 +1,127 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from "@playwright/test";
 
-test.describe('ビンゴゲーム管理ページ', () => {
-  const path = '/';
+test.describe("ビンゴゲーム管理ページ", () => {
+	const path = "/";
 
-  test.skip('ビンゴカードの作成、削除ができる', async ({ page }) => {
-    // ビンゴゲームを開始する
-    await page.goto(path);
+	test.skip("ビンゴカードの作成、削除ができる", async ({ page }) => {
+		// ビンゴゲームを開始する
+		await page.goto(path);
 
-    // ビンゴゲームを開始する
-    await page
-      .getByRole('button', { name: '新しくビンゴゲームを開始する' })
-      .click();
+		// ビンゴゲームを開始する
+		await page
+			.getByRole("button", { name: "新しくビンゴゲームを開始する" })
+			.click();
 
-    // ビンゴカードの名前をつけて作成する
-    await page.getByLabel('ビンゴカードの名前').click();
-    await page.keyboard.type('bingonta');
-    await page.getByRole('button', { name: '生成する' }).click();
+		// ビンゴカードの名前をつけて作成する
+		await page.getByLabel("ビンゴカードの名前").click();
+		await page.keyboard.type("bingonta");
+		await page.getByRole("button", { name: "生成する" }).click();
 
-    // ビンゴカードの名前の入力欄が空になる
-    await expect(page.getByLabel('ビンゴカードの名前')).toBeEmpty();
-    // 名前の付いたビンゴカードが作成される
-    await expect(page.getByRole('figure', { name: 'bingonta' })).toBeVisible();
+		// ビンゴカードの名前の入力欄が空になる
+		await expect(page.getByLabel("ビンゴカードの名前")).toBeEmpty();
+		// 名前の付いたビンゴカードが作成される
+		await expect(page.getByRole("figure", { name: "bingonta" })).toBeVisible();
 
-    // ビンゴカードの名前をつけずに作成する
-    await page.getByLabel('ビンゴカードの名前').click();
-    await page.getByRole('button', { name: '生成する' }).click();
+		// ビンゴカードの名前をつけずに作成する
+		await page.getByLabel("ビンゴカードの名前").click();
+		await page.getByRole("button", { name: "生成する" }).click();
 
-    // 名前のついていないビンゴカードが作成される
-    await expect(
-      page.getByRole('figure', { name: '名無しのカード' }),
-    ).toBeVisible();
+		// 名前のついていないビンゴカードが作成される
+		await expect(
+			page.getByRole("figure", { name: "名無しのカード" }),
+		).toBeVisible();
 
-    await expect(
-      page
-        .getByRole('list', { name: 'ビンゴカード一覧' })
-        .getByRole('listitem', { level: 1 }),
-    ).toHaveCount(2);
+		await expect(
+			page
+				.getByRole("list", { name: "ビンゴカード一覧" })
+				.getByRole("listitem", { level: 1 }),
+		).toHaveCount(2);
 
-    // ビンゴカードを削除する
-    await page.getByRole('button', { name: '削除する' }).first().click();
-    await page
-      .getByRole('button', { name: 'もとに戻せないことを理解して削除する' })
-      .click();
-    await expect(page.getByRole('figure', { name: 'bingonta' })).toBeHidden();
-    await expect(
-      page
-        .getByRole('list', { name: 'ビンゴカード一覧' })
-        .getByRole('listitem', { level: 1 }),
-    ).toHaveCount(1);
-  });
+		// ビンゴカードを削除する
+		await page.getByRole("button", { name: "削除する" }).first().click();
+		await page
+			.getByRole("button", { name: "もとに戻せないことを理解して削除する" })
+			.click();
+		await expect(page.getByRole("figure", { name: "bingonta" })).toBeHidden();
+		await expect(
+			page
+				.getByRole("list", { name: "ビンゴカード一覧" })
+				.getByRole("listitem", { level: 1 }),
+		).toHaveCount(1);
+	});
 
-  test.skip('番号の抽選, ビンゴ完成カードリスト', async ({ page }) => {
-    test.slow();
-    // ビンゴゲームを開始する
-    await page.goto(path);
+	test.skip("番号の抽選, ビンゴ完成カードリスト", async ({ page }) => {
+		test.slow();
+		// ビンゴゲームを開始する
+		await page.goto(path);
 
-    // ビンゴゲームを開始する
-    await page
-      .getByRole('button', { name: '新しくビンゴゲームを開始する' })
-      .click();
+		// ビンゴゲームを開始する
+		await page
+			.getByRole("button", { name: "新しくビンゴゲームを開始する" })
+			.click();
 
-    // 抽選結果の初期値が表示されている
-    const lotteryNumberLocator = page.getByRole('status', { name: '抽選結果' });
-    await expect(lotteryNumberLocator).toHaveText('-');
+		// 抽選結果の初期値が表示されている
+		const lotteryNumberLocator = page.getByRole("status", { name: "抽選結果" });
+		await expect(lotteryNumberLocator).toHaveText("-");
 
-    for (const _ in [...new Array(74)]) {
-      // 番号を抽選する
-      await page.getByRole('button', { name: 'スタート' }).click();
-      await page.getByRole('button', { name: 'ストップ' }).click();
+		for (const _ in [...new Array(74)]) {
+			// 番号を抽選する
+			await page.getByRole("button", { name: "スタート" }).click();
+			await page.getByRole("button", { name: "ストップ" }).click();
 
-      // スタートボタンが有効化される
-      await expect(
-        page.getByRole('button', { name: 'スタート' }),
-      ).toBeEnabled();
+			// スタートボタンが有効化される
+			await expect(
+				page.getByRole("button", { name: "スタート" }),
+			).toBeEnabled();
 
-      // 抽選結果が表示される
-      await expect(lotteryNumberLocator).toHaveText(/^[0-9]{1,2}$/);
+			// 抽選結果が表示される
+			await expect(lotteryNumberLocator).toHaveText(/^[0-9]{1,2}$/);
 
-      // 抽選履歴の最後に番号が追加される
-      await expect(
-        page
-          .getByRole('list', { name: '抽選番号履歴' })
-          .getByRole('listitem')
-          .last(),
-      ).toHaveText(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        (await lotteryNumberLocator.textContent())!,
-      );
+			// 抽選履歴の最後に番号が追加される
+			await expect(
+				page
+					.getByRole("list", { name: "抽選番号履歴" })
+					.getByRole("listitem")
+					.last(),
+			).toHaveText((await lotteryNumberLocator.textContent()) ?? "");
 
-      await page.waitForTimeout(200);
-    }
+			await page.waitForTimeout(200);
+		}
 
-    // 最後の番号を抽選する
-    await page.getByRole('button', { name: 'スタート' }).click();
-    await page.getByRole('button', { name: 'ストップ' }).click();
+		// 最後の番号を抽選する
+		await page.getByRole("button", { name: "スタート" }).click();
+		await page.getByRole("button", { name: "ストップ" }).click();
 
-    // 全部の数字を抽選したら、スタートボタンが「抽選終了」になり無効になる
-    await expect(page.getByRole('button', { name: '抽選終了' })).toBeDisabled();
+		// 全部の数字を抽選したら、スタートボタンが「抽選終了」になり無効になる
+		await expect(page.getByRole("button", { name: "抽選終了" })).toBeDisabled();
 
-    // 抽選結果が表示される
-    await expect(lotteryNumberLocator).toHaveText(/^[0-9]{1,2}$/);
+		// 抽選結果が表示される
+		await expect(lotteryNumberLocator).toHaveText(/^[0-9]{1,2}$/);
 
-    // 抽選履歴の最後に番号が追加される
-    await expect(
-      page
-        .getByRole('list', { name: '抽選番号履歴' })
-        .getByRole('listitem')
-        .last(),
-    ).toHaveText(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      (await lotteryNumberLocator.textContent())!,
-    );
+		// 抽選履歴の最後に番号が追加される
+		await expect(
+			page
+				.getByRole("list", { name: "抽選番号履歴" })
+				.getByRole("listitem")
+				.last(),
+		).toHaveText((await lotteryNumberLocator.textContent()) ?? "");
 
-    // ビンゴカードの名前をつけて作成する
-    await page.getByLabel('ビンゴカードの名前').click();
-    await page.keyboard.type('いいい');
-    await page.getByRole('button', { name: '生成する' }).click();
+		// ビンゴカードの名前をつけて作成する
+		await page.getByLabel("ビンゴカードの名前").click();
+		await page.keyboard.type("いいい");
+		await page.getByRole("button", { name: "生成する" }).click();
 
-    // ビンゴカードの名前をつけて作成する
-    await page.getByLabel('ビンゴカードの名前').click();
-    await page.keyboard.type('あああ');
-    await page.getByRole('button', { name: '生成する' }).click();
+		// ビンゴカードの名前をつけて作成する
+		await page.getByLabel("ビンゴカードの名前").click();
+		await page.keyboard.type("あああ");
+		await page.getByRole("button", { name: "生成する" }).click();
 
-    // ビンゴ完成カードが名前の順で表示される
-    const bingoCompleteCardsLocator = page
-      .getByRole('list', { name: 'ビンゴ完成カード名一覧(名前順)' })
-      .getByRole('listitem');
+		// ビンゴ完成カードが名前の順で表示される
+		const bingoCompleteCardsLocator = page
+			.getByRole("list", { name: "ビンゴ完成カード名一覧(名前順)" })
+			.getByRole("listitem");
 
-    await expect(bingoCompleteCardsLocator.first()).toHaveText('あああ');
-    await expect(bingoCompleteCardsLocator.nth(1)).toHaveText('いいい');
-  });
+		await expect(bingoCompleteCardsLocator.first()).toHaveText("あああ");
+		await expect(bingoCompleteCardsLocator.nth(1)).toHaveText("いいい");
+	});
 });

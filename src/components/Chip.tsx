@@ -1,15 +1,15 @@
-import { DetailedHTMLProps, HTMLAttributes } from 'react';
+import type { DetailedHTMLProps, HTMLAttributes } from "react";
 
 export function Chip({
-  className,
-  ...props
+	className,
+	...props
 }: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>) {
-  return (
-    <div
-      className={`flex w-16 justify-center rounded-lg bg-primary-lighten text-primary-darken ${
-        className ?? ''
-      }`}
-      {...props}
-    />
-  );
+	return (
+		<div
+			className={`flex w-16 justify-center rounded-lg bg-primary-lighten text-primary-darken ${
+				className ?? ""
+			}`}
+			{...props}
+		/>
+	);
 }

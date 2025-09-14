@@ -1,54 +1,56 @@
-import { notFound } from 'next/navigation';
+import { notFound } from "next/navigation";
 
-import { Section } from '@/components/BoxSection';
-import { Chip } from '@/components/Chip';
-import prisma from '@/lib/prisma';
+import { Section } from "@/components/BoxSection";
+import { Chip } from "@/components/Chip";
+import prisma from "@/lib/prisma";
 
-import { Heading } from './Heading';
+import { Heading } from "./Heading";
+import { useId } from "react";
 
 export async function LotteryHistoryContainer({
-  bingoGameId,
+	bingoGameId,
 }: {
-  bingoGameId: string;
+	bingoGameId: string;
 }) {
-  async function getLotteryNumbers() {
-    const bingoGame = await prisma.bingoGameEntity.findUnique({
-      where: {
-        id: bingoGameId,
-      },
-    });
-    if (!bingoGame) {
-      notFound();
-    }
+	async function getLotteryNumbers() {
+		const bingoGame = await prisma.bingoGameEntity.findUnique({
+			where: {
+				id: bingoGameId,
+			},
+		});
+		if (!bingoGame) {
+			notFound();
+		}
 
-    return bingoGame?.lotteryNumbers;
-  }
+		return bingoGame?.lotteryNumbers;
+	}
 
-  const numbers = await getLotteryNumbers();
+	const numbers = await getLotteryNumbers();
 
-  return <LotteryHistory lotteryNumbers={numbers} />;
+	return <LotteryHistory lotteryNumbers={numbers} />;
 }
 
 export function LotteryHistory({
-  lotteryNumbers,
+	lotteryNumbers,
 }: {
-  lotteryNumbers: number[];
+	lotteryNumbers: number[];
 }) {
-  return (
-    <Section>
-      <Heading>
-        <span id="lottery-number-history">抽選番号履歴</span>
-      </Heading>
-      <ol
-        aria-labelledby="lottery-number-history"
-        className="flex flex-wrap justify-center gap-x-2 gap-y-1"
-      >
-        {lotteryNumbers.map((lotteryNumber) => (
-          <li key={lotteryNumber}>
-            <Chip>{lotteryNumber}</Chip>
-          </li>
-        ))}
-      </ol>
-    </Section>
-  );
+	const id = useId();
+	return (
+		<Section>
+			<Heading>
+				<span id={id}>抽選番号履歴</span>
+			</Heading>
+			<ol
+				aria-labelledby={id}
+				className="flex flex-wrap justify-center gap-x-2 gap-y-1"
+			>
+				{lotteryNumbers.map((lotteryNumber) => (
+					<li key={lotteryNumber}>
+						<Chip>{lotteryNumber}</Chip>
+					</li>
+				))}
+			</ol>
+		</Section>
+	);
 }

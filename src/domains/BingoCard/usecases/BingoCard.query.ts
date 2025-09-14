@@ -1,7 +1,7 @@
-import { BingoCardDtoForDetailPage } from '@/app/(noRobots)/views/[bingoGameViewId]/cards/[cardId]/BingoCardDetailPageQueryUsecase';
+import type { BingoCardDtoForDetailPage } from "@/app/(noRobots)/views/[bingoGameViewId]/cards/[cardId]/BingoCardDetailPageQueryUsecase";
 
 export interface BingoCardQuery {
-  findOneBingoCardForDetailPage: (
-    bingoCardId: string,
-  ) => Promise<BingoCardDtoForDetailPage>;
+	findOneBingoCardForDetailPage: (
+		bingoCardId: string,
+	) => Promise<BingoCardDtoForDetailPage>;
 }

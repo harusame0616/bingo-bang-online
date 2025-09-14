@@ -1,13 +1,13 @@
-import { BingoCard } from '../../models/BingoCard';
-import { BingoCardRepository } from '../../usecases/BingoCard.repository';
-import { bingoCardStore } from './IMBingoCardStore';
+import type { BingoCard } from "../../models/BingoCard";
+import type { BingoCardRepository } from "../../usecases/BingoCard.repository";
+import { bingoCardStore } from "./IMBingoCardStore";
 
 export class InMemoryBingoCardRepository implements BingoCardRepository {
-  async save(bingoCard: BingoCard): Promise<void> {
-    bingoCardStore.set(bingoCard.id, bingoCard.toDto());
-  }
+	async save(bingoCard: BingoCard): Promise<void> {
+		bingoCardStore.set(bingoCard.id, bingoCard.toDto());
+	}
 
-  async delete(bingoCardId: string): Promise<void> {
-    bingoCardStore.delete(bingoCardId);
-  }
+	async delete(bingoCardId: string): Promise<void> {
+		bingoCardStore.delete(bingoCardId);
+	}
 }

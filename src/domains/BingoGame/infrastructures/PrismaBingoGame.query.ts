@@ -1,6 +1,6 @@
 import prisma from '@/lib/prisma';
 
-import {
+import type {
   BingoGameDtoWithCards,
   BingoGameQuery,
   BingoGameViewDtoWithCards,

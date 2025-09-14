@@ -1,41 +1,41 @@
-import { BingoGameRepository } from '@/domains/BingoGame/usecases/BingoGame.repository';
+import type { BingoGameRepository } from "@/domains/BingoGame/usecases/BingoGame.repository";
 
-import { BingoCardRepository } from '../usecases/BingoCard.repository';
-import { BingoCard, GenerateCardProps } from './BingoCard';
+import type { BingoCardRepository } from "../usecases/BingoCard.repository";
+import { BingoCard, type GenerateCardProps } from "./BingoCard";
 
 interface ConstructorProps {
-  bingoCardRepository: BingoCardRepository;
-  bingoGameRepository: BingoGameRepository;
+	bingoCardRepository: BingoCardRepository;
+	bingoGameRepository: BingoGameRepository;
 }
 
 export interface BingoCardGenerationProps {
-  name?: string;
+	name?: string;
 }
 
 // BingoCard 生成時は BingoGame が存在していることの確認と
 // BingoGame へ BingoCard の登録が必要
 export class BingoCardGenerateDomainService {
-  bingoCardRepository: BingoCardRepository;
-  bingoGameRepository: BingoGameRepository;
-  constructor({ bingoCardRepository, bingoGameRepository }: ConstructorProps) {
-    this.bingoCardRepository = bingoCardRepository;
-    this.bingoGameRepository = bingoGameRepository;
-  }
+	bingoCardRepository: BingoCardRepository;
+	bingoGameRepository: BingoGameRepository;
+	constructor({ bingoCardRepository, bingoGameRepository }: ConstructorProps) {
+		this.bingoCardRepository = bingoCardRepository;
+		this.bingoGameRepository = bingoGameRepository;
+	}
 
-  async execute(
-    bingoGameId: string,
-    generateCardProps: GenerateCardProps = {},
-  ) {
-    const bingoGame = await this.bingoGameRepository.findOneById(bingoGameId);
+	async execute(
+		bingoGameId: string,
+		generateCardProps: GenerateCardProps = {},
+	) {
+		const bingoGame = await this.bingoGameRepository.findOneById(bingoGameId);
 
-    if (!bingoGame) {
-      throw new Error('BingoGame not found');
-    }
+		if (!bingoGame) {
+			throw new Error("BingoGame not found");
+		}
 
-    const bingoCard = BingoCard.generateCard(bingoGameId, generateCardProps);
+		const bingoCard = BingoCard.generateCard(bingoGameId, generateCardProps);
 
-    await Promise.all([this.bingoCardRepository.save(bingoCard)]);
+		await Promise.all([this.bingoCardRepository.save(bingoCard)]);
 
-    return { bingoGame, bingoCard };
-  }
+		return { bingoGame, bingoCard };
+	}
 }

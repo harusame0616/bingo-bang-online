@@ -1,5 +1,5 @@
 import { BingoGame } from '../models/BingoGame';
-import { BingoGameRepository } from '../usecases/BingoGame.repository';
+import type { BingoGameRepository } from '../usecases/BingoGame.repository';
 import { bingoGameStore } from './InMemoryBIngoGame.store';
 
 export class InMemoryBingoGameRepository implements BingoGameRepository {

@@ -1,41 +1,41 @@
-import { ReloadIcon } from '@radix-ui/react-icons';
-import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
-import prisma from '@/lib/prisma';
+import prisma from "@/lib/prisma";
 
-import { BingoDetailPresenter } from './BingoDetailPresenter';
+import { BingoDetailPresenter } from "./BingoDetailPresenter";
 
 export default async function CardDetailPage({
-  params,
-}: PageProps<'/views/[bingoGameViewId]/cards/[cardId]'>) {
-  const { cardId } = await params;
+	params,
+}: PageProps<"/views/[bingoGameViewId]/cards/[cardId]">) {
+	const { cardId } = await params;
 
-  return (
-    <div className="p-8">
-      <div className="mx-auto max-w-lg">
-        <Suspense fallback={<ReloadIcon className="mx-auto p-8" />}>
-          <BingoDetailContainer bingoCardId={cardId} />
-        </Suspense>
-      </div>
-    </div>
-  );
+	return (
+		<div className="p-8">
+			<div className="mx-auto max-w-lg">
+				<Suspense fallback={<ReloadIcon className="mx-auto p-8" />}>
+					<BingoDetailContainer bingoCardId={cardId} />
+				</Suspense>
+			</div>
+		</div>
+	);
 }
 
 async function getBingoCard(bingoCardId: string) {
-  const bingoCard = await prisma.bingoCardEntity.findUnique({
-    where: { id: bingoCardId },
-  });
+	const bingoCard = await prisma.bingoCardEntity.findUnique({
+		where: { id: bingoCardId },
+	});
 
-  if (!bingoCard) {
-    notFound();
-  }
+	if (!bingoCard) {
+		notFound();
+	}
 
-  return bingoCard;
+	return bingoCard;
 }
 
 async function BingoDetailContainer({ bingoCardId }: { bingoCardId: string }) {
-  const bingoCard = await getBingoCard(bingoCardId);
+	const bingoCard = await getBingoCard(bingoCardId);
 
-  return <BingoDetailPresenter bingoCard={bingoCard} />;
+	return <BingoDetailPresenter bingoCard={bingoCard} />;
 }

@@ -1,6 +1,6 @@
 import { bingoCardStore } from '@/domains/BingoCard/infrastructures/infrastructures/IMBingoCardStore';
 
-import {
+import type {
   BingoGameDtoWithCards,
   BingoGameQuery,
 } from '../usecases/BingoGame.query';

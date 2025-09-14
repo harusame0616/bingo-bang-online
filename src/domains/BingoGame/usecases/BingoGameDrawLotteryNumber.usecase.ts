@@ -1,27 +1,27 @@
-import { BingoGameDto } from '../models/BingoGame';
-import { BingoGameRepository } from './BingoGame.repository';
+import type { BingoGameDto } from "../models/BingoGame";
+import type { BingoGameRepository } from "./BingoGame.repository";
 
 type BingoGameDrawLotteryNumberDto = Omit<
-  BingoGameDto,
-  'hashedManagementPassword'
+	BingoGameDto,
+	"hashedManagementPassword"
 >;
 
 export class BingoGameDrawLotteryNumberUsecase {
-  constructor(private readonly bingoGameRepository: BingoGameRepository) {}
+	constructor(private readonly bingoGameRepository: BingoGameRepository) {}
 
-  async execute(bingoGameId: string): Promise<BingoGameDrawLotteryNumberDto> {
-    const bingoGame = await this.bingoGameRepository.findOneById(bingoGameId);
-    if (!bingoGame) {
-      throw new Error('ビンゴゲームが見つかりません');
-    }
+	async execute(bingoGameId: string): Promise<BingoGameDrawLotteryNumberDto> {
+		const bingoGame = await this.bingoGameRepository.findOneById(bingoGameId);
+		if (!bingoGame) {
+			throw new Error("ビンゴゲームが見つかりません");
+		}
 
-    bingoGame.drawLotteryNumber();
+		bingoGame.drawLotteryNumber();
 
-    await this.bingoGameRepository.save(bingoGame);
+		await this.bingoGameRepository.save(bingoGame);
 
-    const { hashedManagementPassword: _, ...bingoGameDrawLotteryNumberDto } =
-      bingoGame.toDto();
+		const { hashedManagementPassword: _, ...bingoGameDrawLotteryNumberDto } =
+			bingoGame.toDto();
 
-    return bingoGameDrawLotteryNumberDto;
-  }
+		return bingoGameDrawLotteryNumberDto;
+	}
 }

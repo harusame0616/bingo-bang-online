@@ -1,7 +1,7 @@
 import prisma from '@/lib/prisma';
 
 import { BingoGame } from '../models/BingoGame';
-import { BingoGameRepository } from '../usecases/BingoGame.repository';
+import type { BingoGameRepository } from '../usecases/BingoGame.repository';
 
 export class PrismaBingoGameRepository implements BingoGameRepository {
   async findOneById(bingoGameId: string): Promise<BingoGame | null> {
