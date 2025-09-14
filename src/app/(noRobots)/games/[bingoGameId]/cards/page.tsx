@@ -1,15 +1,16 @@
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { revalidatePath } from 'next/cache';
+import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
+import { BingoCardList } from '@/app/_components/bingo-card-list';
 import { Heading } from '@/app/(noRobots)/_components/Heading';
-import { PageBox } from '@/components/BoxPageContent';
+import { BingoCardEntity } from '@/app/generated/prisma';
 import { Section } from '@/components/BoxSection';
 import { BingoCard } from '@/domains/BingoCard/components/BingoCard';
 import { BingoCardGenerateUsecase } from '@/domains/BingoCard/usecases/BingoCardGenerate.usecase';
-import { BingoGameFindOneWithCardsQueryUsecase } from '@/domains/BingoGame/usecases/BingoGameFindOneWithCards.query-usecase';
-import { getQuery } from '@/lib/infra/getQuery';
 import { getRepository } from '@/lib/infra/getRepository';
+import prisma from '@/lib/prisma';
 
 import { BingoCardDeleteButton } from '../_components/BingoCardDeleteButton';
 import BingoCardGenerationForm from '../_components/BingoCardGenerationForm';
@@ -44,67 +45,90 @@ async function generateBingoCard(formData: FormData) {
   revalidatePath('/game/[bingoGameId]/bing-cards');
 }
 
-interface Props {
-  params: {
-    bingoGameId: string;
+export default async function NextPage({
+  params,
+}: PageProps<'/games/[bingoGameId]/cards'>) {
+  const { bingoGameId } = await params;
+
+  return (
+    <article>
+      <Section>
+        <Heading>ビンゴカード生成</Heading>
+        <BingoCardGenerationForm
+          action={generateBingoCard}
+          bingoGameId={bingoGameId}
+          canGenerate={true}
+        />
+      </Section>
+      <Section>
+        <Heading>ビンゴカードリスト</Heading>
+        <Suspense
+          fallback={
+            <div className="flex justify-center">
+              <ReloadIcon className="mr-2 h-8 w-8 animate-spin" />
+            </div>
+          }
+        >
+          <BingoCardsContainer bingoGameId={bingoGameId} />
+        </Suspense>
+      </Section>
+    </article>
+  );
+}
+
+async function getBingoGame(bingoGameId: string) {
+  const bingoGameEntity = await prisma.bingoGameEntity.findUnique({
+    where: { id: bingoGameId },
+    include: {
+      bingoCards: true,
+    },
+  });
+
+  if (!bingoGameEntity) {
+    notFound();
+  }
+
+  return {
+    bingoCards: bingoGameEntity.bingoCards || [],
+    lotteryNumbers: bingoGameEntity.lotteryNumbers,
   };
 }
 
-export default async function BingoCardManagementPage({
-  params: { bingoGameId },
-}: Props) {
-  return (
-    <PageBox>
-      <article>
-        <Section>
-          <Heading>ビンゴカード生成</Heading>
-          <BingoCardGenerationForm
-            action={generateBingoCard}
-            bingoGameId={bingoGameId}
-            canGenerate={true}
-          />
-        </Section>
-        <Section>
-          <Heading>ビンゴカードリスト</Heading>
-          <Suspense
-            fallback={
-              <div className="flex justify-center">
-                <ReloadIcon className="mr-2 h-8 w-8 animate-spin" />
-              </div>
-            }
-          >
-            <BingoCards bingoGameId={bingoGameId} />
-          </Suspense>
-        </Section>
-      </article>
-    </PageBox>
-  );
-}
-
-function getBingoGame(bingoGameId: string) {
-  const bingoGameQueryUsecase = new BingoGameFindOneWithCardsQueryUsecase(
-    getQuery('bingoGame'),
-  );
-
-  return bingoGameQueryUsecase.execute(bingoGameId);
-}
-
-async function BingoCards({ bingoGameId }: { bingoGameId: string }) {
+export async function BingoCardsContainer({
+  bingoGameId,
+}: {
+  bingoGameId: string;
+}) {
   const { bingoCards, lotteryNumbers } = await getBingoGame(bingoGameId);
 
   return (
-    <ul aria-label="ビンゴカード" className="w-full">
-      <div className="grid grid-cols-2 gap-x-4  gap-y-8 sm:grid-cols-3 md:grid-cols-4">
-        {bingoCards.map((bingoCard) => (
-          <li key={bingoCard.id} aria-level={1}>
-            <BingoCard bingoCard={bingoCard} lotteryNumbers={lotteryNumbers} />
-            <BingoCardDeleteButton
-              bingoCardId={bingoCard.id}
-              bingoCardName={bingoCard.name || '名無し'}
-            />
-          </li>
-        ))}
-      </div>
-    </ul>
+    <BingoCardsPresenter
+      bingoCards={bingoCards}
+      lotteryNumbers={lotteryNumbers}
+    />
+  );
+}
+
+export function BingoCardsPresenter({
+  bingoCards,
+  lotteryNumbers,
+}: {
+  bingoCards: BingoCardEntity[];
+  lotteryNumbers: number[];
+}) {
+  return (
+    <BingoCardList
+      aria-label="ビンゴカード"
+    >
+      {bingoCards.map((bingoCard) => (
+        <li key={bingoCard.id} aria-level={1} className="">
+          <BingoCard bingoCard={bingoCard} lotteryNumbers={lotteryNumbers} />
+          <BingoCardDeleteButton
+            bingoCardId={bingoCard.id}
+            bingoCardName={bingoCard.name || '名無し'}
+          />
+        </li>
+      ))}
+    </BingoCardList>
   );
 }

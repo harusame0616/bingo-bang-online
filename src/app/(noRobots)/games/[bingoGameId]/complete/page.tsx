@@ -2,40 +2,33 @@ import { ReloadIcon } from '@radix-ui/react-icons';
 import { Suspense } from 'react';
 
 import { Heading } from '@/app/(noRobots)/_components/Heading';
-import { PageBox } from '@/components/BoxPageContent';
 import { Section } from '@/components/BoxSection';
 import { isCardBingo } from '@/domains/BingoCard/lib/isCardBingo';
 import { BingoGameFindOneWithCardsQueryUsecase } from '@/domains/BingoGame/usecases/BingoGameFindOneWithCards.query-usecase';
 import { getQuery } from '@/lib/infra/getQuery';
 
-interface Props {
-  params: {
-    bingoGameId: string;
-  };
-}
-
 export default async function BingoCardCompletePage({
-  params: { bingoGameId },
-}: Props) {
+  params,
+}: PageProps<'/games/[bingoGameId]/complete'>) {
+  const { bingoGameId } = await params;
+
   return (
-    <PageBox>
-      <article>
-        <Section>
-          <Heading>ビンゴ完成カードリスト</Heading>
-          <Suspense
-            fallback={
-              <div className="flex justify-center">
-                <ReloadIcon className="mr-2 h-8 w-8 animate-spin" />
-              </div>
-            }
-          >
+    <article>
+      <Section>
+        <Heading>ビンゴ完成カードリスト</Heading>
+        <Suspense
+          fallback={
             <div className="flex justify-center">
-              <BingoCompletionCards bingoGameId={bingoGameId} />
+              <ReloadIcon className="mr-2 h-8 w-8 animate-spin" />
             </div>
-          </Suspense>
-        </Section>
-      </article>
-    </PageBox>
+          }
+        >
+          <div className="flex justify-center">
+            <BingoCompletionCards bingoGameId={bingoGameId} />
+          </div>
+        </Suspense>
+      </Section>
+    </article>
   );
 }
 

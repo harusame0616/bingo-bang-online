@@ -1,22 +1,17 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { PropsWithChildren } from 'react';
 
 import BingoCardIcon from './_img/bingo-card.svg';
 import CompleteIcon from './_img/complete.svg';
 import LotteryIcon from './_img/lottery.svg';
 import SettingIcon from './_img/setting.svg';
 
-interface Props {
-  params: {
-    bingoGameId: string;
-  };
-}
-
-export default function GameManagementLayout({
+export default async function Layout({
   children,
-  params: { bingoGameId },
-}: PropsWithChildren<Props>) {
+  params,
+}: LayoutProps<'/games/[bingoGameId]'>) {
+  const { bingoGameId } = await params;
+
   const menus = [
     {
       path: `/games/${bingoGameId}`,
@@ -25,45 +20,43 @@ export default function GameManagementLayout({
     },
     {
       path: `/games/${bingoGameId}/cards`,
-      label: 'ビンゴカード管理',
+      label: 'カード管理',
       icon: BingoCardIcon,
-      width: 35,
-      className: 'pt-2',
     },
     {
       path: `/games/${bingoGameId}/complete`,
-      label: 'ビンゴ完成リスト',
+      label: '完成リスト',
       icon: CompleteIcon,
     },
     {
       path: `/games/${bingoGameId}/settings`,
       label: '設定',
       icon: SettingIcon,
-      className: 'pt-1',
-      width: 32,
     },
   ];
 
   return (
-    <>
-      {children}
-      <nav className="fixed bottom-0  flex w-full justify-center border-t bg-background">
-        <ol className="flex gap-8 py-2 ">
-          {menus.map(({ className, icon, label, path, width = 40 }) => (
+    <div className="flex grow flex-col overflow-y-hidden">
+      <div className="grow overflow-y-auto p-4 [scrollbar-gutter:stable]">
+        {children}
+      </div>
+      <nav className="bottom-0 flex w-full justify-center border-t">
+        <ul className="flex gap-8 py-4">
+          {menus.map(({ icon, label, path }) => (
             <li className="flex items-center justify-center" key={path}>
-              <Link href={path}>
-                <span className="sr-only">{label}</span>
-                <Image
-                  src={icon}
-                  width={width}
-                  alt={`${label} アイコン`}
-                  className={className}
-                />
+              <Link
+                href={path}
+                className="flex flex-col items-center justify-center gap-1"
+              >
+                <div className="relative h-8 w-8">
+                  <Image src={icon} alt="" fill />
+                </div>
+                {label}
               </Link>
             </li>
           ))}
-        </ol>
+        </ul>
       </nav>
-    </>
+    </div>
   );
 }

@@ -6,6 +6,6 @@ export function Heading({
 }: PropsWithChildren<{ srOnly?: boolean }>) {
   const style = srOnly
     ? 'sr-only'
-    : 'mb-2 text-center text-xs text-primary-darken';
+    : 'mb-2 text-center text-base text-primary-darken';
   return <h2 className={style}>{children}</h2>;
 }

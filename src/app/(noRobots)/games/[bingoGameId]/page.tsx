@@ -1,60 +1,52 @@
-import { PageBox } from '@/components/BoxPageContent';
-import { Section } from '@/components/BoxSection';
-import { LOTTERY_NUMBER_MAX } from '@/domains/BingoCard/models/BingoCard';
-import { BingoGameFindOneWithCardsQueryUsecase } from '@/domains/BingoGame/usecases/BingoGameFindOneWithCards.query-usecase';
-import { getQuery } from '@/lib/infra/getQuery';
+import { ReloadIcon } from '@radix-ui/react-icons';
+import { Suspense } from 'react';
+import * as v from 'valibot';
 
-import { Heading } from '../../_components/Heading';
-import { LotteryHistory } from '../../_components/LotteryHistory';
-import LotteryRoulette from './_components/LotteryRoulette';
-
-interface Props {
-  params: {
-    bingoGameId: string;
-  };
-}
-
-function getBingoGame(bingoGameId: string) {
-  const bingoGameQueryUsecase = new BingoGameFindOneWithCardsQueryUsecase(
-    getQuery('bingoGame'),
-  );
-
-  return bingoGameQueryUsecase.execute(bingoGameId);
-}
+import { LotteryHistoryContainer } from '../../_components/LotteryHistory';
+import { LotteryRouletteContainer } from './_components/lottery-roulette-container';
+import LotteryRoulettePresenter from './_components/LotteryRoulette';
 
 export default async function BingoGameLotteryPage({
-  params: { bingoGameId },
-}: Props) {
-  const { lotteryNumbers } = await getBingoGame(bingoGameId);
+  params,
+  searchParams,
+}: PageProps<'/games/[bingoGameId]'>) {
+  const [{ sound }, { bingoGameId }] = await Promise.all([
+    parseSearchParams(await searchParams),
+    params,
+  ]);
 
   return (
-    <PageBox>
-      <article>
-        <LotteryResult
-          bingoGameId={bingoGameId}
-          lotteryNumbers={lotteryNumbers}
-        />
-        <LotteryHistory lotteryNumbers={lotteryNumbers} />
-      </article>
-    </PageBox>
+    <article>
+      <Suspense
+        fallback={
+          <LotteryRoulettePresenter
+            bingoGameId={bingoGameId}
+            finish={false}
+            loading
+          />
+        }
+      >
+        <LotteryRouletteContainer bingoGameId={bingoGameId} sound={sound} />
+      </Suspense>
+      <div className="my-8">
+        <Suspense
+          fallback={<ReloadIcon className="mx-auto h-12 w-12 animate-spin" />}
+        >
+          <LotteryHistoryContainer bingoGameId={bingoGameId} />
+        </Suspense>
+      </div>
+    </article>
   );
 }
 
-function LotteryResult({
-  bingoGameId,
-  lotteryNumbers,
-}: {
-  bingoGameId: string;
-  lotteryNumbers: number[];
-}) {
-  return (
-    <Section>
-      <Heading>抽選結果</Heading>
-      <LotteryRoulette
-        bingoGameId={bingoGameId}
-        number={lotteryNumbers.slice(-1)[0]}
-        finish={lotteryNumbers.length === LOTTERY_NUMBER_MAX}
-      />
-    </Section>
+function parseSearchParams(searchParams: unknown) {
+  return v.parse(
+    v.object({
+      sound: v.pipe(
+        v.optional(v.string(), 'on'),
+        v.transform((v) => v === 'on'),
+      ),
+    }),
+    searchParams,
   );
 }

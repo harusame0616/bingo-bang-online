@@ -1,87 +1,93 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
-import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
-import React from 'react';
+import { useCallback, useRef, useState } from 'react';
 
-import { Button, ButtonProps } from '@/components/Button';
+import { Button } from '@/components/Button';
 
 import { drawLotteryNumber } from '../_actions/drawLotteryNumber';
-import RouletteNumber from './RouletteNumber';
+import { NumberSpinner } from './number-spinner';
 
 interface Props {
   bingoGameId: string;
-  number?: number;
   finish: boolean;
+  loading?: boolean;
+  sound?: boolean;
 }
 
-export default function LotteryRoulette({
+export default function LotteryRoulettePresenter({
   bingoGameId,
   finish,
-  number,
+  loading,
+  sound = false,
 }: Props) {
   const [isRouletteSpinning, setIsRouletteSpinning] = useState(false);
-  const searchParams = useSearchParams();
-  const isSoundOff = searchParams.get('sound') !== 'off';
+  const [lotteryNumber, setLotteryNumber] = useState<number>();
 
-  useEffect(() => {
-    if (!isRouletteSpinning) {
-      return;
-    }
-
-    setIsRouletteSpinning(false);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [number]);
-
-  const startRoulette: MouseEventHandler<HTMLButtonElement> = async () => {
+  function startRoulette() {
     setIsRouletteSpinning(true);
-  };
+  }
+
+  function handleStop(lotteryNumber: number) {
+    setLotteryNumber(lotteryNumber);
+    setIsRouletteSpinning(false);
+  }
 
   return (
     <div className="flex w-full flex-col">
-      <div className="flex flex-col justify-center">
-        <RouletteNumber isSpinning={isRouletteSpinning} soundOff={!isSoundOff}>
-          {number ?? '-'}
-        </RouletteNumber>
-      </div>
-
-      <form action={drawLotteryNumber} className="flex justify-center">
-        <input name="bingoGameId" hidden defaultValue={bingoGameId} />
-
-        {isRouletteSpinning ? (
-          <StopButton finish={finish} soundOff={!isSoundOff} />
+      <NumberSpinner isSpinning={isRouletteSpinning} sound={sound}>
+        {lotteryNumber ?? '-'}
+      </NumberSpinner>
+      <div className="mx-auto">
+        {loading ? (
+          <Button disabled>読込中</Button>
+        ) : isRouletteSpinning ? (
+          <StopButton
+            finish={finish}
+            sound={sound}
+            onStop={handleStop}
+            bingoGameId={bingoGameId}
+          />
         ) : (
           <StartButton onClick={startRoulette} finish={finish} />
         )}
-      </form>
+      </div>
     </div>
   );
 }
 
-function StartButton({ finish, ...props }: { finish: boolean } & ButtonProps) {
+function StartButton({
+  finish,
+  onClick,
+}: {
+  finish: boolean;
+  onClick: () => void;
+}) {
   return (
-    <Button type="button" {...props} disabled={finish}>
+    <Button type="button" disabled={finish} onClick={onClick}>
       {finish ? '抽選終了' : 'スタート'}
     </Button>
   );
 }
 
 function StopButton({
+  bingoGameId,
   finish,
-  soundOff,
+  onStop,
+  sound,
 }: {
   finish: boolean;
-  soundOff: boolean;
+  sound: boolean;
+  bingoGameId: string;
+  onStop: (lotteryNumber: number) => void;
 }) {
-  const [stopAudio] = useState(soundOff ? null : new Audio('/se/stop.mp3'));
+  const stopAudio = useRef(sound ? new Audio('/se/stop.mp3') : null);
 
   const stopRoulette = useCallback(async () => {
-    // useEffect で再生すると NotAllowedError が発生するためボタンクリック時に再生する
-    await stopAudio?.play();
+    const number = await drawLotteryNumber(bingoGameId);
+    onStop(number);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    await stopAudio.current?.play();
+  }, [onStop, bingoGameId]);
 
   return (
     <Button

@@ -1,11 +1,12 @@
 import { useId } from 'react';
 
+import { BingoCardEntity } from '@/app/generated/prisma';
 import { Card } from '@/components/ui/card';
 
-import { BingoCardDto, FREE } from '../models/BingoCard';
+import { FREE } from '../models/BingoCard';
 
 type Props = {
-  bingoCard: BingoCardDto | Omit<BingoCardDto, 'bingoGameId'>;
+  bingoCard: BingoCardEntity;
   lotteryNumbers?: number[];
   noLabel?: boolean;
 } & {
@@ -21,6 +22,13 @@ export function BingoCard({
   const squareSize = large ? 12 : 8;
   const labelSize = squareSize * 4 * 5;
   const bingoCardId = useId();
+  const squares = [
+    bingoCard.squares.slice(0, 5),
+    bingoCard.squares.slice(5, 10),
+    bingoCard.squares.slice(10, 15),
+    bingoCard.squares.slice(15, 20),
+    bingoCard.squares.slice(20, 25),
+  ];
 
   return (
     <Card className="p-2">
@@ -35,7 +43,7 @@ export function BingoCard({
           {bingoCard.name || '名無しのカード'}
         </figcaption>
         <ul aria-labelledby={bingoCardId}>
-          {bingoCard.squares.map((rows, ri) => (
+          {squares.map((rows, ri) => (
             <li key={ri} aria-label={`ビンゴカード${ri + 1}段目`}>
               <ul className="grid grid-cols-5">
                 {rows.map((number, ci) => (

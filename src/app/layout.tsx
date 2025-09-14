@@ -1,9 +1,7 @@
-export const dynamic = 'force-dynamic';
-
 import './globals.css';
 
-import { M_PLUS_Rounded_1c, Montserrat } from 'next/font/google';
 import type { Metadata } from 'next';
+import { M_PLUS_Rounded_1c, Montserrat } from 'next/font/google';
 import Image from 'next/image';
 import Link from 'next/link';
 import Script from 'next/script';
@@ -45,35 +43,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ja" className="h-full w-full">
+    <html lang="ja">
       <head>
         <GoogleAnalytics />
       </head>
-      <body className={`${baseFont.className} flex h-full w-full flex-col`}>
-        <Header />
-        <main className="mt-[48px] grow py-4">{children}</main>
-        <Footer />
+      <body
+        className={`${baseFont.className} flex h-[100dvh] flex-col overflow-hidden`}
+      >
+        <header className="relative z-10 flex justify-center bg-background px-4 py-2 shadow-md">
+          <Image src={Mark} alt="" width="30" height="30" className="mr-2" />
+          <h1 className={`text-2xl ${titleFont.className} text-primary-darken`}>
+            <Link href="/">BINGOBANG ONLINE</Link>
+          </h1>
+        </header>
+        <main className="flex grow flex-col overflow-y-hidden">
+          {children}
+        </main>
       </body>
     </html>
-  );
-}
-
-function Header() {
-  return (
-    <header className="fixed z-50  flex w-full justify-center bg-background px-4 py-2 shadow-md">
-      <Image src={Mark} alt="" width="30" height="30" className="mr-2" />
-      <h1 className={`text-2xl ${titleFont.className} text-primary-darken`}>
-        <Link href="/">BINGOBANG ONLINE</Link>
-      </h1>
-    </header>
-  );
-}
-
-function Footer() {
-  return (
-    <footer className="grow-0 bg-primary-lighter py-2 text-center font-black text-primary-darken">
-      &copy; 2023 Masaharu nemoto
-    </footer>
   );
 }
 

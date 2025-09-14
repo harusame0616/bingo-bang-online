@@ -7,7 +7,7 @@ export interface BingoCardDto {
   bingoGameId: string;
 }
 
-export interface GenerateCardProps {
+export interface GeneratCardProps {
   name?: string;
 }
 
@@ -26,7 +26,7 @@ export class BingoCard {
     return this.dto.bingoGameId;
   }
 
-  static generateCard(bingoGameId: string, { name }: GenerateCardProps = {}) {
+  static generateCard(bingoGameId: string, { name }: { name?: string } = {}) {
     const sourceNumbers = [...new Array(LOTTERY_NUMBER_MAX)].map(
       (_, i) => i + 1,
     );

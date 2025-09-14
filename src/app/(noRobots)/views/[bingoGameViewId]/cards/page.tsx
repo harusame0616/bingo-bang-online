@@ -1,65 +1,80 @@
+import { ReloadIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 
+import { BingoCardList } from '@/app/_components/bingo-card-list';
 import { Heading } from '@/app/(noRobots)/_components/Heading';
-import { PageBox } from '@/components/BoxPageContent';
+import { BingoCardEntity } from '@/app/generated/prisma';
 import { BingoCard } from '@/domains/BingoCard/components/BingoCard';
-import { getQuery } from '@/lib/infra/getQuery';
+import prisma from '@/lib/prisma';
 
-interface Props {
-  params: {
-    bingoGameViewId: string;
-  };
-}
-
-export default async function Page({ params: { bingoGameViewId } }: Props) {
-  const repository = getQuery('bingoGame');
-  const bingoGameViewDto =
-    await repository.findOneByViewIdWithCards(bingoGameViewId);
-
-  if (!bingoGameViewDto) {
-    return notFound();
-  }
-
-  if (bingoGameViewDto.bingoCards.length === 0) {
-    return BingoCardIsNotRegistered();
-  }
+export default async function Page({
+  params,
+}: PageProps<'/views/[bingoGameViewId]/cards'>) {
+  const { bingoGameViewId } = await params;
 
   return (
-    <PageBox>
-      <article>
-        <Heading>
-          <span id="bingo-cards">ビンゴカード一覧</span>
-        </Heading>
-        <ul aria-label="ビンゴカード" className="w-full">
-          <div
-            className="grid grid-cols-2 gap-x-4  gap-y-8 sm:grid-cols-3 md:grid-cols-4"
-            aria-label="ビンゴカード"
-          >
-            {bingoGameViewDto.bingoCards.map((bingoCard) => (
-              <li key={bingoCard.id}>
-                <BingoCard bingoCard={bingoCard} />
-                <Link href={`/views/${bingoGameViewId}/cards/${bingoCard.id}`}>
-                  閲覧ページ
-                </Link>
-              </li>
-            ))}
-          </div>
-        </ul>
-      </article>
-    </PageBox>
+    <article className="p-8">
+      <Heading>
+        <span id="bingo-cards">ビンゴカード一覧</span>
+      </Heading>
+      <Suspense fallback={<ReloadIcon className="animate-spin" />}>
+        <BingoCardsContainer viewId={bingoGameViewId}></BingoCardsContainer>
+      </Suspense>
+    </article>
   );
 }
 
-function BingoCardIsNotRegistered() {
+async function getBingoCardsByViewId(viewId: string) {
+  const bingoGame = await prisma.bingoGameEntity.findUnique({
+    where: { viewId },
+    include: { bingoCards: true },
+  });
+
+  if (!bingoGame) {
+    notFound();
+  }
+
+  return bingoGame.bingoCards;
+}
+
+async function BingoCardsContainer({ viewId }: { viewId: string }) {
+  const bingoCards = await getBingoCardsByViewId(viewId);
+
+  if (!bingoCards.length) {
+    return <BingoCardsNoRegister />;
+  }
+
+  return <BingoCardsPresenter viewId={viewId} bingoCards={bingoCards} />;
+}
+
+async function BingoCardsPresenter({
+  bingoCards,
+  viewId,
+}: {
+  viewId: string;
+  bingoCards: BingoCardEntity[];
+}) {
   return (
-    <PageBox className="text-center">
-      <article>
-        <h2 className="mb-4 text-lg font-bold text-primary-darken">
-          ビンゴカードが登録されていません
-        </h2>
-        <p> 管理ページでビンゴカードを登録してください。</p>
-      </article>
-    </PageBox>
+    <BingoCardList>
+      {bingoCards.map((bingoCard) => (
+        <li key={bingoCard.id}>
+          <BingoCard bingoCard={bingoCard} />
+
+          <Link href={`/views/${viewId}/cards/${bingoCard.id}`}>
+            閲覧ページ
+          </Link>
+        </li>
+      ))}
+    </BingoCardList>
+  );
+}
+
+function BingoCardsNoRegister() {
+  return (
+    <h2 className="mb-4 py-8 text-center text-lg font-bold text-primary-darken">
+      ビンゴカードが登録されていません
+    </h2>
   );
 }

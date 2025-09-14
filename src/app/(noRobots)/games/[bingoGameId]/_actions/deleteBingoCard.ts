@@ -1,22 +1,18 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
+import * as v from 'valibot';
 
-import { BingoCardDeleteUsecase } from '@/domains/BingoCard/usecases/BingoCardDelete.usecase';
-import { getRepository } from '@/lib/infra/getRepository';
+import prisma from '@/lib/prisma';
 
-export async function deleteBingoCard(formData: FormData) {
-  const bingoCardId = formData.get('bingoCardId');
+export async function deleteBingoCard(bingoCardId: string) {
+  const parsedBingoCardId = v.parse(v.string(), bingoCardId);
 
-  if (typeof bingoCardId !== 'string') {
-    throw new Error('bingoGameId is invalid type');
-  }
-
-  const bingoCardDeleteUsecase = new BingoCardDeleteUsecase({
-    bingoCardRepository: getRepository('bingoCard'),
+  await prisma.bingoCardEntity.delete({
+    where: {
+      id: parsedBingoCardId,
+    },
   });
-
-  await bingoCardDeleteUsecase.execute(bingoCardId);
 
   revalidatePath('/game/[bingoGameId]');
 }

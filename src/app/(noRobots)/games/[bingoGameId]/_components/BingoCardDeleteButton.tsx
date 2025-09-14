@@ -1,7 +1,7 @@
 'use client';
 
 import { TrashIcon } from '@radix-ui/react-icons';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 
 import { Button } from '@/components/Button';
 import {
@@ -24,6 +24,7 @@ export function BingoCardDeleteButton({
   bingoCardName: string;
 }) {
   const [open, setOpen] = useState(false);
+  const [pending, startTransition] = useTransition();
 
   const openDialog = () => {
     setOpen(true);
@@ -31,6 +32,12 @@ export function BingoCardDeleteButton({
   const closeDialog = () => {
     setOpen(false);
   };
+
+  async function handleClick() {
+    startTransition(async () => {
+      await deleteBingoCard(bingoCardId);
+    });
+  }
 
   return (
     <AlertDialog open={open}>
@@ -50,27 +57,20 @@ export function BingoCardDeleteButton({
             削除すると元に戻せません。ビンゴカードを削除してよろしいですか？
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <form
-          action={async (formData) => {
-            await deleteBingoCard(formData);
-            closeDialog();
-          }}
-        >
-          <AlertDialogFooter>
-            <input hidden defaultValue={bingoCardId} name="bingoCardId" />
-            <Button variant="outline" type="button" onClick={closeDialog}>
-              キャンセル
-            </Button>
-            <Button
-              variant="destructive"
-              type="submit"
-              disableInAction
-              disableInActionChildren="削除中です"
-            >
-              もとに戻せないことを理解して削除する
-            </Button>
-          </AlertDialogFooter>
-        </form>
+        <AlertDialogFooter>
+          <input hidden defaultValue={bingoCardId} name="bingoCardId" />
+          <Button variant="outline" type="button" onClick={closeDialog}>
+            キャンセル
+          </Button>
+          <Button
+            variant="destructive"
+            type="submit"
+            loading={pending}
+            onClick={handleClick}
+          >
+            削除する
+          </Button>
+        </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   );
