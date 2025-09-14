@@ -7,7 +7,7 @@ export interface BingoCardDto {
 	bingoGameId: string;
 }
 
-export interface GeneratCardProps {
+export interface GenerateCardProps {
 	name?: string;
 }
 

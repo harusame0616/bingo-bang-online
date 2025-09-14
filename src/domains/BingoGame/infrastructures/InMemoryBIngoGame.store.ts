@@ -1,11 +1,11 @@
-import type { BingoGameDto } from '../models/BingoGame';
+import type { BingoGameDto } from "../models/BingoGame";
 
 declare global {
-  // eslint-disable-next-line no-var
-  var bingoGameStore: Map<string, BingoGameDto>;
+	// eslint-disable-next-line no-var
+	var bingoGameStore: Map<string, BingoGameDto>;
 }
 if (!global.bingoGameStore) {
-  global.bingoGameStore = new Map<string, BingoGameDto>();
+	global.bingoGameStore = new Map<string, BingoGameDto>();
 }
 
 // 別名でエクスポート

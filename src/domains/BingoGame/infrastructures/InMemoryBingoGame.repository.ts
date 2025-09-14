@@ -1,18 +1,18 @@
-import { BingoGame } from '../models/BingoGame';
-import type { BingoGameRepository } from '../usecases/BingoGame.repository';
-import { bingoGameStore } from './InMemoryBIngoGame.store';
+import { BingoGame } from "../models/BingoGame";
+import type { BingoGameRepository } from "../usecases/BingoGame.repository";
+import { bingoGameStore } from "./InMemoryBIngoGame.store";
 
 export class InMemoryBingoGameRepository implements BingoGameRepository {
-  async findOneById(bingoGameId: string): Promise<BingoGame | null> {
-    const bingoGame = bingoGameStore.get(bingoGameId);
-    if (!bingoGame) {
-      return null;
-    }
+	async findOneById(bingoGameId: string): Promise<BingoGame | null> {
+		const bingoGame = bingoGameStore.get(bingoGameId);
+		if (!bingoGame) {
+			return null;
+		}
 
-    return BingoGame.fromDto(bingoGame);
-  }
+		return BingoGame.fromDto(bingoGame);
+	}
 
-  async save(bingoGame: BingoGame): Promise<void> {
-    bingoGameStore.set(bingoGame.id, bingoGame.toDto());
-  }
+	async save(bingoGame: BingoGame): Promise<void> {
+		bingoGameStore.set(bingoGame.id, bingoGame.toDto());
+	}
 }

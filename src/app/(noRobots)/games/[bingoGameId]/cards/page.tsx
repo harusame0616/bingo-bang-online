@@ -94,11 +94,7 @@ async function getBingoGame(bingoGameId: string) {
 	};
 }
 
-export async function BingoCardsContainer({
-	bingoGameId,
-}: {
-	bingoGameId: string;
-}) {
+async function BingoCardsContainer({ bingoGameId }: { bingoGameId: string }) {
 	const { bingoCards, lotteryNumbers } = await getBingoGame(bingoGameId);
 
 	return (
@@ -109,7 +105,7 @@ export async function BingoCardsContainer({
 	);
 }
 
-export function BingoCardsPresenter({
+function BingoCardsPresenter({
 	bingoCards,
 	lotteryNumbers,
 }: {
