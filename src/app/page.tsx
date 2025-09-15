@@ -18,16 +18,14 @@ async function startBingoGame() {
 
 export default function Home() {
 	return (
-		<article className="h-full overflow-y-auto">
-			<h2 className="sr-only">BINGOBANG ONLINE トップページ</h2>
+		<article className="h-full overflow-y-auto p-4">
 			<Section className="mt-12 text-center">
 				<span className="font-black">インストール不要・登録不要・無料</span>
 				<span className="ml-1 block text-sm md:inline">
-					でビンゴを管理できるサービスです。
+					でビンゴを開催できるサービスです。
 				</span>
 			</Section>
 			<Section>
-				<h2 className="sr-only">ビンゴゲームを開始する</h2>
 				<form action={startBingoGame} className="mb-2 flex justify-center">
 					<Button
 						disableInAction={true}

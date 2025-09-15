@@ -4,7 +4,7 @@ import { Suspense } from "react";
 
 import prisma from "@/lib/prisma";
 
-import { BingoDetailPresenter } from "./BingoDetailPresenter";
+import { BingoDetailPresenter } from "./bingo-detail-presenter";
 
 export default async function NextPage({
 	params,

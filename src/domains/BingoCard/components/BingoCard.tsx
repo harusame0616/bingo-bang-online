@@ -21,7 +21,6 @@ export function BingoCard({
 	bingoCard,
 	large,
 	lotteryNumbers,
-	noLabel,
 	onNumberClick,
 }: Props) {
 	const squareSize = large ? 12 : 8;
@@ -40,10 +39,7 @@ export function BingoCard({
 			<figure>
 				<figcaption
 					id={bingoCardId}
-					className={
-						`max-w-[${labelSize}px] overflow-hidden text-ellipsis pb-1 text-sm` +
-						(noLabel ? "sr-only" : "")
-					}
+					className={`max-w-[${labelSize}px] overflow-hidden text-ellipsis pb-1 text-sm`}
 				>
 					{bingoCard.name || "名無しのカード"}
 				</figcaption>
