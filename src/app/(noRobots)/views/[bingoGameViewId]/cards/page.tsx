@@ -15,7 +15,7 @@ export default async function Page({
 	const { bingoGameViewId } = await params;
 
 	return (
-		<article className="p-8">
+		<article>
 			<Heading>
 				<span>ビンゴカード一覧</span>
 			</Heading>
