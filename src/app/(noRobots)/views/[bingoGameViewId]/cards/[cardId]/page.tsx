@@ -6,18 +6,19 @@ import prisma from "@/lib/prisma";
 
 import { BingoDetailPresenter } from "./BingoDetailPresenter";
 
-export default async function CardDetailPage({
+export default async function NextPage({
 	params,
 }: PageProps<"/views/[bingoGameViewId]/cards/[cardId]">) {
 	const { cardId } = await params;
 
 	return (
-		<div className="p-8">
-			<div className="mx-auto max-w-lg">
-				<Suspense fallback={<ReloadIcon className="mx-auto p-8" />}>
-					<BingoDetailContainer bingoCardId={cardId} />
-				</Suspense>
-			</div>
+		<div className="mx-auto max-w-lg">
+			<Suspense fallback={<ReloadIcon className="mx-auto p-8" />}>
+				<BingoDetailContainer bingoCardId={cardId} />
+			</Suspense>
+			<p className="mt-8 ma">
+				番号をタップするとマークできます。データはお使いのブでウザに保存されるため、他のユーザーに影響を与えません。ブラウザが変わるとマークは共有できませんのでご注意ください
+			</p>
 		</div>
 	);
 }
