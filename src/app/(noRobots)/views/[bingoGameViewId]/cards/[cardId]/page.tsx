@@ -17,7 +17,7 @@ export default async function NextPage({
 				<BingoDetailContainer bingoCardId={cardId} />
 			</Suspense>
 			<p className="mt-8 ma">
-				番号をタップするとマークできます。データはお使いのブでウザに保存されるため、他のユーザーに影響を与えません。ブラウザが変わるとマークは共有できませんのでご注意ください
+				番号をタップするとマークできます。データはお使いのブラウザに保存されるため、他のユーザーに影響を与えません。ブラウザが変わるとマークは共有できませんのでご注意ください
 			</p>
 		</div>
 	);
