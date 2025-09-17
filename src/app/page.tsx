@@ -1,64 +1,100 @@
-import { redirect } from "next/navigation";
 
-import { Section } from "@/components/BoxSection";
-import { Button } from "@/components/Button";
-import { BingoGameCreateUsecase } from "@/domains/BingoGame/usecases/BingoGameCreate.usecase";
-import { getRepository } from "@/lib/infra/getRepository";
+import { BingoStartButton } from "./bing-start-button";
 
-import { features } from "./_constants/features";
-
-async function startBingoGame() {
-	"use server";
-
-	const createUsecase = new BingoGameCreateUsecase(getRepository("bingoGame"));
-
-	const bingoGame = await createUsecase.execute();
-	redirect(`/games/${bingoGame.id}?sound=${process.env.CI ? "off" : "on"}`);
-}
+const features = [
+	{
+		title: "ビンゴカードの自動生成",
+		description: (
+			<>
+				<div>
+					ビンゴカードを生成し、名前をつけて誰のカードなのか管理できます。
+				</div>
+				<div>現状では1ゲーム最大で 30 枚まで生成できます。</div>
+			</>
+		),
+	},
+	{
+		title: "番号の抽選",
+		description: (
+			<>
+				<div>番号を抽選することができます。</div>
+				<div>
+					抽選済みの番号も表示されるのでひと目で抽選済みの番号がわかります。
+				</div>
+			</>
+		),
+	},
+	{
+		title: "ビンゴカードのビンゴチェック",
+		description: (
+			<>
+				<div>ビンゴカードがビンゴしているか自動で確認できます。</div>
+				<div>ビンゴしているかどうかのチェックが不要になります。</div>
+			</>
+		),
+	},
+	{
+		title: "閲覧専用のビンゴカード一覧ページ",
+		description: (
+			<>
+				<div>
+					ビンゴゲームの URL
+					を知られることなく閲覧専用のビンゴカード一覧ページを共有できます。
+				</div>
+				<div>
+					対象者にビンゴカードの一覧を共有することで、各ユーザーが自分のビンゴカードを確認できます。
+				</div>
+			</>
+		),
+	},
+	{
+		title: "閲覧専用の抽選番号ページ",
+		description: (
+			<>
+				<div>
+					ビンゴゲームの URL
+					を知られることなく閲覧専用の抽選番号を表示するページを共有できます。
+				</div>
+				<div>
+					専用の画面に表示したり、URL
+					をシェアすることで各ユーザーが自分のビンゴカードと抽選番号を確認できます。
+				</div>
+			</>
+		),
+	},
+];
 
 export default function Home() {
 	return (
 		<article className="h-full overflow-y-auto p-4">
-			<Section className="mt-12 text-center">
+			<div className="my-12 text-center break-keep">
 				<span className="font-black">インストール不要・登録不要・無料</span>
-				<span className="ml-1 block text-sm md:inline">
-					でビンゴを開催できるサービスです。
-				</span>
-			</Section>
-			<Section>
-				<form action={startBingoGame} className="mb-2 flex justify-center">
-					<Button
-						disableInAction={true}
-						disableInActionChildren="ビンゴゲームを準備中です"
-					>
-						新しくビンゴゲームを開始する
-					</Button>
-				</form>
-
-				<div className="block text-center text-xs">
+				<wbr />
+				<span className="ml-1 text-sm">でビンゴを開催できるサービスです。</span>
+			</div>
+			<div
+				className="mb-12 w-full flex flex-col items-center"
+			>
+				<BingoStartButton />
+				<div className="block text-center mt-4">
 					新しくゲームを開始する際の注意
 				</div>
-				<ul className="mx-auto max-w-screen-sm">
+				<ul className="mx-auto max-w-screen-sm font-bold text-muted-foreground text-sm list-disc list-inside p-1">
 					<li>
-						<Note>
-							ボタンをクリックするとビンゴゲーム管理 URL が発行されます。
-							お気に入りに登録してご利用ください。
-						</Note>
+						ボタンをクリックするとビンゴゲーム管理 URL が発行されます。
+						お気に入りに登録してご利用ください。
 					</li>
 					<li>
-						<Note>
-							URL
-							が流出すると他の人がビンゴゲームの管理（抽選やカードの生成)ができてしまうのでご注意ください。
-						</Note>
+						URL
+						が流出すると他の人がビンゴゲームの管理（抽選やカードの生成)が行えてしまうのでご注意ください。
 					</li>
 				</ul>
-			</Section>
-			<Section>
-				<h2 className="mb-2 text-center text-2xl font-black">
-					<div>
-						BINGOBANG ONLINE{" "}
-						<span className="block md:inline">でできること</span>
-					</div>
+			</div>
+			<section>
+				<h2 className="mb-2 text-center text-2xl font-black break-keep">
+					<span className="mr-1">BINGO BANG ONLINE</span>
+					<wbr />
+					でできること
 				</h2>
 				<ul className="mx-auto mb-8 flex max-w-screen-sm flex-col gap-y-4">
 					{features.map((feature, i) => (
@@ -67,7 +103,6 @@ export default function Home() {
 								{feature.title}
 							</div>
 							<div className="mt-1 text-xs text-muted-foreground">
-								{" "}
 								{feature.description}
 							</div>
 						</li>
@@ -76,21 +111,7 @@ export default function Home() {
 				<div className="mx-auto max-w-screen-sm ">
 					その他続々と機能を追加予定です。
 				</div>
-			</Section>
+			</section>
 		</article>
-	);
-}
-
-function Note({
-	children,
-	pre = "※",
-}: {
-	children: React.ReactNode;
-	pre?: string;
-}) {
-	return (
-		<i className="block text-xs font-bold text-muted-foreground">
-			{pre}&nbsp;{children}
-		</i>
 	);
 }
