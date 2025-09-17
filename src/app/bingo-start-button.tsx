@@ -28,9 +28,11 @@ export function BingoStartButton() {
 
 	return (
 		<div>
-			<Button type="button" onClick={handleClick} className="mx-auto" disabled={isPending}>
-				新しくビンゴゲームを開始する
-			</Button>
+			<div className="flex flex-col items-center">
+				<Button type="button" className="max-w-[220px]"onClick={handleClick} disabled={isPending}>
+					ビンゴゲームを開始する
+				</Button>
+			</div>
 			{errorMessage && (
 				<div className="mt-4 text-destructive border border-destructive rounded-lg p-2">
 					{errorMessage}

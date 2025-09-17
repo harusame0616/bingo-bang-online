@@ -1,5 +1,5 @@
 
-import { BingoStartButton } from "./bing-start-button";
+import { BingoStartButton } from "./bingo-start-button";
 
 const features = [
 	{
