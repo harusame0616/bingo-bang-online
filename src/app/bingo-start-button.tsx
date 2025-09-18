@@ -12,24 +12,34 @@ export function BingoStartButton() {
 
 	function handleClick() {
 		startTransition(async () => {
-			const result = await startBingoGame();
+			try {
+				const result = await startBingoGame();
 
-			if (result?.success) {
-				router.push(`/games/${result.data.bingoGameId}`);
-				return;
+				if (result?.success) {
+					router.push(`/games/${result.data.bingoGameId}`);
+					return;
+				}
+				setErrorMessage(
+					result?.message ||
+						"何らかのエラーが発生しました。時間をおいて画面を再読み込みし、最初からやり直してください",
+				);
+			} catch (error: unknown) {
+				console.error("catch", error, (error as Error).message);
+				setErrorMessage('エラーが発生しました。時間をおいてお試しください')
+
 			}
-
-			setErrorMessage(
-				result?.message ||
-					"何らかのエラーが発生しました。時間をおいて画面を再読み込みし、最初からやり直してください",
-			);
 		});
 	}
 
 	return (
 		<div>
 			<div className="flex flex-col items-center">
-				<Button type="button" className="max-w-[220px]"onClick={handleClick} disabled={isPending}>
+				<Button
+					type="button"
+					className="max-w-[220px]"
+					onClick={handleClick}
+					disabled={isPending}
+				>
 					ビンゴゲームを開始する
 				</Button>
 			</div>
