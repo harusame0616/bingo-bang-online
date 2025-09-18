@@ -9,7 +9,7 @@ import { generateBingoCardAction } from "./generate-bingo-card-action";
 
 type Props = { bingoGameId: string };
 
-export  function BingoCardGenerationForm({ bingoGameId }: Props) {
+export function BingoCardGenerationForm({ bingoGameId }: Props) {
 	const [cardName, setBingCardName] = useState("");
 	const nameInputId = useId();
 	const [isPending, startTransition] = useTransition();

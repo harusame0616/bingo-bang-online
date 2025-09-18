@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import prisma from "@/lib/prisma";
 import { LotteryRoulettePresenter } from "./lottery-roulette-presenter";
 
-
 interface Props {
 	bingoGameId: string;
 	sound: boolean;

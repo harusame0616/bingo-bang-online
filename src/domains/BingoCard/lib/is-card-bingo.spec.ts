@@ -1,14 +1,34 @@
 import { describe, expect, it } from "vitest";
 
 import { FREE } from "../models/BingoCard";
-import { isCardBingo } from "./isCardBingo";
+import { isCardBingo } from "./is-card-bingo";
 
 const bingoCard = [
-	[1, 2, 3, 4, 5],
-	[6, 7, 8, 9, 10],
-	[11, 12, FREE, 13, 14],
-	[16, 17, 18, 19, 20],
-	[21, 22, 23, 24, 25],
+	1,
+	2,
+	3,
+	4,
+	5,
+	6,
+	7,
+	8,
+	9,
+	10,
+	11,
+	12,
+	FREE,
+	13,
+	14,
+	16,
+	17,
+	18,
+	19,
+	20,
+	21,
+	22,
+	23,
+	24,
+	25,
 ];
 
 describe("isCardBingo", () => {

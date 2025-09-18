@@ -1,11 +1,9 @@
 import { ReloadIcon } from "@radix-ui/react-icons";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
-
 import { Heading } from "@/app/(noRobots)/_components/Heading";
-import { Section } from "@/components/BoxSection";
-import { isCardBingo } from "@/domains/BingoCard/lib/isCardBingo";
-import { BingoGameFindOneWithCardsQueryUsecase } from "@/domains/BingoGame/usecases/BingoGameFindOneWithCards.query-usecase";
-import { getQuery } from "@/lib/infra/getQuery";
+import { isCardBingo } from "@/domains/BingoCard/lib/is-card-bingo";
+import prisma from "@/lib/prisma";
 
 export default async function BingoCardCompletePage({
 	params,
@@ -13,45 +11,59 @@ export default async function BingoCardCompletePage({
 	const { bingoGameId } = await params;
 
 	return (
-		<article>
-			<Section>
-				<Heading>ビンゴ完成カードリスト</Heading>
-				<Suspense
-					fallback={
-						<div className="flex justify-center">
-							<ReloadIcon className="mr-2 h-8 w-8 animate-spin" />
-						</div>
-					}
-				>
+		<div>
+			<Heading>ビンゴ完成カードリスト</Heading>
+			<Suspense
+				fallback={
 					<div className="flex justify-center">
-						<BingoCompletionCards bingoGameId={bingoGameId} />
+						<ReloadIcon className="mr-2 h-8 w-8 animate-spin" />
 					</div>
-				</Suspense>
-			</Section>
-		</article>
+				}
+			>
+				<div className="flex justify-center mt-4">
+					<BingoCompletionCards bingoGameId={bingoGameId} />
+				</div>
+			</Suspense>
+		</div>
 	);
 }
 
-function getBingoGame(bingoGameId: string) {
-	const bingoGameQueryUsecase = new BingoGameFindOneWithCardsQueryUsecase(
-		getQuery("bingoGame"),
-	);
+async function getCompletedBingoCards(bingoGameId: string) {
+	const bingoGame = await prisma.bingoGameEntity.findUnique({
+		where: {
+			id: bingoGameId,
+		},
+		include: {
+			bingoCards: true,
+		},
+	});
 
-	return bingoGameQueryUsecase.execute(bingoGameId);
+	if (!bingoGame) {
+		notFound();
+	}
+
+	const completedBingoCards = bingoGame.bingoCards
+		.filter((bingoCard) =>
+			isCardBingo(bingoGame.lotteryNumbers, bingoCard.squares),
+		)
+		.sort((a, b) => a.name.localeCompare(b.name));
+
+	return completedBingoCards;
 }
 
 async function BingoCompletionCards({ bingoGameId }: { bingoGameId: string }) {
-	const { bingoCards, lotteryNumbers } = await getBingoGame(bingoGameId);
-
-	const bingoCompleteCards = bingoCards
-		.filter((bingoCard) => isCardBingo(lotteryNumbers, bingoCard.squares))
-		.sort((a, b) => a.name.localeCompare(b.name));
+	const completedBingoCards = await getCompletedBingoCards(bingoGameId);
 
 	return (
-		<ol aria-labelledby="bingo-complete-card-name-list">
-			{bingoCompleteCards.map(({ id, name }) => (
-				<li key={id}>・{name || "名無しのカード"}</li>
-			))}
-		</ol>
+		<ul
+			aria-labelledby="bingo-complete-card-name-list"
+			className="list-disc list-inside"
+		>
+			{completedBingoCards.length
+				? completedBingoCards.map((card) => (
+						<li key={card.id}>{card.name || "名無しのカード"}</li>
+					))
+				: "まだ完成済みのビンゴカードはありません"}
+		</ul>
 	);
 }

@@ -1,10 +1,14 @@
-import { type BingoCardDto, FREE } from "../models/BingoCard";
+import { FREE } from "../models/BingoCard";
 
 const SIZE = 5;
-export function isCardBingo(
-	lotteryNumbers: number[],
-	squares: BingoCardDto["squares"],
-) {
+export function isCardBingo(lotteryNumbers: number[], squares: number[]) {
+	const mass = [
+		squares.slice(0, 5),
+		squares.slice(5, 10),
+		squares.slice(10, 15),
+		squares.slice(15, 20),
+		squares.slice(20, 25),
+	];
 	const hitNumbers = [FREE, ...lotteryNumbers];
 
 	if (hitNumbers.length < SIZE) {
@@ -13,7 +17,7 @@ export function isCardBingo(
 
 	// 横のチェック
 	for (let rowIndex = 0; rowIndex < SIZE; rowIndex++) {
-		if (isLineBingo(hitNumbers, squares[rowIndex])) {
+		if (isLineBingo(hitNumbers, mass[rowIndex])) {
 			return true;
 		}
 	}
@@ -22,7 +26,7 @@ export function isCardBingo(
 	for (let colIndex = 0; colIndex < SIZE; colIndex++) {
 		const columnNumbers = Array.from(
 			{ length: SIZE },
-			(_, i) => squares[i][colIndex],
+			(_, i) => mass[i][colIndex],
 		);
 		if (isLineBingo(hitNumbers, columnNumbers)) {
 			return true;
@@ -32,7 +36,7 @@ export function isCardBingo(
 	// クロスチェック
 	const leftTopToRightBottomNumbers = Array.from(
 		{ length: SIZE },
-		(_, i) => squares[i][i],
+		(_, i) => mass[i][i],
 	);
 	if (isLineBingo(hitNumbers, leftTopToRightBottomNumbers)) {
 		return true;
@@ -40,7 +44,7 @@ export function isCardBingo(
 
 	const leftBottomToRightTop = Array.from(
 		{ length: SIZE },
-		(_, i) => squares[i][SIZE - 1 - i],
+		(_, i) => mass[i][SIZE - 1 - i],
 	);
 	if (isLineBingo(hitNumbers, leftBottomToRightTop)) {
 		return true;
