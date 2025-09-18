@@ -3,8 +3,8 @@ import { Suspense } from "react";
 import * as v from "valibot";
 
 import { LotteryHistoryContainer } from "../../_components/LotteryHistory";
-import { LotteryRouletteContainer } from "./_components/lottery-roulette-container";
-import LotteryRoulettePresenter from "./_components/LotteryRoulette";
+import { LotteryRouletteContainer } from "./lottery-roulette-container";
+import { LotteryRoulettePresenter } from "./lottery-roulette-presenter";
 
 export default async function BingoGameLotteryPage({
 	params,
@@ -16,7 +16,7 @@ export default async function BingoGameLotteryPage({
 	]);
 
 	return (
-		<article>
+		<div>
 			<Suspense
 				fallback={
 					<LotteryRoulettePresenter
@@ -35,7 +35,7 @@ export default async function BingoGameLotteryPage({
 					<LotteryHistoryContainer bingoGameId={bingoGameId} />
 				</Suspense>
 			</div>
-		</article>
+		</div>
 	);
 }
 

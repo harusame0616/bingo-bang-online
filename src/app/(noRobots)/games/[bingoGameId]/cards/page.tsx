@@ -1,5 +1,4 @@
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { revalidatePath } from "next/cache";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
@@ -8,42 +7,10 @@ import { Heading } from "@/app/(noRobots)/_components/Heading";
 import type { BingoCardEntity } from "@/app/generated/prisma";
 import { Section } from "@/components/BoxSection";
 import { BingoCard } from "@/domains/BingoCard/components/BingoCard";
-import { BingoCardGenerateUsecase } from "@/domains/BingoCard/usecases/BingoCardGenerate.usecase";
-import { getRepository } from "@/lib/infra/getRepository";
 import prisma from "@/lib/prisma";
 
-import { BingoCardDeleteButton } from "../_components/BingoCardDeleteButton";
-import BingoCardGenerationForm from "../_components/BingoCardGenerationForm";
-
-async function generateBingoCard(formData: FormData) {
-	"use server";
-
-	const bingoGameId = formData.get("bingoGameId");
-	const cardName = formData.get("bingoCardName");
-
-	if (!bingoGameId) {
-		throw new Error("bingoGameId is required");
-	}
-
-	if (typeof bingoGameId !== "string") {
-		throw new Error("bingoGameId is invalid type");
-	}
-
-	if (typeof cardName !== "string") {
-		throw new Error("cardName is invalid type");
-	}
-
-	const bingoCardGenerateUsecase = new BingoCardGenerateUsecase({
-		bingoCardRepository: getRepository("bingoCard"),
-		bingoGameRepository: getRepository("bingoGame"),
-	});
-
-	await bingoCardGenerateUsecase.execute(bingoGameId, {
-		name: cardName,
-	});
-
-	revalidatePath("/game/[bingoGameId]/bing-cards");
-}
+import { DeleteBingoCardButton } from "./delete-bingo-card-button";
+import { BingoCardGenerationForm } from "./generate-bingo-card-form";
 
 export default async function NextPage({
 	params,
@@ -51,14 +18,10 @@ export default async function NextPage({
 	const { bingoGameId } = await params;
 
 	return (
-		<article>
+		<div>
 			<Section>
 				<Heading>ビンゴカード生成</Heading>
-				<BingoCardGenerationForm
-					action={generateBingoCard}
-					bingoGameId={bingoGameId}
-					canGenerate={true}
-				/>
+				<BingoCardGenerationForm bingoGameId={bingoGameId} />
 			</Section>
 			<Section>
 				<Heading>ビンゴカードリスト</Heading>
@@ -72,7 +35,7 @@ export default async function NextPage({
 					<BingoCardsContainer bingoGameId={bingoGameId} />
 				</Suspense>
 			</Section>
-		</article>
+		</div>
 	);
 }
 
@@ -117,7 +80,7 @@ function BingoCardsPresenter({
 			{bingoCards.map((bingoCard) => (
 				<li key={bingoCard.id} className="">
 					<BingoCard bingoCard={bingoCard} lotteryNumbers={lotteryNumbers} />
-					<BingoCardDeleteButton
+					<DeleteBingoCardButton
 						bingoCardId={bingoCard.id}
 						bingoCardName={bingoCard.name || "名無し"}
 					/>

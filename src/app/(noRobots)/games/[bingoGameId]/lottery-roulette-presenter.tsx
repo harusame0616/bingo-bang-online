@@ -3,8 +3,7 @@
 import { useCallback, useRef, useState } from "react";
 
 import { Button } from "@/components/Button";
-
-import { drawLotteryNumber } from "../_actions/drawLotteryNumber";
+import { drawLotteryNumber } from "./draw-lottery-number";
 import { NumberSpinner } from "./number-spinner";
 
 interface Props {
@@ -14,7 +13,7 @@ interface Props {
 	sound?: boolean;
 }
 
-export default function LotteryRoulettePresenter({
+export function LotteryRoulettePresenter({
 	bingoGameId,
 	finish,
 	loading,

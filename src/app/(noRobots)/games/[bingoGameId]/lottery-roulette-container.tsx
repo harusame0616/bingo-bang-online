@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 
 import prisma from "@/lib/prisma";
+import { LotteryRoulettePresenter } from "./lottery-roulette-presenter";
 
-import LotteryRoulettePresenter from "./LotteryRoulette";
 
 interface Props {
 	bingoGameId: string;

@@ -14,9 +14,9 @@ import {
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-import { deleteBingoCard } from "../_actions/deleteBingoCard";
+import { deleteBingoCardAction } from "./delete-bingo-card-action";
 
-export function BingoCardDeleteButton({
+export function DeleteBingoCardButton({
 	bingoCardId,
 	bingoCardName,
 }: {
@@ -35,7 +35,7 @@ export function BingoCardDeleteButton({
 
 	async function handleClick() {
 		startTransition(async () => {
-			await deleteBingoCard(bingoCardId);
+			await deleteBingoCardAction(bingoCardId);
 		});
 	}
 
@@ -58,7 +58,6 @@ export function BingoCardDeleteButton({
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>
-					<input hidden defaultValue={bingoCardId} name="bingoCardId" />
 					<Button variant="outline" type="button" onClick={closeDialog}>
 						キャンセル
 					</Button>
