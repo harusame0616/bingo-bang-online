@@ -1,0 +1,10 @@
+{
+	"$schema": "https://unpkg.com/knip@5/schema.json",
+	"ignore": [
+		"**/src/components/ui/*.tsx",
+		"**/*/*.unit-spec.ts",
+		"prisma/seed.ts"
+	],
+	"ignoreDependencies": ["@prisma/client", "@radix-ui/react-dialog"],
+	"ignoreExportsUsedInFile": true
+}
