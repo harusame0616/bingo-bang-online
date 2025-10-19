@@ -29,7 +29,6 @@ describe("BingoGameCreateUsecase", () => {
 				bingoCardIds: [],
 			});
 
-			// hashedMaganementPassword は返さない
 			expect(bingoGame).not.toHaveProperty("hashedManagementPassword");
 		});
 	});

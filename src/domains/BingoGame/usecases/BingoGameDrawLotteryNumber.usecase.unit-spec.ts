@@ -28,7 +28,6 @@ describe("BingoGameDrawLotteryNumber", () => {
 				bingoCardIds: expect.any(Array),
 			});
 
-			// hashedMaganementPassword は返さない
 			expect(bingoGameDto).not.toHaveProperty("hashedManagementPassword");
 		});
 
