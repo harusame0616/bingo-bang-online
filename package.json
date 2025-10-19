@@ -12,6 +12,10 @@
 		"format:check": "biome format .",
 		"format:fix": "biome format --write .",
 		"spell:check": "cspell \"**/*\"",
+		"knip:check": "knip",
+		"type:check": "echo \"No type check (Next.js doesn't recommend tsc: https://github.com/vercel/next.js/issues/53732)\"",
+		"validate:check": "pnpm format:check && pnpm lint:check && pnpm type:check && pnpm spell:check && pnpm knip:check",
+		"validate:fix": "pnpm format:fix && pnpm lint:fix",
 		"test:unit": "vitest",
 		"db:deploy": "prisma migrate deploy"
 	},
@@ -47,6 +51,7 @@
 		"@vitejs/plugin-react": "^4.0.4",
 		"cspell": "^9.2.1",
 		"jsdom": "^22.1.0",
+		"knip": "^5.66.0",
 		"prisma": "^6.15.0",
 		"tsx": "^4.20.5",
 		"typescript": "5.9.2",
