@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@prisma/client':
         specifier: 6.15.0
-        version: 6.15.0(prisma@6.15.0(typescript@5.9.2))(typescript@5.9.2)
+        version: 6.15.0(prisma@6.15.0(typescript@5.9.3))(typescript@5.9.3)
       '@radix-ui/react-alert-dialog':
         specifier: 1.0.4
         version: 1.0.4(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -58,7 +58,7 @@ importers:
         version: 1.0.7(tailwindcss@3.3.3)
       valibot:
         specifier: 1.1.0
-        version: 1.1.0(typescript@5.9.2)
+        version: 1.1.0(typescript@5.9.3)
     devDependencies:
       '@biomejs/biome':
         specifier: 2.2.4
@@ -86,16 +86,16 @@ importers:
         version: 22.1.0
       knip:
         specifier: 5.66.0
-        version: 5.66.0(@types/node@24.3.3)(typescript@5.9.2)
+        version: 5.66.0(@types/node@24.3.3)(typescript@5.9.3)
       prisma:
         specifier: 6.15.0
-        version: 6.15.0(typescript@5.9.2)
+        version: 6.15.0(typescript@5.9.3)
       tsx:
         specifier: 4.20.5
         version: 4.20.5
       typescript:
-        specifier: 5.9.2
-        version: 5.9.2
+        specifier: 5.9.3
+        version: 5.9.3
       vitest:
         specifier: 0.34.3
         version: 0.34.3(jsdom@22.1.0)(lightningcss@1.30.1)(playwright@1.55.0)
@@ -2715,8 +2715,8 @@ packages:
     resolution: {integrity: sha512-Acylog8/luQ8L7il+geoSxhEkazvkslg7PSNKOX59mbB9cOveP5aq9h74Y7YU8yDpJwetzQQrfIwtf4Wp4LKcw==}
     engines: {node: '>=4'}
 
-  typescript@5.9.2:
-    resolution: {integrity: sha512-CWBzXQrc/qOkhidw1OzBTQuYRbfyxDXJMVJ1XNwUHGROVmuaeiEm3OslpZ1RV96d7SKKjZKrSJu3+t/xlw3R9A==}
+  typescript@5.9.3:
+    resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -3713,10 +3713,10 @@ snapshots:
     dependencies:
       playwright: 1.38.0
 
-  '@prisma/client@6.15.0(prisma@6.15.0(typescript@5.9.2))(typescript@5.9.2)':
+  '@prisma/client@6.15.0(prisma@6.15.0(typescript@5.9.3))(typescript@5.9.3)':
     optionalDependencies:
-      prisma: 6.15.0(typescript@5.9.2)
-      typescript: 5.9.2
+      prisma: 6.15.0(typescript@5.9.3)
+      typescript: 5.9.3
 
   '@prisma/config@6.15.0':
     dependencies:
@@ -4744,7 +4744,7 @@ snapshots:
 
   json5@2.2.3: {}
 
-  knip@5.66.0(@types/node@24.3.3)(typescript@5.9.2):
+  knip@5.66.0(@types/node@24.3.3)(typescript@5.9.3):
     dependencies:
       '@nodelib/fs.walk': 1.2.8
       '@types/node': 24.3.3
@@ -4758,7 +4758,7 @@ snapshots:
       picomatch: 4.0.3
       smol-toml: 1.4.2
       strip-json-comments: 5.0.2
-      typescript: 5.9.2
+      typescript: 5.9.3
       zod: 4.1.12
 
   lightningcss-darwin-arm64@1.30.1:
@@ -5069,12 +5069,12 @@ snapshots:
       ansi-styles: 5.2.0
       react-is: 18.3.1
 
-  prisma@6.15.0(typescript@5.9.2):
+  prisma@6.15.0(typescript@5.9.3):
     dependencies:
       '@prisma/config': 6.15.0
       '@prisma/engines': 6.15.0
     optionalDependencies:
-      typescript: 5.9.2
+      typescript: 5.9.3
     transitivePeerDependencies:
       - magicast
 
@@ -5390,7 +5390,7 @@ snapshots:
 
   type-detect@4.1.0: {}
 
-  typescript@5.9.2: {}
+  typescript@5.9.3: {}
 
   ufo@1.6.1: {}
 
@@ -5426,9 +5426,9 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
-  valibot@1.1.0(typescript@5.9.2):
+  valibot@1.1.0(typescript@5.9.3):
     optionalDependencies:
-      typescript: 5.9.2
+      typescript: 5.9.3
 
   vite-node@0.34.3(@types/node@24.3.3)(lightningcss@1.30.1):
     dependencies:
