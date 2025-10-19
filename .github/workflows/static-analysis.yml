@@ -1,0 +1,38 @@
+name: 静的解析
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  lint:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v5
+      - name: pnpm のセットアップ
+        uses: pnpm/action-setup@v4
+      - name: Node.js のセットアップ
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: "./.node-version"
+          cache: "pnpm"
+      - name: パッケージインストール
+        run: pnpm install
+      - name: Lint & フォーマット & 型チェック
+        run: pnpm validate:check
