@@ -7,6 +7,7 @@ import Link from "next/link";
 import Script from "next/script";
 
 import Mark from "./mark.svg";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
 	title: "BINGO BANG ONLINE",
@@ -34,8 +35,23 @@ export const metadata: Metadata = {
 	},
 };
 
-const titleFont = Montserrat({ subsets: ["latin"], weight: "400" });
-const baseFont = M_PLUS_Rounded_1c({ subsets: ["latin"], weight: "400" });
+const titleFont = Montserrat({
+	subsets: ["latin"],
+	weight: "400",
+	display: "swap",
+	fallback: ["Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
+});
+
+const baseFont = M_PLUS_Rounded_1c({
+	subsets: ["latin"],
+	weight: "400",
+	display: "swap",
+	fallback: [
+		"Hiragino Maru Gothic ProN", // macOS
+		"Meiryo UI", // Windows
+		"sans-serif", // 最終フォールバック
+	],
+});
 
 export default function RootLayout({
 	children,
@@ -48,11 +64,16 @@ export default function RootLayout({
 				<GoogleAnalytics />
 			</head>
 			<body
-				className={`${baseFont.className} flex h-[100dvh] flex-col overflow-hidden`}
+				className={cn(
+					baseFont.className,
+					"flex h-[100dvh] flex-col overflow-hidden",
+				)}
 			>
 				<header className="relative z-10 flex justify-center bg-background px-4 py-2 shadow-md">
 					<Image src={Mark} alt="" width="30" height="30" className="mr-2" />
-					<h1 className={`text-2xl ${titleFont.className} text-primary-darken`}>
+					<h1
+						className={cn(titleFont.className, "text-2xl text-primary-darken")}
+					>
 						<Link href="/">BINGO BANG ONLINE</Link>
 					</h1>
 				</header>

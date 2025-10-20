@@ -32,6 +32,9 @@ importers:
       clsx:
         specifier: 2.0.0
         version: 2.0.0
+      geist:
+        specifier: 1.5.1
+        version: 1.5.1(next@15.5.6(@babel/core@7.28.4)(@playwright/test@1.38.0)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))
       jotai:
         specifier: 2.14.0
         version: 2.14.0(@babel/core@7.28.4)(@babel/template@7.27.2)(@types/react@19.1.13)(react@19.1.1)
@@ -1904,6 +1907,11 @@ packages:
 
   function-bind@1.1.2:
     resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
+
+  geist@1.5.1:
+    resolution: {integrity: sha512-mAHZxIsL2o3ZITFaBVFBnwyDOw+zNLYum6A6nIjpzCGIO8QtC3V76XF2RnZTyLx1wlDTmMDy8jg3Ib52MIjGvQ==}
+    peerDependencies:
+      next: '>=13.2.0'
 
   gensequence@7.0.0:
     resolution: {integrity: sha512-47Frx13aZh01afHJTB3zTtKIlFI6vWY+MYCN9Qpew6i52rfKjnhCF/l1YlC8UmEMvvntZZ6z4PiCcmyuedR2aQ==}
@@ -4557,6 +4565,10 @@ snapshots:
     optional: true
 
   function-bind@1.1.2: {}
+
+  geist@1.5.1(next@15.5.6(@babel/core@7.28.4)(@playwright/test@1.38.0)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)):
+    dependencies:
+      next: 15.5.6(@babel/core@7.28.4)(@playwright/test@1.38.0)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
 
   gensequence@7.0.0: {}
 
