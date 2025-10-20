@@ -40,6 +40,7 @@ const titleFont = Montserrat({
 	weight: "400",
 	display: "swap",
 	fallback: ["Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
+	adjustFontFallback: true,
 });
 
 const baseFont = M_PLUS_Rounded_1c({
@@ -51,6 +52,7 @@ const baseFont = M_PLUS_Rounded_1c({
 		"Meiryo UI", // Windows
 		"sans-serif", // 最終フォールバック
 	],
+	adjustFontFallback: true,
 });
 
 export default function RootLayout({
