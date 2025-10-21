@@ -2,32 +2,33 @@
 	"version": "0.2",
 	"language": "en,ja",
 	"words": [
-		"biomejs",
-		"supabase",
-		"turbo",
-		"turborepo",
-		"turbopack",
-		"vitest",
-		"playwright",
-		"pnpm",
-		"harusame",
 		"bingo",
 		"bingonta",
+		"biomejs",
 		"clsx",
-		"tailwindcss",
-		"valibot",
-		"prisma",
+		"fkey",
+		"harusame",
+		"INMEMORY",
 		"jotai",
+		"Maru",
+		"pkey",
+		"playwright",
+		"pnpm",
+		"prisma",
 		"radix",
-		"usecases",
+		"shadcn",
+		"Shadcn",
+		"supabase",
+		"tailwindcss",
+		"turbo",
+		"turbopack",
+		"turborepo",
 		"usecase",
 		"Usecase",
-		"INMEMORY",
+		"usecases",
+		"valibot",
 		"viewports",
-		"pkey",
-		"fkey",
-		"Shadcn",
-		"shadcn"
+		"vitest"
 	],
 	"ignorePaths": [
 		"node_modules",
@@ -47,5 +48,8 @@
 		"supabase/config.toml",
 		"src/app/generated/**"
 	],
-	"ignoreRegExpList": ["/\\b[0-9a-f]{7,40}\\b/gi", "/https?:\\/\\/[^\\s]+/g"]
+	"ignoreRegExpList": [
+		"/\\b[0-9a-f]{7,40}\\b/gi",
+		"/https?:\\/\\/[^\\s]+/g"
+	]
 }
