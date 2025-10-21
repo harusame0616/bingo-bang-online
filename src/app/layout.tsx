@@ -1,10 +1,10 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { M_PLUS_Rounded_1c, Montserrat } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import Script from "next/script";
 
 import Mark from "./mark.svg";
 
@@ -44,9 +44,6 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="ja">
-			<head>
-				<GoogleAnalytics />
-			</head>
 			<body
 				className={`${baseFont.className} flex h-[100dvh] flex-col overflow-hidden`}
 			>
@@ -58,27 +55,7 @@ export default function RootLayout({
 				</header>
 				<main className="flex grow flex-col overflow-y-hidden">{children}</main>
 			</body>
+			<GoogleAnalytics gaId="G-30177J9MB5" />
 		</html>
-	);
-}
-
-function GoogleAnalytics() {
-	return (
-		<>
-			<Script
-				async
-				src="https://www.googletagmanager.com/gtag/js?id=G-30177J9MB5"
-			/>
-			{/* biome-ignore lint/correctness/useUniqueElementIds: Next.js Script requires static ID */}
-			<Script id="google-analytics">
-				{`
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-30177J9MB5');
-  `}
-			</Script>
-		</>
 	);
 }
