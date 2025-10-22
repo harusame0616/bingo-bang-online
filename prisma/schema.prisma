@@ -23,6 +23,7 @@ model BingoGameEntity {
   id             String            @id @db.Char(36)
   lotteryNumbers Int[]             @map("lottery_numbers")
   viewId         String            @unique @map("view_id") @db.Char(36)
+  sound          Boolean           @default(true)
   bingoCards     BingoCardEntity[]
 
   @@map("BINGO_GAME")

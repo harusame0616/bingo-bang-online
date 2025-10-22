@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "BINGO_GAME" ADD COLUMN     "sound" BOOLEAN NOT NULL DEFAULT true;
