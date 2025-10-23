@@ -1,4 +1,4 @@
-import { BingoStartButton } from "./bingo-start-button";
+import { CreateBingoRoomButton } from "./create-bingo-room-button";
 
 const features = [
 	{
@@ -72,7 +72,7 @@ export default function Home() {
 				<span className="ml-1 text-sm">でビンゴを開催できるサービスです。</span>
 			</div>
 			<div className="mb-12 w-full flex flex-col items-center">
-				<BingoStartButton />
+				<CreateBingoRoomButton />
 				<div className="block text-center mt-4">
 					新しくゲームを開始する際の注意
 				</div>

@@ -6,7 +6,7 @@ import { fail, succeed } from "@/lib/result";
 import type { ServerActionResult } from "@/lib/server-action-result";
 
 // VERCEL でレートリミットを設定済み
-export async function startBingoGame(): Promise<
+export async function createBingoRoomAction(): Promise<
 	ServerActionResult<{ bingoGameId: string }>
 > {
 	try {

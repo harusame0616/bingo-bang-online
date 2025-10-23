@@ -1,13 +1,12 @@
 "use client";
 
+import { ReloadIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-
 import { Button } from "@/components/ui/button";
+import { createBingoRoomAction } from "./create-bingo-room-action";
 
-import { startBingoGame } from "./start-bingo-game";
-
-export function BingoStartButton() {
+export function CreateBingoRoomButton() {
 	const [isPending, startTransition] = useTransition();
 	const router = useRouter();
 	const [errorMessage, setErrorMessage] = useState("");
@@ -15,7 +14,7 @@ export function BingoStartButton() {
 	function handleClick() {
 		startTransition(async () => {
 			try {
-				const result = await startBingoGame();
+				const result = await createBingoRoomAction();
 
 				if (result?.success) {
 					router.push(`/games/${result.data.bingoGameId}`);
@@ -41,11 +40,15 @@ export function BingoStartButton() {
 		<div className="flex flex-col items-center">
 			<Button
 				type="button"
-				className="max-w-[220px]"
+				className="w-[220px]"
 				onClick={handleClick}
 				disabled={isPending}
 			>
-				ビンゴゲームを開始する
+				{isPending ? (
+					<ReloadIcon className="animate-spin" />
+				) : (
+					"ビンゴルームを作成する"
+				)}
 			</Button>
 			{errorMessage && (
 				<div className="mt-4 text-destructive border border-destructive rounded-lg p-2">
