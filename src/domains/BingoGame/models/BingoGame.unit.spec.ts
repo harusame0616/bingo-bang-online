@@ -13,7 +13,6 @@ describe("BingoGame", () => {
 				id: expect.any(String),
 				lotteryNumbers: [],
 				viewId: expect.any(String),
-				hashedManagementPassword: null,
 				state: CREATED,
 			});
 		});

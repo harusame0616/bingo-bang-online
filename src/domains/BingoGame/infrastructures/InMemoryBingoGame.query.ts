@@ -22,11 +22,8 @@ export class InMemoryBingoGameQuery implements BingoGameQuery {
 			(card) => card.bingoGameId === bingoGameViewId,
 		);
 
-		const { hashedManagementPassword: _, ...bingoGameDtoWithoutBingoCardIds } =
-			bingoGame;
-
 		return {
-			...bingoGameDtoWithoutBingoCardIds,
+			...bingoGame,
 			bingoCards,
 		};
 	}
@@ -43,11 +40,8 @@ export class InMemoryBingoGameQuery implements BingoGameQuery {
 			(card) => card.bingoGameId === bingoGameId,
 		);
 
-		const { hashedManagementPassword: _, ...bingoGameDtoWithoutBingoCardIds } =
-			bingoGame;
-
 		return {
-			...bingoGameDtoWithoutBingoCardIds,
+			...bingoGame,
 			bingoCards,
 		};
 	}

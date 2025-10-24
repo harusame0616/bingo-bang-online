@@ -12,7 +12,6 @@ export interface BingoGameDto {
 	lotteryNumbers: number[];
 	viewId: string;
 	state: BingoGameState;
-	hashedManagementPassword: string | null;
 }
 
 export class BingoGame {
@@ -31,7 +30,6 @@ export class BingoGame {
 			id: crypto.randomUUID(),
 			lotteryNumbers: [],
 			viewId: crypto.randomUUID(),
-			hashedManagementPassword: null,
 			state: BingoGameStateEnum.CREATED,
 		});
 	}

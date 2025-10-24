@@ -26,10 +26,7 @@ describe("BingoGameCreateUsecase", () => {
 				lotteryNumbers: [],
 				viewId: expect.any(String),
 				state: CREATED,
-				bingoCardIds: [],
 			});
-
-			expect(bingoGame).not.toHaveProperty("hashedManagementPassword");
 		});
 	});
 });
