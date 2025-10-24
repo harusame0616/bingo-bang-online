@@ -1,10 +1,9 @@
 "use client";
 
+import { ReloadIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-
 import { Button } from "@/components/ui/button";
-
 import { startBingoGame } from "./start-bingo-game";
 
 export function BingoStartButton() {
@@ -41,11 +40,15 @@ export function BingoStartButton() {
 		<div className="flex flex-col items-center">
 			<Button
 				type="button"
-				className="max-w-[220px]"
+				className="min-w-[220px]"
 				onClick={handleClick}
 				disabled={isPending}
 			>
-				ビンゴゲームを開始する
+				{isPending ? (
+					<ReloadIcon className="animate-spin" />
+				) : (
+					"ビンゴゲームを開始する"
+				)}
 			</Button>
 			{errorMessage && (
 				<div className="mt-4 text-destructive border border-destructive rounded-lg p-2">
