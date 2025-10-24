@@ -4,15 +4,12 @@ import type { BingoGameDto } from "../models/BingoGame";
 
 export type BingoGameViewDtoWithCards = Omit<
 	BingoGameDto,
-	"hashedManagementPassword" | "bingoCardIds" | "id"
+	"bingoCardIds" | "id"
 > & {
 	bingoCards: Omit<BingoCardDto, "bingoGameId">[];
 };
 
-export type BingoGameDtoWithCards = Omit<
-	BingoGameDto,
-	"hashedManagementPassword" | "bingoCardIds"
-> & {
+export type BingoGameDtoWithCards = Omit<BingoGameDto, "bingoCardIds"> & {
 	bingoCards: BingoCardDto[];
 };
 

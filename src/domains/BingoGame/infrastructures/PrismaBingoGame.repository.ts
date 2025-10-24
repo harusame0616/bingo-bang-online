@@ -16,17 +16,12 @@ export class PrismaBingoGameRepository implements BingoGameRepository {
 			id: bingoGame.id,
 			lotteryNumbers: bingoGame.lotteryNumbers,
 			viewId: bingoGame.viewId,
-			hashedManagementPassword: null,
 			state: "created",
 		});
 	}
 
 	async save(bingoGame: BingoGame): Promise<void> {
-		const {
-			hashedManagementPassword: _,
-			state: __,
-			...bingoGameDto
-		} = bingoGame.toDto();
+		const { state: _, ...bingoGameDto } = bingoGame.toDto();
 		await prisma.bingoGameEntity.upsert({
 			where: { id: bingoGame.id },
 			create: bingoGameDto,

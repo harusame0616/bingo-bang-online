@@ -25,10 +25,7 @@ describe("BingoGameDrawLotteryNumber", () => {
 				viewId: expect.any(String),
 				lotteryNumbers: expect.any(Array),
 				state: PLAYING,
-				bingoCardIds: expect.any(Array),
 			});
-
-			expect(bingoGameDto).not.toHaveProperty("hashedManagementPassword");
 		});
 
 		it("存在しない ID を指定したときに例外が発生する", async () => {

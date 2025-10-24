@@ -1,7 +1,7 @@
 import { BingoGame, type BingoGameDto } from "../models/BingoGame";
 import type { BingoGameRepository } from "./BingoGame.repository";
 
-type BingoGameCreateDto = Omit<BingoGameDto, "hashedManagementPassword">;
+type BingoGameCreateDto = BingoGameDto;
 
 export class BingoGameCreateUsecase {
 	constructor(private readonly bingoGameRepository: BingoGameRepository) {}
@@ -11,9 +11,6 @@ export class BingoGameCreateUsecase {
 
 		await this.bingoGameRepository.save(bingoGame);
 
-		const { hashedManagementPassword: _, ...bingoGameCreateDto } =
-			bingoGame.toDto();
-
-		return bingoGameCreateDto;
+		return bingoGame.toDto();
 	}
 }
