@@ -5,7 +5,7 @@ import * as v from "valibot";
 
 import { BingoCardGenerateUsecase } from "@/domains/BingoCard/usecases/BingoCardGenerate.usecase";
 import { getRepository } from "@/lib/infra/getRepository";
-import { fail, succeed } from "@/lib/result";
+import { fail, succeed } from "@harusame0616/result";
 
 const generateBingoCardParamsSchema = v.object({
 	bingoGameId: v.pipe(v.string(), v.uuid()),

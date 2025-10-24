@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@harusame0616/result':
+        specifier: 0.1.2
+        version: 0.1.2
       '@next/third-parties':
         specifier: 15.5.6
         version: 15.5.6(next@15.5.6(@babel/core@7.28.4)(@playwright/test@1.38.0)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react@19.1.1)
@@ -773,6 +776,9 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@harusame0616/result@0.1.2':
+    resolution: {integrity: sha512-JW+rjMZKzGY63hRGaYgKxYat1MTu1uzGuiqOmNojItkToP2lYwoSo7+KazI3TpoTlFlDCG4bGsUlZDLxYbLN9g==}
 
   '@img/sharp-darwin-arm64@0.34.3':
     resolution: {integrity: sha512-ryFMfvxxpQRsgZJqBd4wsttYQbCxsJksrv9Lw/v798JcQ8+w84mBWuXwl+TT0WJ/WrYOLaYpwQXi3sA9nTIaIg==}
@@ -3760,6 +3766,8 @@ snapshots:
 
   '@esbuild/win32-x64@0.25.9':
     optional: true
+
+  '@harusame0616/result@0.1.2': {}
 
   '@img/sharp-darwin-arm64@0.34.3':
     optionalDependencies:

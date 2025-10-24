@@ -2,7 +2,7 @@
 
 import { BingoGameCreateUsecase } from "@/domains/BingoGame/usecases/BingoGameCreate.usecase";
 import { getRepository } from "@/lib/infra/getRepository";
-import { fail, succeed } from "@/lib/result";
+import { fail, succeed } from "@harusame0616/result";
 import type { ServerActionResult } from "@/lib/server-action-result";
 
 // VERCEL でレートリミットを設定済み

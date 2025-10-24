@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import * as v from "valibot";
 import prisma from "@/lib/prisma";
-import { fail, succeed } from "@/lib/result";
+import { fail, succeed } from "@harusame0616/result";
 
 const updateSoundSettingParamsSchema = v.object({
 	bingoGameId: v.pipe(v.string(), v.uuid()),
