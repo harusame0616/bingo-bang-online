@@ -1,6 +1,6 @@
 import "./globals.css";
 
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { M_PLUS_Rounded_1c, Montserrat } from "next/font/google";
 import Image from "next/image";
@@ -16,7 +16,6 @@ export const metadata: Metadata = {
 		"登録不要、無料で手軽に楽しめるオールインワンのビンゴサービスです。ビンゴカードの自動生成、番号の抽選、ビンゴチェック、ビンゴしたカード一覧など管理の手間を省きます。ユーザー向けにビンゴカード一覧・ビンゴカード詳細ページ、抽選番号履歴ページもあり、配布や確認も簡単です。",
 	robots: "index, follow",
 	applicationName: "BINGO BANG ONLINE",
-	viewport: "width=device-width,initial-scale=1.0",
 	openGraph: {
 		type: "website",
 		locale: "ja_JP",
@@ -34,6 +33,12 @@ export const metadata: Metadata = {
 			},
 		],
 	},
+};
+
+// Next.js 16: viewport は metadata から分離
+export const viewport: Viewport = {
+	width: "device-width",
+	initialScale: 1.0,
 };
 
 const titleFont = Montserrat({
