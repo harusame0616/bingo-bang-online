@@ -39,7 +39,7 @@ export function SoundSetting({ bingoGameId, sound, disabled = false }: Props) {
 				toast({
 					variant: "destructive",
 					title: "エラー",
-					description: result.message || "サウンド設定の更新に失敗しました",
+					description: result.error || "サウンド設定の更新に失敗しました",
 				});
 			}
 		});

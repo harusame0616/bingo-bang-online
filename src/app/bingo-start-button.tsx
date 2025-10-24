@@ -21,8 +21,8 @@ export function BingoStartButton() {
 					return;
 				}
 
-				if (result?.message) {
-					throw new Error(result.message);
+				if (result?.error) {
+					throw new Error(result.error);
 				}
 			} catch (error: unknown) {
 				if (error instanceof Error) {
