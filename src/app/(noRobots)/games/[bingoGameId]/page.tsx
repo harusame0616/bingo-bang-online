@@ -1,8 +1,8 @@
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { notFound } from "next/navigation";
+import { cacheTag } from "next/cache";
 import { Suspense } from "react";
-import prisma from "@/lib/prisma";
-import { LotteryHistoryContainer } from "../../_components/LotteryHistory";
+import { getSoundSetting } from "./get-sound-setting";
+import { LotteryHistoryContainer } from "./lottery-history";
 import { LotteryRouletteContainer } from "./lottery-roulette-container";
 import { LotteryRoulettePresenter } from "./lottery-roulette-presenter";
 import { SoundSetting } from "./sound-setting";
@@ -36,21 +36,17 @@ export default async function BingoGameLotteryPage({
 }
 
 async function SoundSettingContainer({
-	bingoGameId,
+	bingoGameId: bingoGameIdPromise,
 }: {
 	bingoGameId: Promise<string>;
 }) {
-	const resolvedBingoGameId = await bingoGameId;
-	const bingoGame = await prisma.bingoGameEntity.findUnique({
-		where: { id: resolvedBingoGameId },
-		select: { sound: true },
-	});
+	"use cache";
 
-	if (!bingoGame) {
-		return notFound();
-	}
+	const bingoGameId = await bingoGameIdPromise;
 
-	return (
-		<SoundSetting bingoGameId={resolvedBingoGameId} sound={bingoGame.sound} />
-	);
+	cacheTag(`${bingoGameId}-sound-setting`);
+
+	const soundSetting = await getSoundSetting(bingoGameId);
+
+	return <SoundSetting bingoGameId={bingoGameId} sound={soundSetting} />;
 }

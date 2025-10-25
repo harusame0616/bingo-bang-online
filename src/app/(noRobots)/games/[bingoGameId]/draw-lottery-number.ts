@@ -1,17 +1,22 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-
+import { updateTag } from "next/cache";
 import { BingoGameDrawLotteryNumberUsecase } from "@/domains/BingoGame/usecases/BingoGameDrawLotteryNumber.usecase";
 import { getRepository } from "@/lib/infra/getRepository";
 
-export async function drawLotteryNumber(bingoGameId: string) {
+export async function drawLotteryNumberAction(bingoGameId: string) {
 	const drawLotteryNumberUsecase = new BingoGameDrawLotteryNumberUsecase(
 		getRepository("bingoGame"),
 	);
 
-	const lotteryNumber = await drawLotteryNumberUsecase.execute(bingoGameId);
+	const bingoGameDto = await drawLotteryNumberUsecase.execute(bingoGameId);
+	const lastLotteryNumber = bingoGameDto.lotteryNumbers.at(-1);
 
-	revalidatePath("/game/[bingoGameId]");
-	return lotteryNumber.lotteryNumbers.at(-1) as number;
+	if (lastLotteryNumber === undefined) {
+		throw new Error("抽選後の番号を取得できませんでした");
+	}
+
+	updateTag(`${bingoGameId}-lottery-number`);
+
+	return lastLotteryNumber;
 }
