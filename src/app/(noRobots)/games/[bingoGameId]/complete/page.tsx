@@ -1,9 +1,10 @@
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { notFound } from "next/navigation";
+import { cacheTag } from "next/cache";
 import { Suspense } from "react";
 import { Heading } from "@/app/(noRobots)/_components/Heading";
-import { isCardBingo } from "@/domains/BingoCard/lib/is-card-bingo";
-import prisma from "@/lib/prisma";
+import { CACHE_TAGS } from "@/lib/cache-tags";
+
+import { getCompletedBingoCards } from "./get-completed-bingo-cards";
 
 export default function BingoCardCompletePage({
 	params,
@@ -26,29 +27,6 @@ export default function BingoCardCompletePage({
 			</Suspense>
 		</div>
 	);
-}
-
-async function getCompletedBingoCards(bingoGameId: string) {
-	const bingoGame = await prisma.bingoGameEntity.findUnique({
-		where: {
-			id: bingoGameId,
-		},
-		include: {
-			bingoCards: true,
-		},
-	});
-
-	if (!bingoGame) {
-		notFound();
-	}
-
-	const completedBingoCards = bingoGame.bingoCards
-		.filter((bingoCard) =>
-			isCardBingo(bingoGame.lotteryNumbers, bingoCard.squares),
-		)
-		.sort((a, b) => a.name.localeCompare(b.name));
-
-	return completedBingoCards;
 }
 
 type BingoCompletionCardsPresenterProps = {
@@ -78,12 +56,20 @@ function BingoCompletionCardsPresenter({
 }
 
 async function BingoCompletionCardsContainer({
-	bingoGameId,
+	bingoGameId: bingoGameIdPromise,
 }: {
 	bingoGameId: Promise<string>;
 }) {
-	const resolvedBingoGameId = await bingoGameId;
-	const completedBingoCards = await getCompletedBingoCards(resolvedBingoGameId);
+	"use cache";
+
+	const bingoGameId = await bingoGameIdPromise;
+
+	cacheTag(
+		CACHE_TAGS.bingoCards(bingoGameId),
+		CACHE_TAGS.lotteryNumber(bingoGameId),
+	);
+
+	const completedBingoCards = await getCompletedBingoCards(bingoGameId);
 
 	return (
 		<BingoCompletionCardsPresenter completedBingoCards={completedBingoCards} />
