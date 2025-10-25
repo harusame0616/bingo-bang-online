@@ -1,9 +1,11 @@
+import { cacheLife, cacheTag } from "next/cache";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 import { Heading } from "@/app/(noRobots)/_components/Heading";
-import prisma from "@/lib/prisma";
+import { CACHE_TAGS } from "@/lib/cache-tags";
+
+import { getViewId } from "./get-view-id";
 
 export default async function BingoCardCompletePage({
 	params,
@@ -39,21 +41,27 @@ function ViewLinksSkeleton() {
 }
 
 async function ViewLinksContainer({
-	bingoGameId,
+	bingoGameId: bingoGameIdPromise,
 }: {
 	bingoGameId: Promise<string>;
 }) {
-	const resolvedBingoGameId = await bingoGameId;
+	"use cache";
 
-	const bingoGame = await prisma.bingoGameEntity.findUnique({
-		where: { id: resolvedBingoGameId },
+	const bingoGameId = await bingoGameIdPromise;
+
+	// viewIdは変更されないため長期間キャッシュ
+	// ビンゴゲーム自動削除機能実装時(TODO)にbingoGameDeleteタグでupdateTagするため長めに設定
+	cacheLife({
+		stale: 60 * 60 * 24 * 365, // 1年
+		revalidate: 60 * 60 * 24 * 365, // 1年
+		expire: 60 * 60 * 24 * 365, // 1年
 	});
 
-	if (!bingoGame) {
-		notFound();
-	}
+	cacheTag(CACHE_TAGS.bingoGameDelete(bingoGameId));
 
-	return <ViewLinksPresenter viewId={bingoGame.viewId} />;
+	const viewId = await getViewId(bingoGameId);
+
+	return <ViewLinksPresenter viewId={viewId} />;
 }
 
 function ViewLinksPresenter({ viewId }: { viewId: string }) {
