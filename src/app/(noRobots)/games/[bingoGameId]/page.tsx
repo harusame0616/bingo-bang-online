@@ -1,6 +1,7 @@
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { cacheTag } from "next/cache";
 import { Suspense } from "react";
+import { CACHE_TAGS } from "@/lib/cache-tags";
 import { getSoundSetting } from "./get-sound-setting";
 import { LotteryHistoryContainer } from "./lottery-history";
 import { LotteryRouletteContainer } from "./lottery-roulette-container";
@@ -44,7 +45,7 @@ async function SoundSettingContainer({
 
 	const bingoGameId = await bingoGameIdPromise;
 
-	cacheTag(`${bingoGameId}-sound-setting`);
+	cacheTag(CACHE_TAGS.soundSetting(bingoGameId));
 
 	const soundSetting = await getSoundSetting(bingoGameId);
 

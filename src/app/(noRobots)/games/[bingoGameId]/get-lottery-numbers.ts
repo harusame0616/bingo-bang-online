@@ -1,10 +1,11 @@
 import { cacheTag } from "next/cache";
 import { notFound } from "next/navigation";
 import { cache } from "react";
+import { CACHE_TAGS } from "@/lib/cache-tags";
 import prisma from "@/lib/prisma";
 
 async function _getLotteryNumbers(bingoGameId: string) {
-	cacheTag(`${bingoGameId}-lottery-number`);
+	cacheTag(CACHE_TAGS.lotteryNumber(bingoGameId));
 
 	const bingoGame = await prisma.bingoGameEntity.findUnique({
 		where: {

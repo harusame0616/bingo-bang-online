@@ -1,5 +1,6 @@
 import { cacheTag } from "next/cache";
 
+import { CACHE_TAGS } from "@/lib/cache-tags";
 import { getLotteryNumbers } from "./get-lottery-numbers";
 import { getSoundSetting } from "./get-sound-setting";
 import { LotteryRoulettePresenter } from "./lottery-roulette-presenter";
@@ -14,7 +15,10 @@ export async function LotteryRouletteContainer({
 
 	const bingoGameId = await bingoGameIdPromise;
 
-	cacheTag(`${bingoGameId}-lottery-number`, `${bingoGameId}-sound-setting`);
+	cacheTag(
+		CACHE_TAGS.lotteryNumber(bingoGameId),
+		CACHE_TAGS.soundSetting(bingoGameId),
+	);
 
 	const [lotteryNumbers, soundSetting] = await Promise.all([
 		getLotteryNumbers(bingoGameId),

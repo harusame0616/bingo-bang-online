@@ -2,6 +2,7 @@
 
 import { updateTag } from "next/cache";
 import { BingoGameDrawLotteryNumberUsecase } from "@/domains/BingoGame/usecases/BingoGameDrawLotteryNumber.usecase";
+import { CACHE_TAGS } from "@/lib/cache-tags";
 import { getRepository } from "@/lib/infra/getRepository";
 
 export async function drawLotteryNumberAction(bingoGameId: string) {
@@ -16,7 +17,7 @@ export async function drawLotteryNumberAction(bingoGameId: string) {
 		throw new Error("抽選後の番号を取得できませんでした");
 	}
 
-	updateTag(`${bingoGameId}-lottery-number`);
+	updateTag(CACHE_TAGS.lotteryNumber(bingoGameId));
 
 	return lastLotteryNumber;
 }
