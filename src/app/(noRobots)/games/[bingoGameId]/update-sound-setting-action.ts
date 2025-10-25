@@ -1,9 +1,10 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import * as v from "valibot";
-import prisma from "@/lib/prisma";
 import { fail, succeed } from "@harusame0616/result";
+import { updateTag } from "next/cache";
+import * as v from "valibot";
+import { CACHE_TAGS } from "@/lib/cache-tags";
+import prisma from "@/lib/prisma";
 
 const updateSoundSettingParamsSchema = v.object({
 	bingoGameId: v.pipe(v.string(), v.uuid()),
@@ -30,7 +31,7 @@ export async function updateSoundSettingAction(
 			data: { sound },
 		});
 
-		revalidatePath(`/games/${bingoGameId}`, "page");
+		updateTag(CACHE_TAGS.soundSetting(bingoGameId));
 
 		return succeed();
 	} catch (error) {

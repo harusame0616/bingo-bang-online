@@ -3,7 +3,7 @@
 import { useCallback, useRef, useState } from "react";
 
 import { Button } from "@/components/Button";
-import { drawLotteryNumber } from "./draw-lottery-number";
+import { drawLotteryNumberAction } from "./draw-lottery-number";
 import { NumberSpinner } from "./number-spinner";
 
 interface Props {
@@ -38,7 +38,9 @@ export function LotteryRoulettePresenter({
 			</NumberSpinner>
 			<div className="mx-auto">
 				{loading ? (
-					<Button disabled>読込中</Button>
+					<Button disabled className="min-w-24">
+						読込中
+					</Button>
 				) : isRouletteSpinning ? (
 					<StopButton
 						finish={finish}
@@ -62,7 +64,12 @@ function StartButton({
 	onClick: () => void;
 }) {
 	return (
-		<Button type="button" disabled={finish} onClick={onClick}>
+		<Button
+			type="button"
+			disabled={finish}
+			onClick={onClick}
+			className="min-w-24"
+		>
 			{finish ? "抽選終了" : "スタート"}
 		</Button>
 	);
@@ -82,7 +89,7 @@ function StopButton({
 	const stopAudio = useRef(sound ? new Audio("/se/stop.mp3") : null);
 
 	const stopRoulette = useCallback(async () => {
-		const number = await drawLotteryNumber(bingoGameId);
+		const number = await drawLotteryNumberAction(bingoGameId);
 		onStop(number);
 
 		await stopAudio.current?.play();
@@ -94,6 +101,7 @@ function StopButton({
 			disableInActionChildren="抽選中..."
 			disabled={finish}
 			onClick={stopRoulette}
+			className="min-w-24"
 		>
 			ストップ
 		</Button>

@@ -1,30 +1,21 @@
-import { notFound } from "next/navigation";
-
+import { cacheTag } from "next/cache";
 import { Chip } from "@/components/Chip";
 import { Skeleton } from "@/components/ui/skeleton";
-import prisma from "@/lib/prisma";
+import { CACHE_TAGS } from "@/lib/cache-tags";
+import { getLotteryNumbers } from "./get-lottery-numbers";
 
 export async function LotteryHistoryContainer({
-	bingoGameId,
+	bingoGameId: bingoGameIdPromise,
 }: {
 	bingoGameId: Promise<string>;
 }) {
-	const resolvedBingoGameId = await bingoGameId;
+	"use cache";
 
-	async function getLotteryNumbers() {
-		const bingoGame = await prisma.bingoGameEntity.findUnique({
-			where: {
-				id: resolvedBingoGameId,
-			},
-		});
-		if (!bingoGame) {
-			notFound();
-		}
+	const bingoGameId = await bingoGameIdPromise;
 
-		return bingoGame?.lotteryNumbers;
-	}
+	cacheTag(CACHE_TAGS.lotteryNumber(bingoGameId));
 
-	const numbers = await getLotteryNumbers();
+	const numbers = await getLotteryNumbers(bingoGameId);
 
 	return <LotteryHistory lotteryNumbers={numbers} />;
 }

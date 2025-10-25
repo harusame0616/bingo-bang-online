@@ -5,7 +5,7 @@ import { Heading } from "@/app/(noRobots)/_components/Heading";
 import {
 	LotteryHistory,
 	LotteryHistorySkeleton,
-} from "@/app/(noRobots)/_components/LotteryHistory";
+} from "@/app/(noRobots)/games/[bingoGameId]/lottery-history";
 import { Section } from "@/components/BoxSection";
 import { Button } from "@/components/Button";
 import { getQuery } from "@/lib/infra/getQuery";
