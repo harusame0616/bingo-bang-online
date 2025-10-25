@@ -1,4 +1,3 @@
-import { ReloadIcon } from "@radix-ui/react-icons";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
@@ -6,32 +5,30 @@ import { BingoCardList } from "@/app/_components/bingo-card-list";
 import { Heading } from "@/app/(noRobots)/_components/Heading";
 import type { BingoCardEntity } from "@/app/generated/prisma";
 import { Section } from "@/components/BoxSection";
+import { Card } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { BingoCard } from "@/domains/BingoCard/components/BingoCard";
 import prisma from "@/lib/prisma";
 
 import { DeleteBingoCardButton } from "./delete-bingo-card-button";
 import { BingoCardGenerationForm } from "./generate-bingo-card-form";
 
-export default async function NextPage({
+export default function NextPage({
 	params,
 }: PageProps<"/games/[bingoGameId]/cards">) {
-	const { bingoGameId } = await params;
+	const bingoGameId = params.then((p) => p.bingoGameId);
 
 	return (
 		<div>
 			<Section>
 				<Heading>ビンゴカード生成</Heading>
-				<BingoCardGenerationForm bingoGameId={bingoGameId} />
+				<Suspense fallback={<BingoCardGenerationForm disabled />}>
+					<BingoCardGenerationFormContainer bingoGameId={bingoGameId} />
+				</Suspense>
 			</Section>
 			<Section>
 				<Heading>ビンゴカードリスト</Heading>
-				<Suspense
-					fallback={
-						<div className="flex justify-center">
-							<ReloadIcon className="mr-2 h-8 w-8 animate-spin" />
-						</div>
-					}
-				>
+				<Suspense fallback={<BingoCardsSkeleton />}>
 					<BingoCardsContainer bingoGameId={bingoGameId} />
 				</Suspense>
 			</Section>
@@ -57,8 +54,24 @@ async function getBingoGame(bingoGameId: string) {
 	};
 }
 
-async function BingoCardsContainer({ bingoGameId }: { bingoGameId: string }) {
-	const { bingoCards, lotteryNumbers } = await getBingoGame(bingoGameId);
+async function BingoCardGenerationFormContainer({
+	bingoGameId,
+}: {
+	bingoGameId: Promise<string>;
+}) {
+	const resolvedBingoGameId = await bingoGameId;
+
+	return <BingoCardGenerationForm bingoGameId={resolvedBingoGameId} />;
+}
+
+async function BingoCardsContainer({
+	bingoGameId,
+}: {
+	bingoGameId: Promise<string>;
+}) {
+	const resolvedBingoGameId = await bingoGameId;
+	const { bingoCards, lotteryNumbers } =
+		await getBingoGame(resolvedBingoGameId);
 
 	return (
 		<BingoCardsPresenter
@@ -84,6 +97,51 @@ function BingoCardsPresenter({
 						bingoCardId={bingoCard.id}
 						bingoCardName={bingoCard.name || "名無し"}
 					/>
+				</li>
+			))}
+		</BingoCardList>
+	);
+}
+
+function BingoCardsSkeleton() {
+	const rows = Array.from({ length: 5 });
+	const cols = Array.from({ length: 5 });
+
+	return (
+		<BingoCardList>
+			{Array.from({ length: 6 }).map((_, index) => (
+				// biome-ignore lint/suspicious/noArrayIndexKey: Skeleton is a static display, order never changes
+				<li key={index}>
+					<Card className="p-2">
+						<figure>
+							<figcaption className="pb-1 text-sm">
+								<Skeleton className="h-[1.25rem] w-32" />
+							</figcaption>
+							<ul>
+								{rows.map((_, ri) => (
+									// biome-ignore lint/suspicious/noArrayIndexKey: Skeleton is a static 5x5 grid, order never changes
+									<li key={ri}>
+										<ul className="grid grid-cols-5">
+											{cols.map((_, ci) => (
+												<li
+													// biome-ignore lint/suspicious/noArrayIndexKey: Skeleton is a static 5x5 grid, order never changes
+													key={ci}
+													className="relative flex h-0 grow-0 border border-gray-200 pb-[100%]"
+												>
+													<div className="absolute inset-0 flex items-center justify-center">
+														<Skeleton className="h-4 w-4" />
+													</div>
+												</li>
+											))}
+										</ul>
+									</li>
+								))}
+							</ul>
+						</figure>
+					</Card>
+					<div className="p-2">
+						<Skeleton className="h-4 w-4" />
+					</div>
 				</li>
 			))}
 		</BingoCardList>

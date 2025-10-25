@@ -1,14 +1,13 @@
 import "./globals.css";
 
-import type { Metadata, Viewport } from "next";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import type { Metadata, Viewport } from "next";
 import { M_PLUS_Rounded_1c, Montserrat } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-
-import Mark from "./mark.svg";
-import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
+import { cn } from "@/lib/utils";
+import Mark from "./mark.svg";
 
 export const metadata: Metadata = {
 	title: "BINGO BANG ONLINE",

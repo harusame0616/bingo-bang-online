@@ -17,14 +17,15 @@ async function getBingoGame(bingoGameId: string) {
 }
 
 interface Props {
-	bingoGameId: string;
+	bingoGameId: Promise<string>;
 }
 export async function LotteryRouletteContainer({ bingoGameId }: Props) {
-	const bingoGame = await getBingoGame(bingoGameId);
+	const resolvedBingoGameId = await bingoGameId;
+	const bingoGame = await getBingoGame(resolvedBingoGameId);
 
 	return (
 		<LotteryRoulettePresenter
-			bingoGameId={bingoGameId}
+			bingoGameId={resolvedBingoGameId}
 			finish={bingoGame.lotteryNumbers.length === 75}
 			sound={bingoGame.sound}
 		/>

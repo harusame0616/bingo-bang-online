@@ -10,17 +10,13 @@ import { SoundSetting } from "./sound-setting";
 export default async function BingoGameLotteryPage({
 	params,
 }: PageProps<"/games/[bingoGameId]">) {
-	const { bingoGameId } = await params;
+	const bingoGameId = params.then(({ bingoGameId }) => bingoGameId);
 
 	return (
 		<div>
 			<Suspense
 				fallback={
-					<LotteryRoulettePresenter
-						bingoGameId={bingoGameId}
-						finish={false}
-						loading
-					/>
+					<LotteryRoulettePresenter bingoGameId="" finish={false} loading />
 				}
 			>
 				<LotteryRouletteContainer bingoGameId={bingoGameId} />
@@ -32,18 +28,21 @@ export default async function BingoGameLotteryPage({
 					<LotteryHistoryContainer bingoGameId={bingoGameId} />
 				</Suspense>
 			</div>
-			<Suspense
-				fallback={<SoundSetting bingoGameId={bingoGameId} sound disabled />}
-			>
+			<Suspense fallback={<SoundSetting bingoGameId="" sound disabled />}>
 				<SoundSettingContainer bingoGameId={bingoGameId} />
 			</Suspense>
 		</div>
 	);
 }
 
-async function SoundSettingContainer({ bingoGameId }: { bingoGameId: string }) {
+async function SoundSettingContainer({
+	bingoGameId,
+}: {
+	bingoGameId: Promise<string>;
+}) {
+	const resolvedBingoGameId = await bingoGameId;
 	const bingoGame = await prisma.bingoGameEntity.findUnique({
-		where: { id: bingoGameId },
+		where: { id: resolvedBingoGameId },
 		select: { sound: true },
 	});
 
@@ -51,5 +50,7 @@ async function SoundSettingContainer({ bingoGameId }: { bingoGameId: string }) {
 		return notFound();
 	}
 
-	return <SoundSetting bingoGameId={bingoGameId} sound={bingoGame.sound} />;
+	return (
+		<SoundSetting bingoGameId={resolvedBingoGameId} sound={bingoGame.sound} />
+	);
 }

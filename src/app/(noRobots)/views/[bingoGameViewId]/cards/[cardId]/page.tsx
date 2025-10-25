@@ -6,10 +6,10 @@ import prisma from "@/lib/prisma";
 
 import { BingoDetailPresenter } from "./bingo-detail-presenter";
 
-export default async function NextPage({
+export default function NextPage({
 	params,
 }: PageProps<"/views/[bingoGameViewId]/cards/[cardId]">) {
-	const { cardId } = await params;
+	const cardId = params.then(({ bingoGameViewId }) => bingoGameViewId);
 
 	return (
 		<div className="mx-auto max-w-lg">
@@ -35,8 +35,13 @@ async function getBingoCard(bingoCardId: string) {
 	return bingoCard;
 }
 
-async function BingoDetailContainer({ bingoCardId }: { bingoCardId: string }) {
-	const bingoCard = await getBingoCard(bingoCardId);
+async function BingoDetailContainer({
+	bingoCardId,
+}: {
+	bingoCardId: Promise<string>;
+}) {
+	const resolvedBingoCardId = await bingoCardId;
+	const bingoCard = await getBingoCard(resolvedBingoCardId);
 
 	return <BingoDetailPresenter bingoCard={bingoCard} />;
 }
