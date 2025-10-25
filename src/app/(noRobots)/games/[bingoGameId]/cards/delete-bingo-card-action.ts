@@ -1,11 +1,15 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { updateTag } from "next/cache";
 import * as v from "valibot";
 
+import { CACHE_TAGS } from "@/lib/cache-tags";
 import prisma from "@/lib/prisma";
 
-export async function deleteBingoCardAction(bingoCardId: string) {
+export async function deleteBingoCardAction(
+	bingoGameId: string,
+	bingoCardId: string,
+) {
 	const parsedBingoCardId = v.parse(v.string(), bingoCardId);
 
 	await prisma.bingoCardEntity.delete({
@@ -14,5 +18,5 @@ export async function deleteBingoCardAction(bingoCardId: string) {
 		},
 	});
 
-	revalidatePath("/game/[bingoGameId]");
+	updateTag(CACHE_TAGS.bingoCards(bingoGameId));
 }

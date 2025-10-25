@@ -17,9 +17,11 @@ import {
 import { deleteBingoCardAction } from "./delete-bingo-card-action";
 
 export function DeleteBingoCardButton({
+	bingoGameId,
 	bingoCardId,
 	bingoCardName,
 }: {
+	bingoGameId: string;
 	bingoCardId: string;
 	bingoCardName: string;
 }) {
@@ -35,7 +37,7 @@ export function DeleteBingoCardButton({
 
 	async function handleClick() {
 		startTransition(async () => {
-			await deleteBingoCardAction(bingoCardId);
+			await deleteBingoCardAction(bingoGameId, bingoCardId);
 		});
 	}
 
