@@ -1,11 +1,11 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import * as v from "valibot";
-
-import { BingoCardGenerateUsecase } from "@/domains/BingoCard/usecases/BingoCardGenerate.usecase";
-import { getRepository } from "@/lib/infra/getRepository";
 import { fail, succeed } from "@harusame0616/result";
+import { updateTag } from "next/cache";
+import * as v from "valibot";
+import { BingoCardGenerateUsecase } from "@/domains/BingoCard/usecases/BingoCardGenerate.usecase";
+import { CACHE_TAGS } from "@/lib/cache-tags";
+import { getRepository } from "@/lib/infra/getRepository";
 
 const generateBingoCardParamsSchema = v.object({
 	bingoGameId: v.pipe(v.string(), v.uuid()),
@@ -33,7 +33,7 @@ export async function generateBingoCardAction(
 		},
 	);
 
-	revalidatePath("/game/[bingoGameId]/bing-cards");
+	updateTag(CACHE_TAGS.bingoCards(parsedParamsResult.output.bingoGameId));
 
 	return succeed();
 }

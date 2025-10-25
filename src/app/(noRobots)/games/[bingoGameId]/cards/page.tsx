@@ -1,17 +1,19 @@
-import { notFound } from "next/navigation";
+import { cacheTag } from "next/cache";
 import { Suspense } from "react";
 
-import { BingoCardList } from "@/app/_components/bingo-card-list";
 import { Heading } from "@/app/(noRobots)/_components/Heading";
+import { BingoCardList } from "@/app/_components/bingo-card-list";
 import type { BingoCardEntity } from "@/app/generated/prisma";
 import { Section } from "@/components/BoxSection";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BingoCard } from "@/domains/BingoCard/components/BingoCard";
-import prisma from "@/lib/prisma";
+import { CACHE_TAGS } from "@/lib/cache-tags";
 
+import { getLotteryNumbers } from "../get-lottery-numbers";
 import { DeleteBingoCardButton } from "./delete-bingo-card-button";
 import { BingoCardGenerationForm } from "./generate-bingo-card-form";
+import { getBingoCards } from "./get-bingo-cards";
 
 export default function NextPage({
 	params,
@@ -36,45 +38,38 @@ export default function NextPage({
 	);
 }
 
-async function getBingoGame(bingoGameId: string) {
-	const bingoGameEntity = await prisma.bingoGameEntity.findUnique({
-		where: { id: bingoGameId },
-		include: {
-			bingoCards: true,
-		},
-	});
-
-	if (!bingoGameEntity) {
-		notFound();
-	}
-
-	return {
-		bingoCards: bingoGameEntity.bingoCards || [],
-		lotteryNumbers: bingoGameEntity.lotteryNumbers,
-	};
-}
-
 async function BingoCardGenerationFormContainer({
-	bingoGameId,
+	bingoGameId: bingoGameIdPromise,
 }: {
 	bingoGameId: Promise<string>;
 }) {
-	const resolvedBingoGameId = await bingoGameId;
+	const bingoGameId = await bingoGameIdPromise;
 
-	return <BingoCardGenerationForm bingoGameId={resolvedBingoGameId} />;
+	return <BingoCardGenerationForm bingoGameId={bingoGameId} />;
 }
 
 async function BingoCardsContainer({
-	bingoGameId,
+	bingoGameId: bingoGameIdPromise,
 }: {
 	bingoGameId: Promise<string>;
 }) {
-	const resolvedBingoGameId = await bingoGameId;
-	const { bingoCards, lotteryNumbers } =
-		await getBingoGame(resolvedBingoGameId);
+	"use cache";
+
+	const bingoGameId = await bingoGameIdPromise;
+
+	cacheTag(
+		CACHE_TAGS.bingoCards(bingoGameId),
+		CACHE_TAGS.lotteryNumber(bingoGameId),
+	);
+
+	const [bingoCards, lotteryNumbers] = await Promise.all([
+		getBingoCards(bingoGameId),
+		getLotteryNumbers(bingoGameId),
+	]);
 
 	return (
 		<BingoCardsPresenter
+			bingoGameId={bingoGameId}
 			bingoCards={bingoCards}
 			lotteryNumbers={lotteryNumbers}
 		/>
@@ -82,9 +77,11 @@ async function BingoCardsContainer({
 }
 
 function BingoCardsPresenter({
+	bingoGameId,
 	bingoCards,
 	lotteryNumbers,
 }: {
+	bingoGameId: string;
 	bingoCards: BingoCardEntity[];
 	lotteryNumbers: number[];
 }) {
@@ -94,6 +91,7 @@ function BingoCardsPresenter({
 				<li key={bingoCard.id} className="">
 					<BingoCard bingoCard={bingoCard} lotteryNumbers={lotteryNumbers} />
 					<DeleteBingoCardButton
+						bingoGameId={bingoGameId}
 						bingoCardId={bingoCard.id}
 						bingoCardName={bingoCard.name || "名無し"}
 					/>
