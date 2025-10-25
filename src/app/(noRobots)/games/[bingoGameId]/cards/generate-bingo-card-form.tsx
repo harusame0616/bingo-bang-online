@@ -7,15 +7,17 @@ import { Input } from "@/components/ui/input";
 
 import { generateBingoCardAction } from "./generate-bingo-card-action";
 
-type Props = { bingoGameId: string };
+type Props = { bingoGameId: string } | { bingoGameId?: string; disabled: true };
 
-export function BingoCardGenerationForm({ bingoGameId }: Props) {
+export function BingoCardGenerationForm(props: Props) {
+	const bingoGameId = "bingoGameId" in props ? props.bingoGameId : undefined;
+	const disabled = "disabled" in props ? props.disabled : false;
 	const [cardName, setBingCardName] = useState("");
 	const nameInputId = useId();
 	const [isPending, startTransition] = useTransition();
 
 	const handleSubmit = async () => {
-		if (isPending) {
+		if (isPending || disabled || !bingoGameId) {
 			return;
 		}
 
@@ -41,8 +43,9 @@ export function BingoCardGenerationForm({ bingoGameId }: Props) {
 					maxLength={40}
 					value={cardName}
 					onChange={(event) => setBingCardName(event.target.value)}
+					disabled={disabled}
 				/>
-				<Button disabled={isPending} className="shrink-0">
+				<Button disabled={isPending || disabled} className="shrink-0">
 					生成する
 				</Button>
 			</div>

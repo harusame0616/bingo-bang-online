@@ -1,4 +1,3 @@
-import { ReloadIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
@@ -9,19 +8,13 @@ import prisma from "@/lib/prisma";
 export default async function BingoCardCompletePage({
 	params,
 }: PageProps<"/games/[bingoGameId]/settings">) {
-	const { bingoGameId } = await params;
+	const bingoGameId = params.then(({ bingoGameId }) => bingoGameId);
 
 	return (
 		<div className="space-y-8">
 			<Heading>閲覧専用ページリンク</Heading>
 			<div className="flex justify-center">
-				<Suspense
-					fallback={
-						<div>
-							<ReloadIcon className="mr-2 h-8 w-8 animate-spin" />
-						</div>
-					}
-				>
+				<Suspense fallback={<ViewLinksSkeleton />}>
 					<ViewLinksContainer bingoGameId={bingoGameId} />
 				</Suspense>
 			</div>
@@ -32,24 +25,38 @@ export default async function BingoCardCompletePage({
 	);
 }
 
-async function getBingoGame(bingoGameId: string) {
+function ViewLinksSkeleton() {
+	return (
+		<ul aria-label="閲覧用リンク" className="flex flex-col">
+			<li className="flex">
+				<div className="h-5 w-40 bg-muted animate-pulse rounded" />
+			</li>
+			<li className="flex mt-2">
+				<div className="h-5 w-32 bg-muted animate-pulse rounded" />
+			</li>
+		</ul>
+	);
+}
+
+async function ViewLinksContainer({
+	bingoGameId,
+}: {
+	bingoGameId: Promise<string>;
+}) {
+	const resolvedBingoGameId = await bingoGameId;
+
 	const bingoGame = await prisma.bingoGameEntity.findUnique({
-		where: { id: bingoGameId },
+		where: { id: resolvedBingoGameId },
 	});
+
 	if (!bingoGame) {
 		notFound();
 	}
 
-	return bingoGame.viewId;
+	return <ViewLinksPresenter viewId={bingoGame.viewId} />;
 }
 
-async function ViewLinksContainer({ bingoGameId }: { bingoGameId: string }) {
-	const viewId = await getBingoGame(bingoGameId);
-
-	return <ViewLinksPresenter viewId={viewId} />;
-}
-
-async function ViewLinksPresenter({ viewId }: { viewId: string }) {
+function ViewLinksPresenter({ viewId }: { viewId: string }) {
 	return (
 		<ul aria-label="閲覧用リンク" className="flex flex-col">
 			<li className="flex">

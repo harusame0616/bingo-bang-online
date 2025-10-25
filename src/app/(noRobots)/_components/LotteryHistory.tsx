@@ -1,21 +1,20 @@
 import { notFound } from "next/navigation";
 
-import { Section } from "@/components/BoxSection";
 import { Chip } from "@/components/Chip";
+import { Skeleton } from "@/components/ui/skeleton";
 import prisma from "@/lib/prisma";
-
-import { Heading } from "./Heading";
-import { useId } from "react";
 
 export async function LotteryHistoryContainer({
 	bingoGameId,
 }: {
-	bingoGameId: string;
+	bingoGameId: Promise<string>;
 }) {
+	const resolvedBingoGameId = await bingoGameId;
+
 	async function getLotteryNumbers() {
 		const bingoGame = await prisma.bingoGameEntity.findUnique({
 			where: {
-				id: bingoGameId,
+				id: resolvedBingoGameId,
 			},
 		});
 		if (!bingoGame) {
@@ -35,22 +34,24 @@ export function LotteryHistory({
 }: {
 	lotteryNumbers: number[];
 }) {
-	const id = useId();
 	return (
-		<Section>
-			<Heading>
-				<span id={id}>抽選番号履歴</span>
-			</Heading>
-			<ol
-				aria-labelledby={id}
-				className="flex flex-wrap justify-center gap-x-2 gap-y-1"
-			>
-				{lotteryNumbers.map((lotteryNumber) => (
-					<li key={lotteryNumber}>
-						<Chip>{lotteryNumber}</Chip>
-					</li>
-				))}
-			</ol>
-		</Section>
+		<ol className="flex flex-wrap justify-center gap-x-2 gap-y-1">
+			{lotteryNumbers.map((lotteryNumber) => (
+				<li key={lotteryNumber}>
+					<Chip>{lotteryNumber}</Chip>
+				</li>
+			))}
+		</ol>
+	);
+}
+
+export function LotteryHistorySkeleton() {
+	return (
+		<div className="flex flex-wrap justify-center gap-x-2 gap-y-1">
+			{Array.from({ length: 12 }).map((_, index) => (
+				// biome-ignore lint/suspicious/noArrayIndexKey: Skeleton is a static display, order never changes
+				<Skeleton key={index} className="h-6 w-16 rounded-lg" />
+			))}
+		</div>
 	);
 }

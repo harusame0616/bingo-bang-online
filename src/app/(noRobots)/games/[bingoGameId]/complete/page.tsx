@@ -5,10 +5,10 @@ import { Heading } from "@/app/(noRobots)/_components/Heading";
 import { isCardBingo } from "@/domains/BingoCard/lib/is-card-bingo";
 import prisma from "@/lib/prisma";
 
-export default async function BingoCardCompletePage({
+export default function BingoCardCompletePage({
 	params,
 }: PageProps<"/games/[bingoGameId]/complete">) {
-	const { bingoGameId } = await params;
+	const bingoGameId = params.then(({ bingoGameId }) => bingoGameId);
 
 	return (
 		<div>
@@ -21,7 +21,7 @@ export default async function BingoCardCompletePage({
 				}
 			>
 				<div className="flex justify-center mt-4">
-					<BingoCompletionCards bingoGameId={bingoGameId} />
+					<BingoCompletionCardsContainer bingoGameId={bingoGameId} />
 				</div>
 			</Suspense>
 		</div>
@@ -51,19 +51,41 @@ async function getCompletedBingoCards(bingoGameId: string) {
 	return completedBingoCards;
 }
 
-async function BingoCompletionCards({ bingoGameId }: { bingoGameId: string }) {
-	const completedBingoCards = await getCompletedBingoCards(bingoGameId);
+type BingoCompletionCardsPresenterProps = {
+	completedBingoCards: Array<{
+		id: string;
+		name: string;
+	}>;
+};
+
+function BingoCompletionCardsPresenter({
+	completedBingoCards,
+}: BingoCompletionCardsPresenterProps) {
+	if (completedBingoCards.length === 0) {
+		return <div>まだ完成済みのビンゴカードはありません</div>;
+	}
 
 	return (
 		<ul
 			aria-labelledby="bingo-complete-card-name-list"
 			className="list-disc list-inside"
 		>
-			{completedBingoCards.length
-				? completedBingoCards.map((card) => (
-						<li key={card.id}>{card.name || "名無しのカード"}</li>
-					))
-				: "まだ完成済みのビンゴカードはありません"}
+			{completedBingoCards.map((card) => (
+				<li key={card.id}>{card.name || "名無しのカード"}</li>
+			))}
 		</ul>
+	);
+}
+
+async function BingoCompletionCardsContainer({
+	bingoGameId,
+}: {
+	bingoGameId: Promise<string>;
+}) {
+	const resolvedBingoGameId = await bingoGameId;
+	const completedBingoCards = await getCompletedBingoCards(resolvedBingoGameId);
+
+	return (
+		<BingoCompletionCardsPresenter completedBingoCards={completedBingoCards} />
 	);
 }
