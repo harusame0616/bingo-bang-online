@@ -9,7 +9,7 @@ import { BingoDetailPresenter } from "./bingo-detail-presenter";
 export default function NextPage({
 	params,
 }: PageProps<"/views/[bingoGameViewId]/cards/[cardId]">) {
-	const cardId = params.then(({ bingoGameViewId }) => bingoGameViewId);
+	const cardId = params.then(({ cardId }) => cardId);
 
 	return (
 		<div className="mx-auto max-w-lg">
