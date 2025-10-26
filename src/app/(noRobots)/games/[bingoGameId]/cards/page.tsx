@@ -1,8 +1,7 @@
-import { cacheTag } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 import { Suspense } from "react";
-
-import { Heading } from "@/app/(noRobots)/_components/Heading";
 import { BingoCardList } from "@/app/_components/bingo-card-list";
+import { Heading } from "@/app/(noRobots)/_components/Heading";
 import type { BingoCardEntity } from "@/app/generated/prisma";
 import { Section } from "@/components/BoxSection";
 import { Card } from "@/components/ui/card";
@@ -55,11 +54,14 @@ async function BingoCardsContainer({
 }) {
 	"use cache";
 
+	cacheLife("permanent");
+
 	const bingoGameId = await bingoGameIdPromise;
 
 	cacheTag(
 		CACHE_TAGS.bingoCards(bingoGameId),
 		CACHE_TAGS.lotteryNumber(bingoGameId),
+		CACHE_TAGS.bingoGameDelete(bingoGameId),
 	);
 
 	const [bingoCards, lotteryNumbers] = await Promise.all([

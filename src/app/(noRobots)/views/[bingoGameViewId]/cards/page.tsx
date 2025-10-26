@@ -1,14 +1,16 @@
+import { cacheLife, cacheTag } from "next/cache";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 import { BingoCardList } from "@/app/_components/bingo-card-list";
 import { Heading } from "@/app/(noRobots)/_components/Heading";
+import { getBingoCards } from "@/app/(noRobots)/games/[bingoGameId]/cards/get-bingo-cards";
 import type { BingoCardEntity } from "@/app/generated/prisma";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BingoCard } from "@/domains/BingoCard/components/BingoCard";
-import prisma from "@/lib/prisma";
+import { CACHE_TAGS } from "@/lib/cache-tags";
+import { getBingoGameId } from "../get-bingo-game-id";
 
 export default function Page({
 	params,
@@ -27,22 +29,20 @@ export default function Page({
 	);
 }
 
-async function getBingoCardsByViewId(viewId: string) {
-	const bingoGame = await prisma.bingoGameEntity.findUnique({
-		where: { viewId },
-		include: { bingoCards: true },
-	});
-
-	if (!bingoGame) {
-		notFound();
-	}
-
-	return bingoGame.bingoCards;
-}
-
 async function BingoCardsContainer({ viewId }: { viewId: Promise<string> }) {
+	"use cache";
+
+	cacheLife("permanent");
+
 	const resolvedViewId = await viewId;
-	const bingoCards = await getBingoCardsByViewId(resolvedViewId);
+	const bingoGameId = await getBingoGameId(resolvedViewId);
+
+	cacheTag(
+		CACHE_TAGS.bingoCards(bingoGameId),
+		CACHE_TAGS.bingoGameDelete(bingoGameId),
+	);
+
+	const bingoCards = await getBingoCards(bingoGameId);
 
 	if (!bingoCards.length) {
 		return <BingoCardsNoRegister />;

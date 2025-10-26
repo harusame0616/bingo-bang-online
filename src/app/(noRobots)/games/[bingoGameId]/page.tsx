@@ -1,5 +1,5 @@
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { cacheTag } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 import { Suspense } from "react";
 import { CACHE_TAGS } from "@/lib/cache-tags";
 import { getSoundSetting } from "./get-sound-setting";
@@ -43,9 +43,14 @@ async function SoundSettingContainer({
 }) {
 	"use cache";
 
+	cacheLife("permanent");
+
 	const bingoGameId = await bingoGameIdPromise;
 
-	cacheTag(CACHE_TAGS.soundSetting(bingoGameId));
+	cacheTag(
+		CACHE_TAGS.soundSetting(bingoGameId),
+		CACHE_TAGS.bingoGameDelete(bingoGameId),
+	);
 
 	const soundSetting = await getSoundSetting(bingoGameId);
 
