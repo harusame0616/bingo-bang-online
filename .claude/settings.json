@@ -8,7 +8,8 @@
 			"Bash(pnpm format:*)",
 			"Bash(pnpm validate:*)",
 			"Bash(pnpm format:check:*)",
-			"Bash(pnpm format:fix:*)"
+			"Bash(pnpm format:fix:*)",
+			"Bash(pnpm dlx shadcn@latest add:*)"
 		]
 	}
 }
