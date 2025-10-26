@@ -1,4 +1,4 @@
-import { cacheTag } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 import { Chip } from "@/components/Chip";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CACHE_TAGS } from "@/lib/cache-tags";
@@ -11,9 +11,14 @@ export async function LotteryHistoryContainer({
 }) {
 	"use cache";
 
+	cacheLife("permanent");
+
 	const bingoGameId = await bingoGameIdPromise;
 
-	cacheTag(CACHE_TAGS.lotteryNumber(bingoGameId));
+	cacheTag(
+		CACHE_TAGS.lotteryNumber(bingoGameId),
+		CACHE_TAGS.bingoGameDelete(bingoGameId),
+	);
 
 	const numbers = await getLotteryNumbers(bingoGameId);
 

@@ -5,21 +5,23 @@ import { cache } from "react";
 import { CACHE_TAGS } from "@/lib/cache-tags";
 import prisma from "@/lib/prisma";
 
-async function _getViewId(bingoGameId: string) {
+async function _getBingoGameId(viewId: string) {
 	"use cache";
+
 	cacheLife("permanent");
-	cacheTag(CACHE_TAGS.bingoGameDelete(bingoGameId));
 
 	const bingoGame = await prisma.bingoGameEntity.findUnique({
-		where: { id: bingoGameId },
-		select: { viewId: true },
+		where: { viewId },
+		select: { id: true },
 	});
 
 	if (!bingoGame) {
 		notFound();
 	}
 
-	return bingoGame.viewId;
+	cacheTag(CACHE_TAGS.bingoGameDelete(bingoGame.id));
+
+	return bingoGame.id;
 }
 
-export const getViewId = cache(_getViewId);
+export const getBingoGameId = cache(_getBingoGameId);

@@ -1,4 +1,4 @@
-import { cacheTag } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 
 import { CACHE_TAGS } from "@/lib/cache-tags";
 import { getLotteryNumbers } from "./get-lottery-numbers";
@@ -13,11 +13,14 @@ export async function LotteryRouletteContainer({
 }: Props) {
 	"use cache";
 
+	cacheLife("permanent");
+
 	const bingoGameId = await bingoGameIdPromise;
 
 	cacheTag(
 		CACHE_TAGS.lotteryNumber(bingoGameId),
 		CACHE_TAGS.soundSetting(bingoGameId),
+		CACHE_TAGS.bingoGameDelete(bingoGameId),
 	);
 
 	const [lotteryNumbers, soundSetting] = await Promise.all([

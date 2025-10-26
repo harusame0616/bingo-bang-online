@@ -1,5 +1,5 @@
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { cacheTag } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 import { Suspense } from "react";
 import { Heading } from "@/app/(noRobots)/_components/Heading";
 import { CACHE_TAGS } from "@/lib/cache-tags";
@@ -62,11 +62,14 @@ async function BingoCompletionCardsContainer({
 }) {
 	"use cache";
 
+	cacheLife("permanent");
+
 	const bingoGameId = await bingoGameIdPromise;
 
 	cacheTag(
 		CACHE_TAGS.bingoCards(bingoGameId),
 		CACHE_TAGS.lotteryNumber(bingoGameId),
+		CACHE_TAGS.bingoGameDelete(bingoGameId),
 	);
 
 	const completedBingoCards = await getCompletedBingoCards(bingoGameId);

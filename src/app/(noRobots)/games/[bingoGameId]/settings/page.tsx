@@ -47,15 +47,9 @@ async function ViewLinksContainer({
 }) {
 	"use cache";
 
-	const bingoGameId = await bingoGameIdPromise;
+	cacheLife("permanent");
 
-	// viewIdは変更されないため長期間キャッシュ
-	// ビンゴゲーム自動削除機能実装時(TODO)にbingoGameDeleteタグでupdateTagするため長めに設定
-	cacheLife({
-		stale: 60 * 60 * 24 * 365, // 1年
-		revalidate: 60 * 60 * 24 * 365, // 1年
-		expire: 60 * 60 * 24 * 365, // 1年
-	});
+	const bingoGameId = await bingoGameIdPromise;
 
 	cacheTag(CACHE_TAGS.bingoGameDelete(bingoGameId));
 
