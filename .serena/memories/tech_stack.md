@@ -5,7 +5,7 @@
 | カテゴリ               | 技術                        |
 | ---------------------- | --------------------------- |
 | パッケージマネージャー | pnpm                        |
-| フレームワーク         | Next.js 15 App Router       |
+| フレームワーク         | Next.js 16 App Router       |
 | CSS                    | Tailwind CSS                |
 | UI ライブラリ          | shadcn/ui                   |
 | バリデーション         | Valibot                     |
@@ -16,8 +16,8 @@
 | 認証・DB               | Supabase                    |
 | Linter/Formatter       | Biome                       |
 | 時刻ライブラリ         | date-fns                    |
-| アイコン               | lucide-react                |
-| アニメーション         | Motion                      |
+| アイコン               | @radix-ui/react-icons       |
+| アニメーション         | tailwindcss-animate         |
 | Result 型              | @harusame0616/result        |
 | CI/CD                  | GitHub Actions              |
 | モノレポ管理           | Turbo Repo & pnpm workspace |
