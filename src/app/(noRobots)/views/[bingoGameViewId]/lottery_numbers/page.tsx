@@ -1,26 +1,21 @@
+import { cacheLife, cacheTag } from "next/cache";
 import { Pacifico } from "next/font/google";
 import { Suspense } from "react";
 
 import { Heading } from "@/app/(noRobots)/_components/Heading";
+import { getLotteryNumbers } from "@/app/(noRobots)/games/[bingoGameId]/get-lottery-numbers";
 import {
 	LotteryHistory,
 	LotteryHistorySkeleton,
 } from "@/app/(noRobots)/games/[bingoGameId]/lottery-history";
 import { Section } from "@/components/BoxSection";
 import { Button } from "@/components/Button";
-import { getQuery } from "@/lib/infra/getQuery";
+import { CACHE_TAGS } from "@/lib/cache-tags";
 import { cn } from "@/lib/utils";
 
+import { getBingoGameId } from "../get-bingo-game-id";
+
 const numberFont = Pacifico({ subsets: ["latin"], weight: "400" });
-
-async function getLotteryNumbers(bingoGameViewId: string) {
-	const repository = getQuery("bingoGame");
-
-	const { lotteryNumbers } =
-		await repository.findOneByViewIdWithCards(bingoGameViewId);
-
-	return lotteryNumbers;
-}
 
 export default function Page({
 	params,
@@ -52,8 +47,20 @@ async function LotteryNumberContainer({
 }: {
 	bingoGameViewId: Promise<string>;
 }) {
+	"use cache";
+
+	cacheLife("permanent");
+
 	const resolvedBingoGameViewId = await bingoGameViewId;
-	const lotteryNumbers = await getLotteryNumbers(resolvedBingoGameViewId);
+	const bingoGameId = await getBingoGameId(resolvedBingoGameViewId);
+
+	cacheTag(
+		CACHE_TAGS.lotteryNumber(bingoGameId),
+		CACHE_TAGS.bingoGameDelete(bingoGameId),
+	);
+
+	const lotteryNumbers = await getLotteryNumbers(bingoGameId);
+
 	const lastNumber = lotteryNumbers.slice(-1)[0] ?? "-";
 
 	return <LastLotteryNumber lotteryNumber={lastNumber} />;
@@ -64,8 +71,19 @@ async function LotteryHistoryContainer({
 }: {
 	bingoGameViewId: Promise<string>;
 }) {
+	"use cache";
+
+	cacheLife("permanent");
+
 	const resolvedBingoGameViewId = await bingoGameViewId;
-	const lotteryNumbers = await getLotteryNumbers(resolvedBingoGameViewId);
+	const bingoGameId = await getBingoGameId(resolvedBingoGameViewId);
+
+	cacheTag(
+		CACHE_TAGS.lotteryNumber(bingoGameId),
+		CACHE_TAGS.bingoGameDelete(bingoGameId),
+	);
+
+	const lotteryNumbers = await getLotteryNumbers(bingoGameId);
 
 	return <LotteryHistory lotteryNumbers={lotteryNumbers} />;
 }
