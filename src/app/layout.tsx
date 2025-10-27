@@ -60,7 +60,7 @@ export default function RootLayout({
 			<body
 				className={cn(
 					baseFont.className,
-					"flex h-[100dvh] flex-col overflow-hidden",
+					"flex h-dvh flex-col overflow-hidden",
 				)}
 			>
 				<header className="relative z-10 flex justify-center bg-background px-4 py-2 shadow-md">

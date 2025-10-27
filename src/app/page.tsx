@@ -76,7 +76,7 @@ export default function Home() {
 				<div className="block text-center mt-4">
 					新しくゲームを開始する際の注意
 				</div>
-				<ul className="mx-auto max-w-screen-sm font-bold text-muted-foreground text-sm list-disc list-inside p-1">
+				<ul className="mx-auto max-w-(--breakpoint-sm) font-bold text-muted-foreground text-sm list-disc list-inside p-1">
 					<li>
 						ボタンをクリックするとビンゴゲーム管理 URL が発行されます。
 						お気に入りに登録してご利用ください。
@@ -93,7 +93,7 @@ export default function Home() {
 					<wbr />
 					でできること
 				</h2>
-				<ul className="mx-auto mb-8 flex max-w-screen-sm flex-col gap-y-4">
+				<ul className="mx-auto mb-8 flex max-w-(--breakpoint-sm) flex-col gap-y-4">
 					{features.map((feature, i) => (
 						<li key={feature.title} aria-labelledby={`feature-${i}`}>
 							<div className="font-black" id={`feature-${i}`}>
@@ -105,7 +105,7 @@ export default function Home() {
 						</li>
 					))}
 				</ul>
-				<div className="mx-auto max-w-screen-sm ">
+				<div className="mx-auto max-w-(--breakpoint-sm) ">
 					その他続々と機能を追加予定です。
 				</div>
 			</section>
