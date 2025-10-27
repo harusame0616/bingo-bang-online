@@ -14,6 +14,43 @@ import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { updateSoundSettingAction } from "./update-sound-setting-action";
 
+interface StatusIconProps {
+	isPending: boolean;
+	isFinishIconVisible: boolean;
+}
+
+function StatusIcon({ isPending, isFinishIconVisible }: StatusIconProps) {
+	if (isPending) {
+		return (
+			<div className="animate-in fade-in zoom-in duration-300">
+				<ReloadIcon className="h-5 w-5 animate-spin text-muted-foreground" />
+			</div>
+		);
+	}
+
+	if (isFinishIconVisible) {
+		return (
+			<div className="animate-in fade-in zoom-in duration-200">
+				<CheckIcon className="h-5 w-5 text-green-600" />
+			</div>
+		);
+	}
+
+	return null;
+}
+
+function StatusMessage({ isPending, isFinishIconVisible }: StatusIconProps) {
+	if (isPending) {
+		return "サウンド設定を更新中";
+	}
+
+	if (isFinishIconVisible) {
+		return "サウンド設定を更新しました";
+	}
+
+	return "";
+}
+
 interface Props {
 	bingoGameId: string;
 	sound: boolean;
@@ -78,21 +115,17 @@ export function SoundSetting({ bingoGameId, sound, disabled = false }: Props) {
 					aria-busy={isPending}
 				/>
 				<div className="w-5 h-5" aria-hidden="true">
-					{isPending && (
-						<div className="animate-in fade-in zoom-in duration-300">
-							<ReloadIcon className="h-5 w-5 animate-spin text-muted-foreground" />
-						</div>
-					)}
-					{isFinishIconVisible && (
-						<div className="animate-in fade-in zoom-in duration-200">
-							<CheckIcon className="h-5 w-5 text-green-600" />
-						</div>
-					)}
+					<StatusIcon
+						isPending={isPending}
+						isFinishIconVisible={isFinishIconVisible}
+					/>
 				</div>
 			</div>
 			<div aria-live="polite" aria-atomic="true" className="sr-only">
-				{isPending && "サウンド設定を更新中"}
-				{isFinishIconVisible && "サウンド設定を更新しました"}
+				<StatusMessage
+					isPending={isPending}
+					isFinishIconVisible={isFinishIconVisible}
+				/>
 			</div>
 		</div>
 	);
