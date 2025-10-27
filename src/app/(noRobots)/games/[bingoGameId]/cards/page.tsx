@@ -115,7 +115,7 @@ function BingoCardsSkeleton() {
 					<Card className="p-2">
 						<figure>
 							<figcaption className="pb-1 text-sm">
-								<Skeleton className="h-[1.25rem] w-32" />
+								<Skeleton className="h-5 w-32" />
 							</figcaption>
 							<ul>
 								{rows.map((_, ri) => (

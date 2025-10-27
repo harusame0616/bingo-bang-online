@@ -5,6 +5,11 @@
 		"**/*/*.unit-spec.ts",
 		"prisma/seed.ts"
 	],
-	"ignoreDependencies": ["@prisma/client", "@radix-ui/react-dialog"],
+	"ignoreDependencies": [
+		"@prisma/client",
+		"@radix-ui/react-dialog",
+		"tailwindcss",
+		"tw-animate-css"
+	],
 	"ignoreExportsUsedInFile": true
 }
