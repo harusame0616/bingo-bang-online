@@ -34,6 +34,9 @@ jobs:
   e2e:
     timeout-minutes: 10
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      DIRECT_URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
     steps:
       - name: コードをチェックアウト
         uses: actions/checkout@v5
