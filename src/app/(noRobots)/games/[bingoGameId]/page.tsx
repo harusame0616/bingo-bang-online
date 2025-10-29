@@ -1,6 +1,6 @@
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { cacheLife, cacheTag } from "next/cache";
-import { Suspense } from "react";
+import { Suspense, useId } from "react";
 import { CACHE_TAGS } from "@/lib/cache-tags";
 import { getSoundSetting } from "./get-sound-setting";
 import { LotteryHistoryContainer } from "./lottery-history";
@@ -12,6 +12,7 @@ export default async function BingoGameLotteryPage({
 	params,
 }: PageProps<"/games/[bingoGameId]">) {
 	const bingoGameId = params.then(({ bingoGameId }) => bingoGameId);
+	const lotteryHistoryHeadingId = useId();
 
 	return (
 		<div>
@@ -22,13 +23,16 @@ export default async function BingoGameLotteryPage({
 			>
 				<LotteryRouletteContainer bingoGameId={bingoGameId} />
 			</Suspense>
-			<div className="my-8">
+			<section className="my-8" aria-labelledby={lotteryHistoryHeadingId}>
+				<h2 className="text-center mb-2" id={lotteryHistoryHeadingId}>
+					抽選履歴
+				</h2>
 				<Suspense
 					fallback={<ReloadIcon className="mx-auto h-12 w-12 animate-spin" />}
 				>
 					<LotteryHistoryContainer bingoGameId={bingoGameId} />
 				</Suspense>
-			</div>
+			</section>
 			<Suspense fallback={<SoundSetting bingoGameId="" sound disabled />}>
 				<SoundSettingContainer bingoGameId={bingoGameId} />
 			</Suspense>

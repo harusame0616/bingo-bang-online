@@ -1,0 +1,72 @@
+name: E2E Tests
+
+on:
+  pull_request:
+    paths:
+      - "src/**"
+      - "e2e/**"
+      - "prisma/**"
+      - "public/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "playwright.config.ts"
+      - "next.config.js"
+      - "tsconfig.json"
+      - "postcss.config.js"
+    branches:
+      - main
+  push:
+    paths:
+      - "src/**"
+      - "e2e/**"
+      - "prisma/**"
+      - "public/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "playwright.config.ts"
+      - "next.config.js"
+      - "tsconfig.json"
+      - "postcss.config.js"
+    branches:
+      - main
+
+jobs:
+  e2e:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      DIRECT_URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+    steps:
+      - name: コードをチェックアウト
+        uses: actions/checkout@v5
+      - name: pnpmをセットアップ
+        uses: pnpm/action-setup@v4
+      - name: Node.jsをセットアップ
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - name: 依存関係をインストール
+        run: pnpm install
+      - name: Supabase CLIをセットアップ
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Supabaseを起動
+        run: supabase start
+      - name: Prismaマイグレーションを実行
+        run: pnpm prisma migrate deploy
+      - name: データベースにシードデータを投入
+        run: pnpm prisma db seed
+      - name: Playwrightブラウザをインストール
+        run: pnpm exec playwright install --only-shell
+      - name: E2Eテストを実行
+        run: pnpm playwright test
+      - name: テストレポートをアップロード
+        uses: actions/upload-artifact@v5
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 5
