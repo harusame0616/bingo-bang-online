@@ -18,11 +18,15 @@ test("抽選した番号が履歴に記録される", async ({ page }) => {
 	await test.step("3回抽選を実行する", async () => {
 		for (let i = 0; i < 3; i++) {
 			await page.getByRole("button", { name: "スタート" }).click();
-			await expect(page.getByRole("button", { name: "ストップ" })).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "ストップ" }),
+			).toBeVisible();
 			await page.getByRole("button", { name: "ストップ" }).click();
 
 			// 抽選処理完了を待つ
-			await expect(page.getByRole("button", { name: "スタート" })).toBeVisible();
+			await expect(
+				page.getByRole("button", { name: "スタート" }),
+			).toBeVisible();
 
 			// 抽選番号を記録
 			const lotteryNumberLocator = page.getByRole("status", {
