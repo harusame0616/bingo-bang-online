@@ -40,5 +40,9 @@ next-env.d.ts
 /playwright/.cache/
 
 generated
+dist
 
 *.local.*
+
+# supabase
+.temp

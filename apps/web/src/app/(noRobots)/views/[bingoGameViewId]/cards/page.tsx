@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import { BingoCardList } from "@/app/_components/bingo-card-list";
 import { Heading } from "@/app/(noRobots)/_components/Heading";
 import { getBingoCards } from "@/app/(noRobots)/games/[bingoGameId]/cards/get-bingo-cards";
-import type { BingoCardEntity } from "@/app/generated/prisma";
+import type { BingoCardEntity } from "@repo/prisma";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BingoCard } from "@/domains/BingoCard/components/BingoCard";

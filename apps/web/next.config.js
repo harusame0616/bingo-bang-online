@@ -8,6 +8,7 @@ const nextConfig = {
 			expire: 60 * 60 * 24 * 365, // 1年
 		},
 	},
+	transpilePackages: ["@repo/prisma"],
 };
 
 module.exports = nextConfig;

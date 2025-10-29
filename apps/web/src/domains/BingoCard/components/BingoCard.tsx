@@ -2,7 +2,7 @@
 
 import { useId } from "react";
 
-import type { BingoCardEntity } from "@/app/generated/prisma";
+import type { BingoCardEntity } from "@repo/prisma";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 

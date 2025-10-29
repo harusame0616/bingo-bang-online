@@ -3,7 +3,7 @@
 import { useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { useCallback } from "react";
-import type { BingoCardEntity } from "@/app/generated/prisma";
+import type { BingoCardEntity } from "@repo/prisma";
 import { BingoCard } from "@/domains/BingoCard/components/BingoCard";
 import { FREE } from "@/domains/BingoCard/models/BingoCard";
 
