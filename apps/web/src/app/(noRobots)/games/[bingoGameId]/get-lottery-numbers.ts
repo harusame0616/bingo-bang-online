@@ -16,12 +16,17 @@ async function _getLotteryNumbers(bingoGameId: string) {
 		where: {
 			id: bingoGameId,
 		},
+		include: {
+			lotteryNumbers: {
+				orderBy: { order: "asc" },
+			},
+		},
 	});
 	if (!bingoGame) {
 		notFound();
 	}
 
-	return bingoGame.lotteryNumbers;
+	return bingoGame.lotteryNumbers.map(({ lotteryNumber }) => lotteryNumber);
 }
 
 export const getLotteryNumbers = cache(_getLotteryNumbers);

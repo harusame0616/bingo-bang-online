@@ -21,6 +21,9 @@ async function _getCompletedBingoCards(bingoGameId: string) {
 		},
 		include: {
 			bingoCards: true,
+			lotteryNumbers: {
+				orderBy: { order: "asc" },
+			},
 		},
 	});
 
@@ -28,10 +31,13 @@ async function _getCompletedBingoCards(bingoGameId: string) {
 		notFound();
 	}
 
+	// LotteryNumberEntity[] を数値配列に変換
+	const lotteryNumbers = bingoGame.lotteryNumbers.map(
+		({ lotteryNumber }) => lotteryNumber,
+	);
+
 	const completedBingoCards = bingoGame.bingoCards
-		.filter((bingoCard) =>
-			isCardBingo(bingoGame.lotteryNumbers, bingoCard.squares),
-		)
+		.filter((bingoCard) => isCardBingo(lotteryNumbers, bingoCard.squares))
 		.sort((a, b) => a.name.localeCompare(b.name));
 
 	return completedBingoCards;
