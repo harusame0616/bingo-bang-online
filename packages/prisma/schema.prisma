@@ -20,9 +20,9 @@ model BingoCardEntity {
 }
 
 model BingoGameEntity {
-  id             String                    @id @db.Char(36)
-  viewId         String                    @unique @map("view_id") @db.Char(36)
-  sound          Boolean                   @default(true)
+  id             String                @id @db.Char(36)
+  viewId         String                @unique @map("view_id") @db.Char(36)
+  sound          Boolean               @default(true)
   bingoCards     BingoCardEntity[]
   lotteryNumbers LotteryNumberEntity[]
 
@@ -35,6 +35,6 @@ model LotteryNumberEntity {
   order         Int
   bingoGame     BingoGameEntity @relation(fields: [viewId], references: [viewId])
 
-  @@id([viewId, lotteryNumber, order])
+  @@id([viewId, lotteryNumber])
   @@map("LOTTERY_NUMBER")
 }
