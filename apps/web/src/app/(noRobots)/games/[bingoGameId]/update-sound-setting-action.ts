@@ -4,7 +4,7 @@ import { fail, succeed } from "@harusame0616/result";
 import { updateTag } from "next/cache";
 import * as v from "valibot";
 import { CACHE_TAGS } from "@/lib/cache-tags";
-import prisma from "@/lib/prisma";
+import { prisma } from "@repo/prisma";
 
 const updateSoundSettingParamsSchema = v.object({
 	bingoGameId: v.pipe(v.string(), v.uuid()),

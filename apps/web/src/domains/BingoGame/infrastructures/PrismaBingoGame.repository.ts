@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma";
+import { prisma } from "@repo/prisma";
 
 import { BingoGame } from "../models/BingoGame";
 import type { BingoGameRepository } from "../usecases/BingoGame.repository";

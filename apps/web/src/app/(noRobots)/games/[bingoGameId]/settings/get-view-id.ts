@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 
 import { CACHE_TAGS } from "@/lib/cache-tags";
-import prisma from "@/lib/prisma";
+import { prisma } from "@repo/prisma";
 
 async function _getViewId(bingoGameId: string) {
 	"use cache";

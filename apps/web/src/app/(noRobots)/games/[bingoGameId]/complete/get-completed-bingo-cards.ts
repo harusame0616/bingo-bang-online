@@ -4,7 +4,7 @@ import { cache } from "react";
 
 import { isCardBingo } from "@/domains/BingoCard/lib/is-card-bingo";
 import { CACHE_TAGS } from "@/lib/cache-tags";
-import prisma from "@/lib/prisma";
+import { prisma } from "@repo/prisma";
 
 async function _getCompletedBingoCards(bingoGameId: string) {
 	"use cache";
