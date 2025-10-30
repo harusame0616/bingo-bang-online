@@ -17,6 +17,7 @@
 		"validate:fix": "pnpm --filter web validate:fix",
 		"test:unit": "pnpm --filter web test:unit",
 		"test:e2e": "pnpm --filter web test:e2e",
+		"db:reset": "pnpm --filter @repo/prisma db:reset",
 		"db:deploy": "pnpm --filter @repo/prisma db:deploy",
 		"db:generate": "pnpm --filter @repo/prisma db:generate",
 		"supabase:start": "pnpm --filter @repo/supabase start",
