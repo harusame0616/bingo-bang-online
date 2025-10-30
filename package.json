@@ -24,7 +24,7 @@
 		"supabase:status": "pnpm --filter @repo/supabase status",
 		"supabase:reset": "pnpm --filter @repo/supabase db:reset"
 	},
-	"packageManager": "pnpm@10.19.0",
+	"packageManager": "pnpm@10.20.0",
 	"devDependencies": {
 		"@prisma/client": "6.18.0",
 		"prisma": "6.18.0"
