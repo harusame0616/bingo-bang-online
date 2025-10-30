@@ -48,6 +48,8 @@ jobs:
         run: supabase start
       - name: Prismaマイグレーションを実行
         run: pnpm --filter @repo/prisma db:deploy
+      - name: Prisma Clientを生成
+        run: pnpm --filter @repo/prisma db:generate
       - name: データベースにシードデータを投入
         run: pnpm --filter @repo/prisma db:seed
       - name: Playwrightブラウザをインストール
