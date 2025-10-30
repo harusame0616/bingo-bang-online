@@ -45,8 +45,7 @@ export class PrismaBingoGameRepository implements BingoGameRepository {
 			});
 
 			if (lotteryNumbers.length) {
-				await tx
-				.lotteryNumberEntity.createMany({
+				await tx.lotteryNumberEntity.createMany({
 					data: lotteryNumbers.map((lotteryNumber, index) => ({
 						viewId: bingoGameDto.viewId,
 						lotteryNumber,
