@@ -15,21 +15,22 @@ export async function main() {
 	const gameId = "12345678-1234-5678-1234-567812345678";
 	const viewId = "87654321-4321-8765-4321-876543218765";
 
+	// ゲームを作成
 	const game74Draws = await prisma.bingoGameEntity.create({
 		data: {
 			id: gameId,
 			viewId: viewId,
 			sound: true,
-			lotteryNumbers: {
-				createMany: {
-					data: lotteryNumbers74.map((lotteryNumber, index) => ({
-						viewId: viewId,
-						lotteryNumber,
-						order: index,
-					})),
-				},
-			},
 		},
+	});
+
+	// 抽選番号を一括作成
+	await prisma.lotteryNumberEntity.createMany({
+		data: lotteryNumbers74.map((lotteryNumber, index) => ({
+			viewId: viewId,
+			lotteryNumber,
+			order: index,
+		})),
 	});
 
 	console.log("Seed completed successfully");
