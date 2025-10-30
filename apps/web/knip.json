@@ -8,6 +8,7 @@
 	"ignoreDependencies": [
 		"@prisma/client",
 		"@radix-ui/react-dialog",
+		"@repo/prisma",
 		"tailwindcss",
 		"tw-animate-css"
 	],

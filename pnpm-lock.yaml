@@ -118,9 +118,6 @@ importers:
       prisma:
         specifier: 6.18.0
         version: 6.18.0(typescript@5.9.3)
-      tsx:
-        specifier: 4.20.6
-        version: 4.20.6
       tw-animate-css:
         specifier: 1.4.0
         version: 1.4.0
