@@ -1,0 +1,11 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+onlyBuiltDependencies:
+  - supabase
+  - "@prisma/client"
+  - "@prisma/engines"
+  - prisma
+  - sharp
+  - esbuild

@@ -3,30 +3,20 @@ name: E2E Tests
 on:
   pull_request:
     paths:
-      - "src/**"
-      - "e2e/**"
-      - "prisma/**"
-      - "public/**"
+      - "apps/web/**"
+      - "packages/prisma/**"
+      - "pnpm-workspace.yaml"
       - "package.json"
       - "pnpm-lock.yaml"
-      - "playwright.config.ts"
-      - "next.config.js"
-      - "tsconfig.json"
-      - "postcss.config.js"
     branches:
       - main
   push:
     paths:
-      - "src/**"
-      - "e2e/**"
-      - "prisma/**"
-      - "public/**"
+      - "apps/web/**"
+      - "packages/prisma/**"
+      - "pnpm-workspace.yaml"
       - "package.json"
       - "pnpm-lock.yaml"
-      - "playwright.config.ts"
-      - "next.config.js"
-      - "tsconfig.json"
-      - "postcss.config.js"
     branches:
       - main
 
@@ -54,15 +44,18 @@ jobs:
         with:
           version: latest
       - name: Supabaseを起動
+        working-directory: packages/supabase
         run: supabase start
       - name: Prismaマイグレーションを実行
-        run: pnpm prisma migrate deploy
+        run: pnpm --filter @repo/prisma db:deploy
+      - name: Prisma Clientを生成
+        run: pnpm --filter @repo/prisma db:generate
       - name: データベースにシードデータを投入
-        run: pnpm prisma db seed
+        run: pnpm --filter @repo/prisma db:seed
       - name: Playwrightブラウザをインストール
-        run: pnpm exec playwright install --only-shell
+        run: pnpm --filter web exec playwright install --only-shell
       - name: E2Eテストを実行
-        run: pnpm playwright test
+        run: pnpm --filter web test:e2e
       - name: テストレポートをアップロード
         uses: actions/upload-artifact@v5
         if: always()
