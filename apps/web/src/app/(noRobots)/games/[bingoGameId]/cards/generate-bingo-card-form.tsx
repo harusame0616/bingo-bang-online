@@ -1,54 +1,87 @@
 "use client";
 
-import { useId, useState, useTransition } from "react";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { valibotResolver } from "@hookform/resolvers/valibot";
+import * as v from "valibot";
 
 import { Button } from "@/components/ui/button";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 import { generateBingoCardAction } from "./generate-bingo-card-action";
 
+const formSchema = v.object({
+	cardName: v.pipe(
+		v.string("ビンゴカードの名前を入力してください"),
+		v.maxLength(20, "ビンゴカードの名前は40文字以内で入力してください"),
+	),
+});
+
+type FormSchema = v.InferOutput<typeof formSchema>;
+
 type Props = { bingoGameId: string } | { bingoGameId?: string; disabled: true };
 
 export function BingoCardGenerationForm(props: Props) {
-	const bingoGameId = "bingoGameId" in props ? props.bingoGameId : undefined;
+	const bingoGameId = props.bingoGameId;
 	const disabled = "disabled" in props ? props.disabled : false;
-	const [cardName, setBingCardName] = useState("");
-	const nameInputId = useId();
 	const [isPending, startTransition] = useTransition();
 
-	const handleSubmit = async () => {
-		if (isPending || disabled || !bingoGameId) {
+	const form = useForm<FormSchema>({
+		resolver: valibotResolver(formSchema),
+		defaultValues: {
+			cardName: "",
+		},
+	});
+
+	const handleSubmit = (values: FormSchema): void => {
+		if (disabled || !bingoGameId) {
 			return;
 		}
 
 		startTransition(async () => {
 			await generateBingoCardAction({
 				bingoGameId: bingoGameId,
-				cardName,
+				cardName: values.cardName,
 			});
 
-			setBingCardName("");
+			form.reset();
 		});
 	};
 
 	return (
-		<form action={handleSubmit}>
-			<label className="w-full max-w-md" htmlFor={nameInputId}>
-				ビンゴカードの名前
-			</label>
-			<div className="flex gap-1">
-				<Input
-					type="text"
-					id={nameInputId}
-					maxLength={40}
-					value={cardName}
-					onChange={(event) => setBingCardName(event.target.value)}
-					disabled={disabled}
+		<Form {...form}>
+			<form onSubmit={form.handleSubmit(handleSubmit)}>
+				<FormField
+					control={form.control}
+					name="cardName"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>ビンゴカードの名前</FormLabel>
+							<div className="flex gap-1">
+								<FormControl>
+									<Input {...field} type="text" disabled={disabled} />
+								</FormControl>
+								<Button
+									type="submit"
+									disabled={isPending || disabled}
+									className="shrink-0"
+								>
+									生成する
+								</Button>
+							</div>
+							<FormMessage />
+						</FormItem>
+					)}
 				/>
-				<Button disabled={isPending || disabled} className="shrink-0">
-					生成する
-				</Button>
-			</div>
-		</form>
+			</form>
+		</Form>
 	);
 }

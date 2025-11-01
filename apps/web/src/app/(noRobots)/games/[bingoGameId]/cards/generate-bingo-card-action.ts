@@ -9,7 +9,7 @@ import { getRepository } from "@/lib/infra/getRepository";
 
 const generateBingoCardParamsSchema = v.object({
 	bingoGameId: v.pipe(v.string(), v.uuid()),
-	cardName: v.optional(v.string()),
+	cardName: v.pipe(v.string(), v.maxLength(20)),
 });
 
 export async function generateBingoCardAction(
