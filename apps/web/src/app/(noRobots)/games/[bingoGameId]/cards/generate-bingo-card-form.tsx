@@ -21,7 +21,7 @@ import { generateBingoCardAction } from "./generate-bingo-card-action";
 const formSchema = v.object({
 	cardName: v.pipe(
 		v.string("ビンゴカードの名前を入力してください"),
-		v.maxLength(20, "ビンゴカードの名前は40文字以内で入力してください"),
+		v.maxLength(20, "ビンゴカードの名前は20文字以内で入力してください"),
 	),
 });
 
