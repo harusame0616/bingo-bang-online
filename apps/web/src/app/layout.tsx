@@ -2,7 +2,7 @@ import "./globals.css";
 
 import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Metadata, Viewport } from "next";
-import { M_PLUS_Rounded_1c, Montserrat } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { Toaster } from "@/components/ui/toaster";
@@ -45,11 +45,6 @@ const titleFont = Montserrat({
 	weight: "400",
 });
 
-const baseFont = M_PLUS_Rounded_1c({
-	subsets: ["latin"],
-	weight: "400",
-});
-
 export default function RootLayout({
 	children,
 }: {
@@ -57,12 +52,7 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="ja">
-			<body
-				className={cn(
-					baseFont.className,
-					"flex h-dvh flex-col overflow-hidden",
-				)}
-			>
+			<body className={cn("flex h-dvh flex-col overflow-hidden")}>
 				<header className="relative z-10 flex justify-center bg-background px-4 py-2 shadow-md">
 					<Image src={Mark} alt="" width="30" height="30" className="mr-2" />
 					<h1

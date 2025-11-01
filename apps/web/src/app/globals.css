@@ -127,10 +127,11 @@
 		--input: 12 6.5% 15.1%;
 		--ring: 35.5 91.7% 32.9%;
 	}
-}
 
-@layer base {
 	body {
 		@apply bg-background text-foreground;
+		font-family:
+			"Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "BIZ UDPGothic",
+			"Yu Gothic UI", Meiryo, "Noto Sans CJK JP", "Noto Sans JP", sans-serif;
 	}
 }
