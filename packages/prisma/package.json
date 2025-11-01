@@ -20,6 +20,6 @@
 		"tsx": "4.20.6"
 	},
 	"prisma": {
-  "seed": "tsx seed.ts"
-}
+		"seed": "tsx seed.ts"
+	}
 }
