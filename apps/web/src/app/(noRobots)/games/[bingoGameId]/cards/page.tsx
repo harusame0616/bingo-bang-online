@@ -23,9 +23,11 @@ export default function NextPage({
 		<div>
 			<Section>
 				<Heading>ビンゴカード生成</Heading>
-				<Suspense fallback={<BingoCardGenerationForm disabled />}>
-					<BingoCardGenerationFormContainer bingoGameId={bingoGameId} />
-				</Suspense>
+				<div className="max-w-md mx-auto">
+					<Suspense fallback={<BingoCardGenerationForm disabled />}>
+						<BingoCardGenerationFormContainer bingoGameId={bingoGameId} />
+					</Suspense>
+				</div>
 			</Section>
 			<Section>
 				<Heading>ビンゴカードリスト</Heading>

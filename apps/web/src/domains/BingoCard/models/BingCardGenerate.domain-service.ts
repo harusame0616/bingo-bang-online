@@ -30,7 +30,7 @@ export class BingoCardGenerateDomainService {
 
 		const bingoCard = BingoCard.generateCard(bingoGameId, generateCardProps);
 
-		await Promise.all([this.bingoCardRepository.save(bingoCard)]);
+		await this.bingoCardRepository.save(bingoCard);
 
 		return { bingoGame, bingoCard };
 	}
