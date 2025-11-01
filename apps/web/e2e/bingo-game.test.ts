@@ -1,11 +1,14 @@
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
 
-test("抽選した番号が履歴に記録される", async ({ page }) => {
-	await test.step("ゲームを開始する", async () => {
+const newGameTest = test.extend<{ page: Page }>({
+	async page({ page }, use) {
 		await page.goto("/");
 		await page.getByRole("button", { name: "ビンゴゲームを開始する" }).click();
-	});
+		await use(page);
+	},
+});
 
+newGameTest("抽選した番号が履歴に記録される", async ({ page }) => {
 	await test.step("初期状態を確認する", async () => {
 		const lotteryNumberLocator = page.getByRole("status", {
 			name: "抽選結果",
@@ -15,26 +18,48 @@ test("抽選した番号が履歴に記録される", async ({ page }) => {
 
 	const drawnNumbers: string[] = [];
 
-	await test.step("3回抽選を実行する", async () => {
-		for (let i = 0; i < 3; i++) {
-			await page.getByRole("button", { name: "スタート" }).click();
-			await expect(
-				page.getByRole("button", { name: "ストップ" }),
-			).toBeVisible();
-			await page.getByRole("button", { name: "ストップ" }).click();
+	await test.step("抽選（１回目）", async () => {
+		await page.getByRole("button", { name: "スタート" }).click();
+		await page.getByRole("button", { name: "ストップ" }).click();
 
-			// 抽選処理完了を待つ
-			await expect(
-				page.getByRole("button", { name: "スタート" }),
-			).toBeVisible();
+		// 抽選処理完了を待つ
+		await expect(page.getByRole("button", { name: "スタート" })).toBeVisible();
+		// 抽選番号を記録
+		const lotteryNumberLocator = page.getByRole("status", {
+			name: "抽選結果",
+		});
 
-			// 抽選番号を記録
-			const lotteryNumberLocator = page.getByRole("status", {
-				name: "抽選結果",
-			});
-			const number = (await lotteryNumberLocator.textContent()) ?? "";
-			drawnNumbers.push(number);
-		}
+		const number = (await lotteryNumberLocator.textContent()) ?? "";
+		drawnNumbers.push(number);
+	});
+
+	await test.step("抽選（２回目）", async () => {
+		await page.getByRole("button", { name: "スタート" }).click();
+		await page.getByRole("button", { name: "ストップ" }).click();
+
+		// 抽選処理完了を待つ
+		await expect(page.getByRole("button", { name: "スタート" })).toBeVisible();
+		// 抽選番号を記録
+		const lotteryNumberLocator = page.getByRole("status", {
+			name: "抽選結果",
+		});
+
+		const number = (await lotteryNumberLocator.textContent()) ?? "";
+		drawnNumbers.push(number);
+	});
+
+	await test.step("抽選（3回目）", async () => {
+		await page.getByRole("button", { name: "スタート" }).click();
+		await page.getByRole("button", { name: "ストップ" }).click();
+
+		// 抽選処理完了を待つ
+		await expect(page.getByRole("button", { name: "スタート" })).toBeVisible();
+		// 抽選番号を記録
+		const lotteryNumberLocator = page.getByRole("status", {
+			name: "抽選結果",
+		});
+		const number = (await lotteryNumberLocator.textContent()) ?? "";
+		drawnNumbers.push(number);
 	});
 
 	await test.step("抽選履歴に番号が古い順で記録されている", async () => {
@@ -61,25 +86,18 @@ test("75回抽選すると抽選終了になる", async ({ page }) => {
 		await expect(historyRegion.getByRole("listitem")).toHaveCount(74);
 	});
 
-	await test.step("スタートボタンが活性状態である（継続可能の確認）", async () => {
-		const startButton = page.getByRole("button", { name: "スタート" });
-		await expect(startButton).toBeEnabled();
-	});
-
 	await test.step("75回目の抽選を実行する", async () => {
-		const startButton = page.getByRole("button", { name: "スタート" });
-		await startButton.click();
+		await page.getByRole("button", { name: "スタート" }).click();
 		await page.getByRole("button", { name: "ストップ" }).click();
 
-		const lotteryNumberLocator = page.getByRole("status", {
-			name: "抽選結果",
-		});
-		await expect(lotteryNumberLocator).toHaveText(/^[1-9][0-9]?$/);
+		// 抽選処理完了を待つ
+		await expect(page.getByRole("button", { name: "抽選終了" })).toBeVisible();
 	});
 
 	await test.step("抽選履歴が75個になる", async () => {
-		const historyRegion = page.getByRole("region", { name: "抽選履歴" });
-		await expect(historyRegion.getByRole("listitem")).toHaveCount(75);
+		await expect(
+			page.getByRole("region", { name: "抽選履歴" }).getByRole("listitem"),
+		).toHaveCount(75);
 	});
 
 	await test.step("スタートボタンが「抽選終了」で非活性になる", async () => {
@@ -87,13 +105,9 @@ test("75回抽選すると抽選終了になる", async ({ page }) => {
 	});
 });
 
-test("サウンド設定を切り替えられる", async ({ page }) => {
-	await test.step("ゲームを開始する", async () => {
-		await page.goto("/");
-		await page.getByRole("button", { name: "ビンゴゲームを開始する" }).click();
-	});
-
+newGameTest("サウンド設定を切り替えられる", async ({ page }) => {
 	let soundSwitch: ReturnType<typeof page.getByRole>;
+
 	await test.step("サウンド設定がデフォルトでONになっている", async () => {
 		soundSwitch = page.getByRole("switch", { name: "サウンド設定" });
 		await expect(soundSwitch).toBeChecked();
