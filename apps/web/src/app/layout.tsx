@@ -62,6 +62,17 @@ export default function RootLayout({
 					</h1>
 				</header>
 				<main className="flex grow flex-col overflow-y-hidden">{children}</main>
+				<footer className="relative z-10 border-t bg-background px-4 py-3">
+					<div className="flex justify-center gap-4 text-sm text-muted-foreground">
+						<Link href="/terms" className="hover:text-foreground transition-colors">
+							利用規約
+						</Link>
+						<span>|</span>
+						<Link href="/privacy" className="hover:text-foreground transition-colors">
+							プライバシーポリシー
+						</Link>
+					</div>
+				</footer>
 				<Toaster />
 			</body>
 			<GoogleAnalytics gaId="G-30177J9MB5" />
